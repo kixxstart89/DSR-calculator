@@ -1,1449 +1,2211 @@
+```html
 <!DOCTYPE html>
 <html lang="ms">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>DSR Calculator | Loan Eligibility</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+<title>DSR Calculator | Loan Eligibility</title>
 
-    :root {
-      --primary: #111827;
-      --secondary: #374151;
-      --accent: #16a34a;
-      --accent-dark: #15803d;
-      --light: #f3f4f6;
-      --border: #e5e7eb;
-      --white: #ffffff;
-      --danger: #dc2626;
-      --warning: #d97706;
-      --text: #1f2937;
-      --muted: #6b7280;
-    }
+<style>
+* {
+    box-sizing: border-box;
+}
 
-    body {
-      font-family: Arial, Helvetica, sans-serif;
-      background: #f5f7fa;
-      color: var(--text);
-      line-height: 1.5;
-    }
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f4f6f8;
+    color: #1f2937;
+}
 
-    header {
-      background: var(--primary);
-      color: white;
-      padding: 24px 20px;
-    }
+header {
+    background: #111827;
+    color: white;
+    padding: 25px 20px;
+}
 
-    .header-inner {
-      max-width: 1100px;
-      margin: auto;
-    }
+.header-inner {
+    max-width: 1100px;
+    margin: auto;
+}
 
-    header h1 {
-      font-size: 26px;
-      margin-bottom: 4px;
-    }
+header h1 {
+    margin: 0 0 5px;
+    font-size: 28px;
+}
 
-    header p {
-      color: #d1d5db;
-      font-size: 14px;
-    }
+header p {
+    margin: 0;
+    color: #d1d5db;
+    font-size: 14px;
+}
 
-    .container {
-      max-width: 1100px;
-      margin: 25px auto;
-      padding: 0 15px 50px;
-    }
+.container {
+    max-width: 1100px;
+    margin: 25px auto;
+    padding: 0 15px 50px;
+}
 
-    .card {
-      background: white;
-      border-radius: 14px;
-      padding: 22px;
-      margin-bottom: 20px;
-      box-shadow: 0 3px 15px rgba(0,0,0,0.05);
-      border: 1px solid var(--border);
-    }
+.card {
+    background: white;
+    border-radius: 14px;
+    padding: 22px;
+    margin-bottom: 20px;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
 
-    .card h2 {
-      font-size: 20px;
-      margin-bottom: 5px;
-      color: var(--primary);
-    }
+.card h2 {
+    margin: 0 0 5px;
+    font-size: 20px;
+}
 
-    .card-description {
-      color: var(--muted);
-      font-size: 13px;
-      margin-bottom: 20px;
-    }
+.description {
+    color: #6b7280;
+    font-size: 13px;
+    margin-bottom: 20px;
+}
 
-    .section-title {
-      font-size: 16px;
-      font-weight: bold;
-      margin: 25px 0 12px;
-      color: var(--primary);
-      border-left: 4px solid var(--accent);
-      padding-left: 10px;
-    }
+.section-title {
+    font-size: 16px;
+    font-weight: bold;
+    margin: 25px 0 12px;
+    padding-left: 10px;
+    border-left: 4px solid #16a34a;
+}
 
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 15px;
-    }
+.grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+}
 
+.grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.field label {
+    display: block;
+    font-size: 13px;
+    font-weight: bold;
+    margin-bottom: 6px;
+}
+
+input,
+select {
+    width: 100%;
+    padding: 11px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 14px;
+    background: white;
+}
+
+input:focus,
+select:focus {
+    outline: none;
+    border-color: #16a34a;
+    box-shadow: 0 0 0 3px rgba(22,163,74,.1);
+}
+
+.toggle {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.toggle button {
+    flex: 1;
+}
+
+button {
+    border: 0;
+    border-radius: 8px;
+    padding: 12px 18px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.btn-primary {
+    background: #16a34a;
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #15803d;
+}
+
+.btn-dark {
+    background: #111827;
+    color: white;
+}
+
+.btn-light {
+    background: #e5e7eb;
+    color: #111827;
+}
+
+.income-box {
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 15px;
+}
+
+.income-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.income-top h3 {
+    margin: 0;
+    font-size: 15px;
+}
+
+.income-controls {
+    display: flex;
+    gap: 10px;
+}
+
+.income-controls .field {
+    width: 140px;
+}
+
+.month-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 8px;
+}
+
+.month label {
+    display: block;
+    font-size: 10px;
+    color: #6b7280;
+    margin-bottom: 4px;
+}
+
+.month input {
+    padding: 9px 7px;
+    font-size: 12px;
+}
+
+.summary {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-top: 12px;
+}
+
+.summary-box {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 10px;
+}
+
+.summary-box small {
+    display: block;
+    color: #6b7280;
+    font-size: 11px;
+}
+
+.summary-box strong {
+    font-size: 14px;
+}
+
+.green {
+    color: #15803d;
+}
+
+.commitment-row {
+    display: grid;
+    grid-template-columns: 1fr 180px;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.result {
+    background: #111827;
+    color: white;
+    border-radius: 14px;
+    padding: 25px;
+    margin-bottom: 20px;
+}
+
+.result h2 {
+    margin-top: 0;
+}
+
+.result-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+}
+
+.result-box {
+    background: rgba(255,255,255,.08);
+    border-radius: 10px;
+    padding: 15px;
+}
+
+.result-box small {
+    color: #d1d5db;
+    display: block;
+    font-size: 11px;
+    margin-bottom: 5px;
+}
+
+.result-box strong {
+    font-size: 20px;
+}
+
+.status {
+    margin-top: 18px;
+    padding: 13px;
+    border-radius: 8px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.status.good {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.status.bad {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.status.warning {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.loan-box {
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    color: #166534;
+    border-radius: 10px;
+    padding: 15px;
+    margin-top: 15px;
+}
+
+.loan-box strong {
+    display: block;
+    font-size: 24px;
+    margin-top: 4px;
+}
+
+.whatsapp {
+    display: inline-block;
+    background: #25d366;
+    color: white;
+    text-decoration: none;
+    padding: 12px 18px;
+    border-radius: 8px;
+    font-weight: bold;
+    margin-top: 15px;
+}
+
+.hidden {
+    display: none;
+}
+
+.note {
+    font-size: 12px;
+    color: #6b7280;
+    margin-top: 12px;
+}
+
+footer {
+    text-align: center;
+    color: #6b7280;
+    font-size: 12px;
+    padding: 20px;
+}
+
+@media(max-width:800px) {
+
+    .grid,
     .grid-3 {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 15px;
-    }
-
-    .field {
-      margin-bottom: 3px;
-    }
-
-    label {
-      display: block;
-      font-size: 13px;
-      font-weight: 600;
-      margin-bottom: 6px;
-      color: #374151;
-    }
-
-    input,
-    select {
-      width: 100%;
-      border: 1px solid #d1d5db;
-      border-radius: 8px;
-      padding: 11px 12px;
-      font-size: 14px;
-      background: white;
-      outline: none;
-    }
-
-    input:focus,
-    select:focus {
-      border-color: var(--accent);
-      box-shadow: 0 0 0 3px rgba(22,163,74,0.10);
-    }
-
-    .income-box {
-      background: #f9fafb;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 15px;
-      margin-bottom: 15px;
-    }
-
-    .income-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 15px;
-      margin-bottom: 15px;
-    }
-
-    .income-header h3 {
-      font-size: 15px;
-    }
-
-    .income-controls {
-      display: flex;
-      gap: 10px;
-      align-items: end;
-    }
-
-    .income-controls .field {
-      min-width: 130px;
-    }
-
-    .monthly-grid {
-      display: grid;
-      grid-template-columns: repeat(6, 1fr);
-      gap: 8px;
-    }
-
-    .monthly-grid.months-12 {
-      grid-template-columns: repeat(6, 1fr);
-    }
-
-    .month-item label {
-      font-size: 11px;
-      color: var(--muted);
-    }
-
-    .month-item input {
-      padding: 9px 8px;
-      font-size: 13px;
-    }
-
-    .income-summary {
-      margin-top: 12px;
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 12px;
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-    }
-
-    .summary-item small {
-      display: block;
-      color: var(--muted);
-      font-size: 11px;
-      margin-bottom: 3px;
-    }
-
-    .summary-item strong {
-      font-size: 15px;
-    }
-
-    .recognition {
-      color: var(--accent-dark);
-    }
-
-    .commitment-row {
-      display: grid;
-      grid-template-columns: 1fr 180px;
-      gap: 10px;
-      margin-bottom: 10px;
-    }
-
-    .button-row {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-top: 20px;
-    }
-
-    button {
-      border: none;
-      border-radius: 8px;
-      padding: 12px 18px;
-      font-size: 14px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    .btn-primary {
-      background: var(--accent);
-      color: white;
-    }
-
-    .btn-primary:hover {
-      background: var(--accent-dark);
-    }
-
-    .btn-secondary {
-      background: #e5e7eb;
-      color: #111827;
-    }
-
-    .btn-danger {
-      background: #fee2e2;
-      color: #991b1b;
-    }
-
-    .result-card {
-      background: var(--primary);
-      color: white;
-      border-radius: 14px;
-      padding: 25px;
-      margin-bottom: 20px;
-    }
-
-    .result-card h2 {
-      margin-bottom: 20px;
-      font-size: 20px;
+        grid-template-columns: 1fr;
     }
 
     .result-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 12px;
-    }
-
-    .result-box {
-      background: rgba(255,255,255,0.08);
-      border-radius: 10px;
-      padding: 15px;
-    }
-
-    .result-box small {
-      display: block;
-      color: #d1d5db;
-      font-size: 11px;
-      margin-bottom: 5px;
-    }
-
-    .result-box strong {
-      font-size: 20px;
-    }
-
-    .status {
-      margin-top: 18px;
-      padding: 14px;
-      border-radius: 8px;
-      font-weight: bold;
-      text-align: center;
-    }
-
-    .status.good {
-      background: #dcfce7;
-      color: #166534;
-    }
-
-    .status.warning {
-      background: #fef3c7;
-      color: #92400e;
-    }
-
-    .status.bad {
-      background: #fee2e2;
-      color: #991b1b;
-    }
-
-    .loan-section {
-      margin-top: 20px;
-    }
-
-    .loan-result {
-      background: #f0fdf4;
-      border: 1px solid #bbf7d0;
-      border-radius: 10px;
-      padding: 15px;
-      margin-top: 15px;
-    }
-
-    .loan-result strong {
-      color: #166534;
-      font-size: 22px;
-    }
-
-    .whatsapp {
-      background: #25d366;
-      color: white;
-      text-decoration: none;
-      display: inline-block;
-      padding: 12px 18px;
-      border-radius: 8px;
-      font-weight: bold;
-      margin-top: 15px;
-    }
-
-    .note {
-      font-size: 12px;
-      color: var(--muted);
-      margin-top: 12px;
-    }
-
-    .hidden {
-      display: none;
-    }
-
-    .person-tabs {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 20px;
-    }
-
-    .person-tab {
-      flex: 1;
-      padding: 12px;
-      border: 1px solid var(--border);
-      background: white;
-      border-radius: 8px;
-      cursor: pointer;
-      text-align: center;
-      font-weight: bold;
-    }
-
-    .person-tab.active {
-      background: var(--primary);
-      color: white;
-    }
-
-    .toggle-row {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 20px;
-    }
-
-    .toggle-btn {
-      flex: 1;
-      background: #f3f4f6;
-      color: #374151;
-    }
-
-    .toggle-btn.active {
-      background: var(--primary);
-      color: white;
-    }
-
-    footer {
-      text-align: center;
-      color: var(--muted);
-      font-size: 12px;
-      padding: 20px;
-    }
-
-    @media (max-width: 800px) {
-      .grid,
-      .grid-3 {
-        grid-template-columns: 1fr;
-      }
-
-      .result-grid {
         grid-template-columns: repeat(2, 1fr);
-      }
+    }
 
-      .monthly-grid,
-      .monthly-grid.months-12 {
+    .month-grid {
         grid-template-columns: repeat(3, 1fr);
-      }
+    }
 
-      .income-header {
-        flex-direction: column;
-        align-items: stretch;
-      }
+    .income-top {
+        display: block;
+    }
 
-      .income-controls {
+    .income-controls {
+        margin-top: 12px;
+    }
+}
+
+@media(max-width:500px) {
+
+    header h1 {
+        font-size: 23px;
+    }
+
+    .card {
+        padding: 16px;
+    }
+
+    .result-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .summary {
+        grid-template-columns: 1fr;
+    }
+
+    .month-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .commitment-row {
+        grid-template-columns: 1fr;
+    }
+
+    .income-controls {
         display: grid;
         grid-template-columns: 1fr 1fr;
-      }
     }
 
-    @media (max-width: 500px) {
-      header h1 {
-        font-size: 21px;
-      }
-
-      .card {
-        padding: 16px;
-      }
-
-      .result-grid {
-        grid-template-columns: 1fr 1fr;
-      }
-
-      .monthly-grid,
-      .monthly-grid.months-12 {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .commitment-row {
-        grid-template-columns: 1fr;
-      }
+    .income-controls .field {
+        width: auto;
     }
-  </style>
+}
+</style>
 </head>
 
 <body>
 
 <header>
-  <div class="header-inner">
-    <h1>DSR Calculator</h1>
-    <p>Loan Eligibility Calculator untuk Consultant</p>
-  </div>
+    <div class="header-inner">
+        <h1>DSR Calculator</h1>
+        <p>Loan Eligibility Calculator untuk Consultant</p>
+    </div>
 </header>
 
 <div class="container">
 
-  <!-- LOAN SETTINGS -->
-  <div class="card">
+<!-- ======================================================
+     LOAN SETTINGS
+====================================================== -->
+
+<div class="card">
+
     <h2>1. Loan Settings</h2>
-    <p class="card-description">
-      Masukkan maklumat asas pembiayaan.
+
+    <p class="description">
+        Masukkan maklumat pembiayaan untuk mendapatkan anggaran kelayakan.
     </p>
 
     <div class="grid">
-      <div class="field">
-        <label>Harga Rumah (RM)</label>
-        <input type="number" id="propertyPrice" value="300000" min="0">
-      </div>
 
-      <div class="field">
-        <label>Margin Pembiayaan (%)</label>
-        <input type="number" id="loanMargin" value="90" min="0" max="100">
-      </div>
+        <div class="field">
+            <label>Harga Rumah (RM)</label>
+            <input type="number" id="propertyPrice" value="300000">
+        </div>
 
-      <div class="field">
-        <label>Kadar Faedah / Profit Rate (%)</label>
-        <input type="number" id="interestRate" value="4.0" step="0.1" min="0">
-      </div>
+        <div class="field">
+            <label>Margin Pembiayaan (%)</label>
+            <input type="number" id="loanMargin" value="90">
+        </div>
 
-      <div class="field">
-        <label>Tempoh Loan (Tahun)</label>
-        <input type="number" id="loanYears" value="35" min="1" max="40">
-      </div>
+        <div class="field">
+            <label>Interest / Profit Rate (%)</label>
+            <input type="number" id="interestRate" value="4" step="0.1">
+        </div>
 
-      <div class="field">
-        <label>DSR Maksimum (%)</label>
-        <input type="number" id="maxDSR" value="70" min="1" max="100">
-      </div>
+        <div class="field">
+            <label>Tempoh Loan (Tahun)</label>
+            <input type="number" id="loanYears" value="35">
+        </div>
+
+        <div class="field">
+            <label>DSR Maksimum (%)</label>
+            <input type="number" id="maxDSR" value="70">
+        </div>
+
     </div>
-  </div>
 
-  <!-- APPLICANT -->
-  <div class="card">
-    <h2>2. Pemohon</h2>
-    <p class="card-description">
-      Masukkan pendapatan pemohon. Untuk joint loan, aktifkan Pemohon 2.
+</div>
+
+
+<!-- ======================================================
+     APPLICANT
+====================================================== -->
+
+<div class="card">
+
+    <h2>2. Maklumat Pemohon</h2>
+
+    <p class="description">
+        Masukkan pendapatan pemohon dan income berubah-ubah.
     </p>
 
-    <div class="toggle-row">
-      <button class="toggle-btn active" id="singleBtn" onclick="setJoint(false)">
-        Single Loan
-      </button>
+    <div class="toggle">
 
-      <button class="toggle-btn" id="jointBtn" onclick="setJoint(true)">
-        Joint Loan
-      </button>
-    </div>
+        <button
+            id="singleBtn"
+            class="btn-dark"
+            onclick="setJoint(false)"
+        >
+            Single Loan
+        </button>
 
-    <!-- PERSON 1 -->
-    <div id="person1">
-
-      <div class="section-title">Pemohon 1</div>
-
-      <div class="grid">
-        <div class="field">
-          <label>Jenis Pekerjaan</label>
-          <select id="employment1">
-            <option value="salary">Makan Gaji</option>
-            <option value="business">Business Owner</option>
-            <option value="commission">Commission Earner</option>
-          </select>
-        </div>
-
-        <div class="field">
-          <label>Basic Salary / Pendapatan Tetap (RM)</label>
-          <input type="number" id="basic1" value="5000" min="0">
-        </div>
-
-        <div class="field">
-          <label>Fixed Allowance (RM)</label>
-          <input type="number" id="fixed1" value="500" min="0">
-        </div>
-      </div>
-
-      <div class="section-title">Income Berubah-ubah</div>
-
-      <!-- OT -->
-      <div class="income-box">
-        <div class="income-header">
-          <h3>OT / Overtime</h3>
-
-          <div class="income-controls">
-            <div class="field">
-              <label>Tempoh Purata</label>
-              <select id="otMonths1" onchange="renderMonthly('ot',1)">
-                <option value="6">6 Bulan</option>
-                <option value="12">12 Bulan</option>
-              </select>
-            </div>
-
-            <div class="field">
-              <label>Recognition %</label>
-              <input type="number" id="otRecognition1" value="70" min="0" max="100" oninput="calculate()">
-            </div>
-          </div>
-        </div>
-
-        <div class="monthly-grid" id="otGrid1"></div>
-
-        <div class="income-summary">
-          <div class="summary-item">
-            <small>Jumlah</small>
-            <strong id="otTotal1">RM0.00</strong>
-          </div>
-
-          <div class="summary-item">
-            <small>Purata Bulanan</small>
-            <strong id="otAverage1">RM0.00</strong>
-          </div>
-
-          <div class="summary-item">
-            <small>Diiktiraf</small>
-            <strong class="recognition" id="otRecognized1">RM0.00</strong>
-          </div>
-        </div>
-      </div>
-
-      <!-- VARIABLE ALLOWANCE -->
-      <div class="income-box">
-        <div class="income-header">
-          <h3>Variable Allowance</h3>
-
-          <div class="income-controls">
-            <div class="field">
-              <label>Tempoh Purata</label>
-              <select id="vaMonths1" onchange="renderMonthly('va',1)">
-                <option value="6">6 Bulan</option>
-                <option value="12">12 Bulan</option>
-              </select>
-            </div>
-
-            <div class="field">
-              <label>Recognition %</label>
-              <input type="number" id="vaRecognition1" value="70" min="0" max="100" oninput="calculate()">
-            </div>
-          </div>
-        </div>
-
-        <div class="monthly-grid" id="vaGrid1"></div>
-
-        <div class="income-summary">
-          <div class="summary-item">
-            <small>Jumlah</small>
-            <strong id="vaTotal1">RM0.00</strong>
-          </div>
-
-          <div class="summary-item">
-            <small>Purata Bulanan</small>
-            <strong id="vaAverage1">RM0.00</strong>
-          </div>
-
-          <div class="summary-item">
-            <small>Diiktiraf</small>
-            <strong class="recognition" id="vaRecognized1">RM0.00</strong>
-          </div>
-        </div>
-      </div>
-
-      <!-- COMMISSION -->
-      <div class="income-box">
-        <div class="income-header">
-          <h3>Commission / Freelance</h3>
-
-          <div class="income-controls">
-            <div class="field">
-              <label>Tempoh Purata</label>
-              <select id="commissionMonths1" onchange="renderMonthly('commission',1)">
-                <option value="6">6 Bulan</option>
-                <option value="12">12 Bulan</option>
-              </select>
-            </div>
-
-            <div class="field">
-              <label>Recognition %</label>
-              <input type="number" id="commissionRecognition1" value="70" min="0" max="100" oninput="calculate()">
-            </div>
-          </div>
-        </div>
-
-        <div class="monthly-grid" id="commissionGrid1"></div>
-
-        <div class="income-summary">
-          <div class="summary-item">
-            <small>Jumlah</small>
-            <strong id="commissionTotal1">RM0.00</strong>
-          </div>
-
-          <div class="summary-item">
-            <small>Purata Bulanan</small>
-            <strong id="commissionAverage1">RM0.00</strong>
-          </div>
-
-          <div class="summary-item">
-            <small>Diiktiraf</small>
-            <strong class="recognition" id="commissionRecognized1">RM0.00</strong>
-          </div>
-        </div>
-      </div>
-
-      <!-- BUSINESS -->
-      <div class="income-box">
-        <div class="income-header">
-          <h3>Business Income</h3>
-
-          <div class="income-controls">
-            <div class="field">
-              <label>Tempoh Purata</label>
-              <select id="businessMonths1" onchange="renderMonthly('business',1)">
-                <option value="6">6 Bulan</option>
-                <option value="12">12 Bulan</option>
-              </select>
-            </div>
-
-            <div class="field">
-              <label>Recognition %</label>
-              <input type="number" id="businessRecognition1" value="70" min="0" max="100" oninput="calculate()">
-            </div>
-          </div>
-        </div>
-
-        <div class="monthly-grid" id="businessGrid1"></div>
-
-        <div class="income-summary">
-          <div class="summary-item">
-            <small>Jumlah</small>
-            <strong id="businessTotal1">RM0.00</strong>
-          </div>
-
-          <div class="summary-item">
-            <small>Purata Bulanan</small>
-            <strong id="businessAverage1">RM0.00</strong>
-          </div>
-
-          <div class="summary-item">
-            <small>Diiktiraf</small>
-            <strong class="recognition" id="businessRecognized1">RM0.00</strong>
-          </div>
-        </div>
-      </div>
+        <button
+            id="jointBtn"
+            class="btn-light"
+            onclick="setJoint(true)"
+        >
+            Joint Loan
+        </button>
 
     </div>
 
-    <!-- PERSON 2 -->
-    <div id="person2" class="hidden">
 
-      <div class="section-title">Pemohon 2</div>
+    <!-- ==================================================
+         APPLICANT 1
+    ================================================== -->
 
-      <div class="grid">
-        <div class="field">
-          <label>Jenis Pekerjaan</label>
-          <select id="employment2">
-            <option value="salary">Makan Gaji</option>
-            <option value="business">Business Owner</option>
-            <option value="commission">Commission Earner</option>
-          </select>
-        </div>
+    <div class="section-title">
+        Pemohon 1
+    </div>
+
+    <div class="grid">
 
         <div class="field">
-          <label>Basic Salary / Pendapatan Tetap (RM)</label>
-          <input type="number" id="basic2" value="0" min="0">
+            <label>Jenis Pekerjaan</label>
+
+            <select id="employment1">
+
+                <option value="salary">
+                    Makan Gaji
+                </option>
+
+                <option value="business">
+                    Business Owner
+                </option>
+
+                <option value="commission">
+                    Commission Earner
+                </option>
+
+            </select>
         </div>
+
 
         <div class="field">
-          <label>Fixed Allowance (RM)</label>
-          <input type="number" id="fixed2" value="0" min="0">
+            <label>Basic Salary / Income Tetap (RM)</label>
+            <input
+                type="number"
+                id="basic1"
+                value="5000"
+            >
         </div>
-      </div>
 
-      <div class="section-title">Income Berubah-ubah</div>
 
-      <div id="person2Income"></div>
+        <div class="field">
+            <label>Fixed Allowance (RM)</label>
+            <input
+                type="number"
+                id="fixed1"
+                value="500"
+            >
+        </div>
 
     </div>
-  </div>
 
-  <!-- COMMITMENTS -->
-  <div class="card">
+
+    <div class="section-title">
+        Income Berubah-ubah
+    </div>
+
+
+    <!-- OT -->
+
+    <div class="income-box">
+
+        <div class="income-top">
+
+            <h3>OT / Overtime</h3>
+
+            <div class="income-controls">
+
+                <div class="field">
+
+                    <label>Purata</label>
+
+                    <select
+                        id="otMonths1"
+                        onchange="renderIncome('ot',1)"
+                    >
+
+                        <option value="6">
+                            6 Bulan
+                        </option>
+
+                        <option value="12">
+                            12 Bulan
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>Recognition %</label>
+
+                    <input
+                        type="number"
+                        id="otRecognition1"
+                        value="70"
+                    >
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div
+            id="otGrid1"
+            class="month-grid"
+        ></div>
+
+
+        <div class="summary">
+
+            <div class="summary-box">
+                <small>Jumlah</small>
+                <strong id="otTotal1">RM0.00</strong>
+            </div>
+
+            <div class="summary-box">
+                <small>Purata Bulanan</small>
+                <strong id="otAverage1">RM0.00</strong>
+            </div>
+
+            <div class="summary-box">
+                <small>Income Diiktiraf</small>
+                <strong
+                    id="otRecognized1"
+                    class="green"
+                >
+                    RM0.00
+                </strong>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- VARIABLE ALLOWANCE -->
+
+    <div class="income-box">
+
+        <div class="income-top">
+
+            <h3>Variable Allowance</h3>
+
+            <div class="income-controls">
+
+                <div class="field">
+
+                    <label>Purata</label>
+
+                    <select
+                        id="vaMonths1"
+                        onchange="renderIncome('va',1)"
+                    >
+
+                        <option value="6">
+                            6 Bulan
+                        </option>
+
+                        <option value="12">
+                            12 Bulan
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>Recognition %</label>
+
+                    <input
+                        type="number"
+                        id="vaRecognition1"
+                        value="70"
+                    >
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div
+            id="vaGrid1"
+            class="month-grid"
+        ></div>
+
+
+        <div class="summary">
+
+            <div class="summary-box">
+                <small>Jumlah</small>
+                <strong id="vaTotal1">RM0.00</strong>
+            </div>
+
+            <div class="summary-box">
+                <small>Purata Bulanan</small>
+                <strong id="vaAverage1">RM0.00</strong>
+            </div>
+
+            <div class="summary-box">
+                <small>Income Diiktiraf</small>
+                <strong
+                    id="vaRecognized1"
+                    class="green"
+                >
+                    RM0.00
+                </strong>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- COMMISSION -->
+
+    <div class="income-box">
+
+        <div class="income-top">
+
+            <h3>Commission / Freelance</h3>
+
+            <div class="income-controls">
+
+                <div class="field">
+
+                    <label>Purata</label>
+
+                    <select
+                        id="commissionMonths1"
+                        onchange="renderIncome('commission',1)"
+                    >
+
+                        <option value="6">
+                            6 Bulan
+                        </option>
+
+                        <option value="12">
+                            12 Bulan
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>Recognition %</label>
+
+                    <input
+                        type="number"
+                        id="commissionRecognition1"
+                        value="70"
+                    >
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div
+            id="commissionGrid1"
+            class="month-grid"
+        ></div>
+
+
+        <div class="summary">
+
+            <div class="summary-box">
+                <small>Jumlah</small>
+                <strong id="commissionTotal1">RM0.00</strong>
+            </div>
+
+            <div class="summary-box">
+                <small>Purata Bulanan</small>
+                <strong id="commissionAverage1">RM0.00</strong>
+            </div>
+
+            <div class="summary-box">
+                <small>Income Diiktiraf</small>
+                <strong
+                    id="commissionRecognized1"
+                    class="green"
+                >
+                    RM0.00
+                </strong>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- BUSINESS -->
+
+    <div class="income-box">
+
+        <div class="income-top">
+
+            <h3>Business Income</h3>
+
+            <div class="income-controls">
+
+                <div class="field">
+
+                    <label>Purata</label>
+
+                    <select
+                        id="businessMonths1"
+                        onchange="renderIncome('business',1)"
+                    >
+
+                        <option value="6">
+                            6 Bulan
+                        </option>
+
+                        <option value="12">
+                            12 Bulan
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>Recognition %</label>
+
+                    <input
+                        type="number"
+                        id="businessRecognition1"
+                        value="70"
+                    >
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div
+            id="businessGrid1"
+            class="month-grid"
+        ></div>
+
+
+        <div class="summary">
+
+            <div class="summary-box">
+                <small>Jumlah</small>
+                <strong id="businessTotal1">RM0.00</strong>
+            </div>
+
+            <div class="summary-box">
+                <small>Purata Bulanan</small>
+                <strong id="businessAverage1">RM0.00</strong>
+            </div>
+
+            <div class="summary-box">
+                <small>Income Diiktiraf</small>
+                <strong
+                    id="businessRecognized1"
+                    class="green"
+                >
+                    RM0.00
+                </strong>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ==================================================
+         APPLICANT 2
+    ================================================== -->
+
+    <div id="applicant2" class="hidden">
+
+        <div class="section-title">
+            Pemohon 2
+        </div>
+
+        <div class="grid">
+
+            <div class="field">
+
+                <label>Jenis Pekerjaan</label>
+
+                <select id="employment2">
+
+                    <option value="salary">
+                        Makan Gaji
+                    </option>
+
+                    <option value="business">
+                        Business Owner
+                    </option>
+
+                    <option value="commission">
+                        Commission Earner
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="field">
+
+                <label>Basic Salary / Income Tetap (RM)</label>
+
+                <input
+                    type="number"
+                    id="basic2"
+                    value="0"
+                >
+
+            </div>
+
+
+            <div class="field">
+
+                <label>Fixed Allowance (RM)</label>
+
+                <input
+                    type="number"
+                    id="fixed2"
+                    value="0"
+                >
+
+            </div>
+
+        </div>
+
+
+        <div class="section-title">
+            Income Berubah-ubah
+        </div>
+
+
+        <div id="applicant2Income"></div>
+
+    </div>
+
+</div>
+
+
+<!-- ======================================================
+     COMMITMENTS
+====================================================== -->
+
+<div class="card">
+
     <h2>3. Komitmen Bulanan</h2>
-    <p class="card-description">
-      Masukkan semua komitmen bulanan yang berkaitan.
+
+    <p class="description">
+        Masukkan komitmen sedia ada pemohon.
     </p>
 
     <div id="commitments">
 
-      <div class="commitment-row">
-        <input type="text" value="Kereta" class="commitment-name">
-        <input type="number" value="800" min="0" class="commitment-value">
-      </div>
+        <div class="commitment-row">
 
-      <div class="commitment-row">
-        <input type="text" value="Personal Loan" class="commitment-name">
-        <input type="number" value="0" min="0" class="commitment-value">
-      </div>
+            <input
+                type="text"
+                value="Kereta"
+                class="commitment-name"
+            >
 
-      <div class="commitment-row">
-        <input type="text" value="Credit Card" class="commitment-name">
-        <input type="number" value="0" min="0" class="commitment-value">
-      </div>
+            <input
+                type="number"
+                value="800"
+                class="commitment-value"
+            >
 
-    </div>
+        </div>
 
-    <div class="button-row">
-      <button class="btn-secondary" onclick="addCommitment()">
-        + Tambah Komitmen
-      </button>
-    </div>
-  </div>
 
-  <!-- CALCULATE -->
-  <div class="button-row">
-    <button class="btn-primary" onclick="calculate()" style="width:100%; font-size:16px;">
-      KIRA KELAYAKAN LOAN
-    </button>
-  </div>
+        <div class="commitment-row">
 
-  <!-- RESULTS -->
-  <div class="result-card">
-    <h2>Keputusan DSR</h2>
+            <input
+                type="text"
+                value="Personal Loan"
+                class="commitment-name"
+            >
 
-    <div class="result-grid">
+            <input
+                type="number"
+                value="0"
+                class="commitment-value"
+            >
 
-      <div class="result-box">
-        <small>Total Income Diiktiraf</small>
-        <strong id="resultIncome">RM0</strong>
-      </div>
+        </div>
 
-      <div class="result-box">
-        <small>Total Komitmen</small>
-        <strong id="resultCommitment">RM0</strong>
-      </div>
 
-      <div class="result-box">
-        <small>DSR</small>
-        <strong id="resultDSR">0%</strong>
-      </div>
+        <div class="commitment-row">
 
-      <div class="result-box">
-        <small>Ruang DSR</small>
-        <strong id="resultRoom">RM0</strong>
-      </div>
+            <input
+                type="text"
+                value="Credit Card"
+                class="commitment-name"
+            >
+
+            <input
+                type="number"
+                value="0"
+                class="commitment-value"
+            >
+
+        </div>
 
     </div>
 
-    <div id="status" class="status">
-      Sila tekan "Kira Kelayakan Loan".
-    </div>
 
-    <div class="loan-result">
-      <small>Anggaran Ansuran Rumah Maksimum</small>
-      <br>
-      <strong id="maxInstallment">RM0</strong>
-    </div>
-
-    <div class="loan-result">
-      <small>Anggaran Maximum Loan</small>
-      <br>
-      <strong id="maxLoan">RM0</strong>
-    </div>
-
-    <a
-      class="whatsapp"
-      href="https://wa.me/60109510231?text=Hi%2C%20saya%20nak%20check%20kelayakan%20loan%20rumah."
-      target="_blank"
+    <button
+        class="btn-light"
+        onclick="addCommitment()"
     >
-      WhatsApp Consultant
-    </a>
-  </div>
-
-  <!-- PROPERTY COST -->
-  <div class="card">
-    <h2>4. Anggaran Kos Pembelian</h2>
-    <p class="card-description">
-      Anggaran ringkas berdasarkan harga rumah yang dimasukkan.
-    </p>
-
-    <div class="grid-3">
-
-      <div class="field">
-        <label>Harga Rumah</label>
-        <input type="text" id="costProperty" readonly>
-      </div>
-
-      <div class="field">
-        <label>Loan Amount</label>
-        <input type="text" id="costLoan" readonly>
-      </div>
-
-      <div class="field">
-        <label>Downpayment</label>
-        <input type="text" id="costDownpayment" readonly>
-      </div>
-
-      <div class="field">
-        <label>Anggaran MOT / Stamp Duty</label>
-        <input type="text" id="costMOT" readonly>
-      </div>
-
-      <div class="field">
-        <label>Anggaran Loan Stamp Duty</label>
-        <input type="text" id="costLoanStamp" readonly>
-      </div>
-
-      <div class="field">
-        <label>Jumlah Anggaran Cash</label>
-        <input type="text" id="costCash" readonly>
-      </div>
-
-    </div>
-
-    <p class="note">
-      Pengiraan stamp duty adalah anggaran umum. Kos sebenar boleh berbeza
-      berdasarkan transaksi, pengecualian, diskaun, status pembeli dan
-      ketetapan semasa.
-    </p>
-  </div>
+        + Tambah Komitmen
+    </button>
 
 </div>
 
+
+<!-- ======================================================
+     CALCULATE BUTTON
+====================================================== -->
+
+<div style="margin-bottom:20px;">
+
+    <button
+        class="btn-primary"
+        onclick="calculate()"
+        style="width:100%;font-size:16px;"
+    >
+        KIRA KELAYAKAN LOAN
+    </button>
+
+</div>
+
+
+<!-- ======================================================
+     RESULT
+====================================================== -->
+
+<div class="result">
+
+    <h2>Keputusan DSR</h2>
+
+
+    <div class="result-grid">
+
+        <div class="result-box">
+
+            <small>
+                Total Income Diiktiraf
+            </small>
+
+            <strong id="resultIncome">
+                RM0
+            </strong>
+
+        </div>
+
+
+        <div class="result-box">
+
+            <small>
+                Total Komitmen
+            </small>
+
+            <strong id="resultCommitment">
+                RM0
+            </strong>
+
+        </div>
+
+
+        <div class="result-box">
+
+            <small>
+                DSR
+            </small>
+
+            <strong id="resultDSR">
+                0%
+            </strong>
+
+        </div>
+
+
+        <div class="result-box">
+
+            <small>
+                Ruang DSR
+            </small>
+
+            <strong id="resultRoom">
+                RM0
+            </strong>
+
+        </div>
+
+    </div>
+
+
+    <div
+        id="status"
+        class="status warning"
+    >
+        Masukkan maklumat dan tekan kira.
+    </div>
+
+
+    <div class="loan-box">
+
+        Anggaran Ansuran Rumah Maksimum
+
+        <strong id="maxInstallment">
+            RM0
+        </strong>
+
+    </div>
+
+
+    <div class="loan-box">
+
+        Anggaran Maximum Loan
+
+        <strong id="maxLoan">
+            RM0
+        </strong>
+
+    </div>
+
+
+    <a
+        href="https://wa.me/60109510231?text=Hi%2C%20saya%20nak%20check%20kelayakan%20loan%20rumah."
+        target="_blank"
+        class="whatsapp"
+    >
+        WhatsApp Consultant
+    </a>
+
+</div>
+
+
+<!-- ======================================================
+     PROPERTY COST
+====================================================== -->
+
+<div class="card">
+
+    <h2>4. Anggaran Kos Pembelian</h2>
+
+    <p class="description">
+        Anggaran berdasarkan harga rumah dan margin pembiayaan.
+    </p>
+
+
+    <div class="grid-3">
+
+        <div class="field">
+
+            <label>
+                Harga Rumah
+            </label>
+
+            <input
+                id="costProperty"
+                readonly
+            >
+
+        </div>
+
+
+        <div class="field">
+
+            <label>
+                Loan Amount
+            </label>
+
+            <input
+                id="costLoan"
+                readonly
+            >
+
+        </div>
+
+
+        <div class="field">
+
+            <label>
+                Downpayment
+            </label>
+
+            <input
+                id="costDownpayment"
+                readonly
+            >
+
+        </div>
+
+
+        <div class="field">
+
+            <label>
+                MOT / Transfer Stamp Duty
+            </label>
+
+            <input
+                id="costMOT"
+                readonly
+            >
+
+        </div>
+
+
+        <div class="field">
+
+            <label>
+                Loan Stamp Duty
+            </label>
+
+            <input
+                id="costLoanStamp"
+                readonly
+            >
+
+        </div>
+
+
+        <div class="field">
+
+            <label>
+                Anggaran Cash
+            </label>
+
+            <input
+                id="costCash"
+                readonly
+            >
+
+        </div>
+
+    </div>
+
+
+    <p class="note">
+        Ini adalah anggaran umum sahaja. Kiraan sebenar boleh berbeza
+        mengikut bank, profil pemohon, transaksi, pengecualian dan
+        ketetapan semasa.
+    </p>
+
+</div>
+
+
+</div>
+
+
 <footer>
-  DSR Calculator © 2026 | Untuk kegunaan consultant sahaja
+    DSR Calculator © 2026 | Consultant Tool
 </footer>
 
 
 <script>
 
-  let jointLoan = false;
+/* ==========================================================
+   GLOBAL
+========================================================== */
 
-  const incomeTypes = [
+let jointLoan = false;
+
+const incomeTypes = [
     {
-      key: "ot",
-      label: "OT"
+        key: "ot",
+        label: "OT / Overtime"
     },
     {
-      key: "va",
-      label: "Variable Allowance"
+        key: "va",
+        label: "Variable Allowance"
     },
     {
-      key: "commission",
-      label: "Commission"
+        key: "commission",
+        label: "Commission / Freelance"
     },
     {
-      key: "business",
-      label: "Business"
+        key: "business",
+        label: "Business Income"
     }
-  ];
+];
 
 
-  function money(value) {
-    return new Intl.NumberFormat("ms-MY", {
-      style: "currency",
-      currency: "MYR",
-      minimumFractionDigits: 2
-    }).format(value || 0);
-  }
+/* ==========================================================
+   FORMAT CURRENCY
+========================================================== */
+
+function money(value) {
+
+    return new Intl.NumberFormat(
+        "ms-MY",
+        {
+            style: "currency",
+            currency: "MYR",
+            minimumFractionDigits: 2
+        }
+    ).format(value || 0);
+
+}
 
 
-  function numberValue(id) {
-    const element = document.getElementById(id);
+/* ==========================================================
+   GET NUMBER
+========================================================== */
 
-    if (!element) return 0;
+function num(id) {
 
-    return parseFloat(element.value) || 0;
-  }
+    const el =
+        document.getElementById(id);
+
+    if (!el) return 0;
+
+    return parseFloat(el.value) || 0;
+
+}
 
 
-  function setJoint(value) {
+/* ==========================================================
+   JOINT LOAN
+========================================================== */
+
+function setJoint(value) {
 
     jointLoan = value;
 
-    document.getElementById("person2").classList.toggle("hidden", !value);
+    document
+        .getElementById("applicant2")
+        .classList.toggle(
+            "hidden",
+            !value
+        );
 
-    document.getElementById("singleBtn").classList.toggle("active", !value);
-    document.getElementById("jointBtn").classList.toggle("active", value);
+    document
+        .getElementById("singleBtn")
+        .className =
+        value
+        ? "btn-light"
+        : "btn-dark";
 
-    if (value && !document.getElementById("person2Income").innerHTML) {
-      createPerson2Income();
+    document
+        .getElementById("jointBtn")
+        .className =
+        value
+        ? "btn-dark"
+        : "btn-light";
+
+
+    if (
+        value &&
+        document.getElementById(
+            "applicant2Income"
+        ).innerHTML === ""
+    ) {
+
+        createApplicant2Income();
+
     }
 
     calculate();
-  }
+
+}
 
 
-  function createPerson2Income() {
+/* ==========================================================
+   CREATE APPLICANT 2
+========================================================== */
+
+function createApplicant2Income() {
 
     let html = "";
 
     incomeTypes.forEach(type => {
 
-      html += `
+        html += `
+
         <div class="income-box">
 
-          <div class="income-header">
+            <div class="income-top">
 
-            <h3>${type.label}</h3>
+                <h3>
+                    ${type.label}
+                </h3>
 
-            <div class="income-controls">
+                <div class="income-controls">
 
-              <div class="field">
-                <label>Tempoh Purata</label>
+                    <div class="field">
 
-                <select
-                  id="${type.key}Months2"
-                  onchange="renderMonthly('${type.key}',2)"
-                >
-                  <option value="6">6 Bulan</option>
-                  <option value="12">12 Bulan</option>
-                </select>
-              </div>
+                        <label>
+                            Purata
+                        </label>
 
-              <div class="field">
-                <label>Recognition %</label>
+                        <select
+                            id="${type.key}Months2"
+                            onchange="
+                                renderIncome(
+                                    '${type.key}',
+                                    2
+                                )
+                            "
+                        >
 
-                <input
-                  type="number"
-                  id="${type.key}Recognition2"
-                  value="70"
-                  min="0"
-                  max="100"
-                  oninput="calculate()"
-                >
+                            <option value="6">
+                                6 Bulan
+                            </option>
 
-              </div>
+                            <option value="12">
+                                12 Bulan
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label>
+                            Recognition %
+                        </label>
+
+                        <input
+                            type="number"
+                            id="${type.key}Recognition2"
+                            value="70"
+                        >
+
+                    </div>
+
+                </div>
 
             </div>
 
-          </div>
 
-          <div
-            class="monthly-grid"
-            id="${type.key}Grid2"
-          ></div>
+            <div
+                id="${type.key}Grid2"
+                class="month-grid"
+            ></div>
 
-          <div class="income-summary">
 
-            <div class="summary-item">
-              <small>Jumlah</small>
-              <strong id="${type.key}Total2">RM0.00</strong>
+            <div class="summary">
+
+                <div class="summary-box">
+
+                    <small>
+                        Jumlah
+                    </small>
+
+                    <strong
+                        id="${type.key}Total2"
+                    >
+                        RM0.00
+                    </strong>
+
+                </div>
+
+
+                <div class="summary-box">
+
+                    <small>
+                        Purata Bulanan
+                    </small>
+
+                    <strong
+                        id="${type.key}Average2"
+                    >
+                        RM0.00
+                    </strong>
+
+                </div>
+
+
+                <div class="summary-box">
+
+                    <small>
+                        Income Diiktiraf
+                    </small>
+
+                    <strong
+                        id="${type.key}Recognized2"
+                        class="green"
+                    >
+                        RM0.00
+                    </strong>
+
+                </div>
+
             </div>
-
-            <div class="summary-item">
-              <small>Purata Bulanan</small>
-              <strong id="${type.key}Average2">RM0.00</strong>
-            </div>
-
-            <div class="summary-item">
-              <small>Diiktiraf</small>
-              <strong
-                class="recognition"
-                id="${type.key}Recognized2"
-              >
-                RM0.00
-              </strong>
-            </div>
-
-          </div>
 
         </div>
-      `;
+
+        `;
 
     });
 
-    document.getElementById("person2Income").innerHTML = html;
+
+    document.getElementById(
+        "applicant2Income"
+    ).innerHTML = html;
+
 
     incomeTypes.forEach(type => {
-      renderMonthly(type.key, 2);
+
+        renderIncome(
+            type.key,
+            2
+        );
+
     });
-  }
+
+}
 
 
-  function renderMonthly(type, person) {
+/* ==========================================================
+   RENDER MONTHS
+========================================================== */
 
-    const monthSelect = document.getElementById(
-      `${type}Months${person}`
-    );
+function renderIncome(
+    type,
+    person
+) {
 
-    const grid = document.getElementById(
-      `${type}Grid${person}`
-    );
+    const select =
+        document.getElementById(
+            `${type}Months${person}`
+        );
 
-    if (!monthSelect || !grid) return;
+    const grid =
+        document.getElementById(
+            `${type}Grid${person}`
+        );
 
-    const months = parseInt(monthSelect.value);
+    if (!select || !grid) return;
+
+
+    const months =
+        parseInt(select.value);
+
 
     let html = "";
 
-    for (let i = 1; i <= months; i++) {
 
-      html += `
-        <div class="month-item">
+    for (
+        let i = 1;
+        i <= months;
+        i++
+    ) {
 
-          <label>Bulan ${i}</label>
+        html += `
 
-          <input
-            type="number"
-            min="0"
-            step="0.01"
-            class="monthly-income"
-            data-type="${type}"
-            data-person="${person}"
-            placeholder="RM0"
-            oninput="calculate()"
-          >
+        <div class="month">
+
+            <label>
+                Bulan ${i}
+            </label>
+
+            <input
+                type="number"
+                min="0"
+                step="0.01"
+                class="monthly-income"
+                data-type="${type}"
+                data-person="${person}"
+                placeholder="RM0"
+            >
 
         </div>
-      `;
+
+        `;
 
     }
+
 
     grid.innerHTML = html;
 
     calculate();
-  }
+
+}
 
 
-  function getMonthlyData(type, person) {
+/* ==========================================================
+   GET MONTHLY INCOME
+========================================================== */
 
-    const monthSelect = document.getElementById(
-      `${type}Months${person}`
-    );
+function getMonthlyIncome(
+    type,
+    person
+) {
 
-    if (!monthSelect) {
-      return {
-        total: 0,
-        average: 0,
-        recognized: 0
-      };
+    const select =
+        document.getElementById(
+            `${type}Months${person}`
+        );
+
+    if (!select) {
+
+        return {
+            total: 0,
+            average: 0,
+            recognized: 0
+        };
+
     }
 
-    const months = parseInt(monthSelect.value);
 
-    const inputs = document.querySelectorAll(
-      `.monthly-income[data-type="${type}"][data-person="${person}"]`
-    );
+    const months =
+        parseInt(select.value);
+
+
+    const inputs =
+        document.querySelectorAll(
+            `.monthly-income[data-type="${type}"][data-person="${person}"]`
+        );
+
 
     let total = 0;
 
+
     inputs.forEach(input => {
-      total += parseFloat(input.value) || 0;
+
+        total +=
+            parseFloat(input.value) || 0;
+
     });
 
-    const average = total / months;
 
-    const recognition = numberValue(
-      `${type}Recognition${person}`
-    );
+    const average =
+        total / months;
 
-    const recognized = average * (recognition / 100);
+
+    const recognition =
+        num(
+            `${type}Recognition${person}`
+        );
+
+
+    const recognized =
+        average *
+        recognition /
+        100;
+
 
     return {
-      total,
-      average,
-      recognized
+        total,
+        average,
+        recognized
     };
-  }
+
+}
 
 
-  function calculatePersonIncome(person) {
+/* ==========================================================
+   PERSON INCOME
+========================================================== */
+
+function calculatePersonIncome(
+    person
+) {
 
     let income = 0;
 
-    const basic = numberValue(`basic${person}`);
-    const fixed = numberValue(`fixed${person}`);
 
-    income += basic;
-    income += fixed;
+    income +=
+        num(`basic${person}`);
+
+
+    income +=
+        num(`fixed${person}`);
+
 
     incomeTypes.forEach(type => {
 
-      const data = getMonthlyData(type.key, person);
+        const data =
+            getMonthlyIncome(
+                type.key,
+                person
+            );
 
-      income += data.recognized;
 
-      const totalEl = document.getElementById(
-        `${type.key}Total${person}`
-      );
+        income +=
+            data.recognized;
 
-      const averageEl = document.getElementById(
-        `${type.key}Average${person}`
-      );
 
-      const recognizedEl = document.getElementById(
-        `${type.key}Recognized${person}`
-      );
+        const total =
+            document.getElementById(
+                `${type.key}Total${person}`
+            );
 
-      if (totalEl) {
-        totalEl.textContent = money(data.total);
-      }
+        const average =
+            document.getElementById(
+                `${type.key}Average${person}`
+            );
 
-      if (averageEl) {
-        averageEl.textContent = money(data.average);
-      }
+        const recognized =
+            document.getElementById(
+                `${type.key}Recognized${person}`
+            );
 
-      if (recognizedEl) {
-        recognizedEl.textContent = money(data.recognized);
-      }
+
+        if (total) {
+
+            total.textContent =
+                money(data.total);
+
+        }
+
+
+        if (average) {
+
+            average.textContent =
+                money(data.average);
+
+        }
+
+
+        if (recognized) {
+
+            recognized.textContent =
+                money(data.recognized);
+
+        }
 
     });
 
+
     return income;
-  }
+
+}
 
 
-  function getCommitments() {
+/* ==========================================================
+   COMMITMENTS
+========================================================== */
+
+function getCommitments() {
 
     let total = 0;
 
-    document.querySelectorAll(".commitment-value").forEach(input => {
 
-      total += parseFloat(input.value) || 0;
+    document
+        .querySelectorAll(
+            ".commitment-value"
+        )
+        .forEach(input => {
 
-    });
+            total +=
+                parseFloat(
+                    input.value
+                ) || 0;
+
+        });
+
 
     return total;
-  }
+
+}
 
 
-  function calculate() {
+/* ==========================================================
+   ADD COMMITMENT
+========================================================== */
 
-    const income1 = calculatePersonIncome(1);
-
-    let totalIncome = income1;
-
-    if (jointLoan) {
-      totalIncome += calculatePersonIncome(2);
-    }
-
-    const commitments = getCommitments();
-
-    const maxDSR = numberValue("maxDSR");
-
-    const dsr = totalIncome > 0
-      ? (commitments / totalIncome) * 100
-      : 0;
-
-    const allowedCommitment =
-      totalIncome * (maxDSR / 100);
-
-    const room =
-      Math.max(0, allowedCommitment - commitments);
-
-    document.getElementById("resultIncome").textContent =
-      money(totalIncome);
-
-    document.getElementById("resultCommitment").textContent =
-      money(commitments);
-
-    document.getElementById("resultDSR").textContent =
-      dsr.toFixed(2) + "%";
-
-    document.getElementById("resultRoom").textContent =
-      money(room);
-
-    let status = document.getElementById("status");
-
-    if (totalIncome <= 0) {
-
-      status.className = "status bad";
-      status.textContent = "Sila masukkan pendapatan pemohon.";
-
-    } else if (dsr <= maxDSR) {
-
-      status.className = "status good";
-      status.textContent =
-        "DSR berada dalam had yang dimasukkan.";
-
-    } else {
-
-      status.className = "status bad";
-      status.textContent =
-        "DSR melebihi had yang dimasukkan.";
-
-    }
-
-
-    /*
-      Estimate maximum new housing installment.
-
-      Available room =
-      Maximum allowed commitments - current commitments
-    */
-
-    const maxInstallment = room;
-
-    document.getElementById("maxInstallment").textContent =
-      money(maxInstallment);
-
-
-    /*
-      Loan calculation
-
-      P = monthly installment
-      r = monthly interest rate
-      n = number of months
-
-      P = L * r(1+r)^n / ((1+r)^n - 1)
-
-      Therefore:
-
-      L = P * ((1+r)^n - 1) / (r(1+r)^n)
-    */
-
-    const annualRate =
-      numberValue("interestRate") / 100;
-
-    const years =
-      numberValue("loanYears");
-
-    let maximumLoan = 0;
-
-    if (annualRate > 0 && years > 0) {
-
-      const r = annualRate / 12;
-      const n = years * 12;
-
-      maximumLoan =
-        maxInstallment *
-        ((Math.pow(1 + r, n) - 1) /
-        (r * Math.pow(1 + r, n)));
-
-    } else if (years > 0) {
-
-      maximumLoan =
-        maxInstallment * years * 12;
-
-    }
-
-    document.getElementById("maxLoan").textContent =
-      money(maximumLoan);
-
-
-    calculatePropertyCosts();
-  }
-
-
-  function addCommitment() {
+function addCommitment() {
 
     const container =
-      document.getElementById("commitments");
+        document.getElementById(
+            "commitments"
+        );
+
 
     const row =
-      document.createElement("div");
+        document.createElement(
+            "div"
+        );
 
-    row.className = "commitment-row";
+
+    row.className =
+        "commitment-row";
+
 
     row.innerHTML = `
-      <input
-        type="text"
-        value="Komitmen Baru"
-        class="commitment-name"
-      >
 
-      <input
-        type="number"
-        value="0"
-        min="0"
-        class="commitment-value"
-        oninput="calculate()"
-      >
+        <input
+            type="text"
+            value="Komitmen Baru"
+            class="commitment-name"
+        >
+
+        <input
+            type="number"
+            value="0"
+            min="0"
+            class="commitment-value"
+        >
+
     `;
 
+
     container.appendChild(row);
-  }
-
-
-  /*
-    Malaysia MOT / Transfer Stamp Duty
-  */
-
-  function calculateMOT(price) {
-
-    let duty = 0;
-
-    if (price <= 100000) {
-
-      duty = price * 0.01;
-
-    } else if (price <= 500000) {
-
-      duty =
-        100000 * 0.01 +
-        (price - 100000) * 0.02;
-
-    } else if (price <= 1000000) {
-
-      duty =
-        100000 * 0.01 +
-        400000 * 0.02 +
-        (price - 500000) * 0.03;
-
-    } else {
-
-      duty =
-        100000 * 0.01 +
-        400000 * 0.02 +
-        500000 * 0.03 +
-        (price - 1000000) * 0.04;
-
-    }
-
-    return duty;
-  }
-
-
-  function calculateLoanStampDuty(loanAmount) {
-
-    return loanAmount * 0.005;
-
-  }
-
-
-  function calculatePropertyCosts() {
-
-    const propertyPrice =
-      numberValue("propertyPrice");
-
-    const margin =
-      numberValue("loanMargin");
-
-    const loan =
-      propertyPrice * (margin / 100);
-
-    const downpayment =
-      propertyPrice - loan;
-
-    const mot =
-      calculateMOT(propertyPrice);
-
-    const loanStamp =
-      calculateLoanStampDuty(loan);
-
-    const totalCash =
-      downpayment + mot + loanStamp;
-
-
-    document.getElementById("costProperty").value =
-      money(propertyPrice);
-
-    document.getElementById("costLoan").value =
-      money(loan);
-
-    document.getElementById("costDownpayment").value =
-      money(downpayment);
-
-    document.getElementById("costMOT").value =
-      money(mot);
-
-    document.getElementById("costLoanStamp").value =
-      money(loanStamp);
-
-    document.getElementById("costCash").value =
-      money(totalCash);
-  }
-
-
-  /*
-    Automatically recalculate whenever
-    input values change.
-  */
-
-  document.addEventListener("input", function(event) {
-
-    if (
-      event.target.matches("input") ||
-      event.target.matches("select")
-    ) {
-      calculate();
-    }
-
-  });
-
-
-  /*
-    Initial setup
-  */
-
-  document.addEventListener("DOMContentLoaded", function() {
-
-    incomeTypes.forEach(type => {
-      renderMonthly(type.key, 1);
-    });
 
     calculate();
 
-  });
+}
+
+
+/* ==========================================================
+   MOT
+========================================================== */
+
+function calculateMOT(
+    price
+) {
+
+    let duty = 0;
+
+
+    if (price <= 100000) {
+
+        duty =
+            price * 0.01;
+
+    }
+
+    else if (price <= 500000) {
+
+        duty =
+            100000 * 0.01 +
+            (price - 100000) * 0.02;
+
+    }
+
+    else if (price <= 1000000) {
+
+        duty =
+            100000 * 0.01 +
+            400000 * 0.02 +
+            (price - 500000) * 0.03;
+
+    }
+
+    else {
+
+        duty =
+            100000 * 0.01 +
+            400000 * 0.02 +
+            500000 * 0.03 +
+            (price - 1000000) * 0.04;
+
+    }
+
+
+    return duty;
+
+}
+
+
+/* ==========================================================
+   LOAN STAMP DUTY
+========================================================== */
+
+function calculateLoanStamp(
+    loan
+) {
+
+    return loan * 0.005;
+
+}
+
+
+/* ==========================================================
+   PROPERTY COST
+========================================================== */
+
+function calculatePropertyCosts() {
+
+    const price =
+        num("propertyPrice");
+
+
+    const margin =
+        num("loanMargin");
+
+
+    const loan =
+        price *
+        margin /
+        100;
+
+
+    const downpayment =
+        price -
+        loan;
+
+
+    const mot =
+        calculateMOT(price);
+
+
+    const loanStamp =
+        calculateLoanStamp(loan);
+
+
+    const cash =
+        downpayment +
+        mot +
+        loanStamp;
+
+
+    document.getElementById(
+        "costProperty"
+    ).value =
+        money(price);
+
+
+    document.getElementById(
+        "costLoan"
+    ).value =
+        money(loan);
+
+
+    document.getElementById(
+        "costDownpayment"
+    ).value =
+        money(downpayment);
+
+
+    document.getElementById(
+        "costMOT"
+    ).value =
+        money(mot);
+
+
+    document.getElementById(
+        "costLoanStamp"
+    ).value =
+        money(loanStamp);
+
+
+    document.getElementById(
+        "costCash"
+    ).value =
+        money(cash);
+
+}
+
+
+/* ==========================================================
+   MAIN CALCULATION
+========================================================== */
+
+function calculate() {
+
+    const income1 =
+        calculatePersonIncome(1);
+
+
+    let totalIncome =
+        income1;
+
+
+    if (jointLoan) {
+
+        totalIncome +=
+            calculatePersonIncome(2);
+
+    }
+
+
+    const commitments =
+        getCommitments();
+
+
+    const maxDSR =
+        num("maxDSR");
+
+
+    let dsr = 0;
+
+
+    if (totalIncome > 0) {
+
+        dsr =
+            commitments /
+            totalIncome *
+            100;
+
+    }
+
+
+    const allowedCommitment =
+        totalIncome *
+        maxDSR /
+        100;
+
+
+    const available =
+        Math.max(
+            0,
+            allowedCommitment -
+            commitments
+        );
+
+
+    document.getElementById(
+        "resultIncome"
+    ).textContent =
+        money(totalIncome);
+
+
+    document.getElementById(
+        "resultCommitment"
+    ).textContent =
+        money(commitments);
+
+
+    document.getElementById(
+        "resultDSR"
+    ).textContent =
+        dsr.toFixed(2) + "%";
+
+
+    document.getElementById(
+        "resultRoom"
+    ).textContent =
+        money(available);
+
+
+    const status =
+        document.getElementById(
+            "status"
+        );
+
+
+    if (totalIncome <= 0) {
+
+        status.className =
+            "status bad";
+
+        status.textContent =
+            "Sila masukkan income.";
+
+    }
+
+    else if (
+        dsr <= maxDSR
+    ) {
+
+        status.className =
+            "status good";
+
+        status.textContent =
+            "DSR berada dalam had yang dimasukkan.";
+
+    }
+
+    else {
+
+        status.className =
+            "status bad";
+
+        status.textContent =
+            "DSR melebihi had yang dimasukkan.";
+
+    }
+
+
+    /* ======================================================
+       MAXIMUM LOAN
+    ====================================================== */
+
+    const annualRate =
+        num("interestRate") /
+        100;
+
+
+    const years =
+        num("loanYears");
+
+
+    let maximumLoan = 0;
+
+
+    if (
+        annualRate > 0 &&
+        years > 0 &&
+        available > 0
+    ) {
+
+        const monthlyRate =
+            annualRate / 12;
+
+
+        const months =
+            years * 12;
+
+
+        maximumLoan =
+            available *
+            (
+                (
+                    Math.pow(
+                        1 + monthlyRate,
+                        months
+                    ) - 1
+                )
+                /
+                (
+                    monthlyRate *
+                    Math.pow(
+                        1 + monthlyRate,
+                        months
+                    )
+                )
+            );
+
+    }
+
+
+    document.getElementById(
+        "maxInstallment"
+    ).textContent =
+        money(available);
+
+
+    document.getElementById(
+        "maxLoan"
+    ).textContent =
+        money(maximumLoan);
+
+
+    calculatePropertyCosts();
+
+}
+
+
+/* ==========================================================
+   AUTO CALCULATE
+========================================================== */
+
+document.addEventListener(
+    "input",
+    function(event) {
+
+        if (
+            event.target.tagName ===
+            "INPUT"
+        ) {
+
+            calculate();
+
+        }
+
+    }
+);
+
+
+document.addEventListener(
+    "change",
+    function(event) {
+
+        if (
+            event.target.tagName ===
+            "SELECT"
+        ) {
+
+            calculate();
+
+        }
+
+    }
+);
+
+
+/* ==========================================================
+   INITIALIZE
+========================================================== */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function() {
+
+        incomeTypes.forEach(
+            type => {
+
+                renderIncome(
+                    type.key,
+                    1
+                );
+
+            }
+        );
+
+
+        calculate();
+
+    }
+);
 
 </script>
 
 </body>
 </html>
+```
