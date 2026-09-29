@@ -43,10 +43,9 @@
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f1f5f9;
+            background-color: #f8fafc;
         }
         
-        /* Custom range slider styling */
         input[type="range"]::-webkit-slider-thumb {
             -webkit-appearance: none;
             appearance: none;
@@ -68,284 +67,376 @@
             body { background: white !important; color: black !important; }
             .card-shadow { box-shadow: none !important; border: 1px solid #e2e8f0 !important; }
         }
-
-        .toggle-checkbox:checked { right: 0; border-color: #10b981; }
-        .toggle-checkbox:checked + .toggle-label { background-color: #10b981; }
     </style>
 </head>
 <body class="text-slate-800 min-h-screen flex flex-col justify-between antialiased">
 
     <header class="bg-white shadow-sm sticky top-0 z-50 border-b border-slate-200">
-        <div class="max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-col sm:flex-row justify-between items-center gap-4">
+        <div class="max-w-[95rem] mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-col sm:flex-row justify-between items-center gap-4">
             <div class="flex items-center space-x-3">
-                <div class="p-2 bg-slate-900 rounded-xl text-white shadow-md">
-                    <i class="fa-solid fa-calculator text-xl"></i>
+                <div class="p-2.5 bg-gradient-to-br from-slate-900 to-slate-800 rounded-2xl text-white shadow-lg">
+                    <i class="fa-solid fa-house-chimney-user text-lg"></i>
                 </div>
                 <div>
-                    <h1 class="text-lg sm:text-xl font-extrabold text-slate-900 tracking-tight">Kalkulator DSR & Kelayakan Loan</h1>
+                    <h1 class="text-lg sm:text-xl font-extrabold text-slate-900 tracking-tight">Kalkulator DSR & Kelayakan Loan Rumah</h1>
                     <div class="flex items-center gap-2">
-                        <p class="text-[11px] font-semibold text-slate-500 uppercase tracking-wide">Sokongan Joint Loan & OT 6-Bulan</p>
-                        <span class="bg-emerald-100 text-emerald-700 text-[9px] font-bold px-1.5 py-0.5 rounded">v2.0</span>
+                        <p class="text-[11px] font-semibold text-slate-500 uppercase tracking-wide">Malaysia Underwriting Engine</p>
+                        <span class="bg-emerald-100 text-emerald-700 text-[9px] font-bold px-2 py-0.5 rounded-full">v3.0 Pro</span>
                     </div>
                 </div>
             </div>
             
-            <div class="flex items-center gap-2 no-print w-full sm:w-auto justify-end">
-                <button onclick="window.print()" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded-lg transition-all flex items-center gap-1.5 border border-slate-200">
-                    <i class="fa-solid fa-print"></i> <span>Cetak</span>
+            <div class="flex items-center gap-2.5 no-print w-full sm:w-auto justify-end">
+                <button onclick="window.print()" class="px-3.5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded-xl transition-all flex items-center gap-1.5 border border-slate-200 shadow-sm">
+                    <i class="fa-solid fa-print"></i> <span>Cetak Laporan</span>
                 </button>
-                <button onclick="resetApp()" class="px-3 py-1.5 bg-rose-50 hover:bg-rose-100 text-rose-600 text-xs font-semibold rounded-lg transition-all flex items-center gap-1.5 border border-rose-200">
-                    <i class="fa-solid fa-rotate-left"></i> <span>Reset</span>
+                <button onclick="resetApp()" class="px-3.5 py-2 bg-rose-50 hover:bg-rose-100 text-rose-600 text-xs font-semibold rounded-xl transition-all flex items-center gap-1.5 border border-rose-200 shadow-sm">
+                    <i class="fa-solid fa-rotate-left"></i> <span>Reset Semula</span>
                 </button>
             </div>
         </div>
     </header>
 
-    <main class="max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-8 py-6 w-full flex-grow">
+    <main class="max-w-[95rem] mx-auto px-4 sm:px-6 lg:px-8 py-6 w-full flex-grow">
         <div class="grid grid-cols-1 xl:grid-cols-12 gap-6 xl:gap-8">
             
             <!-- LEFT COLUMN: Forms -->
             <div class="xl:col-span-8 space-y-6">
                 
-                <!-- Loan Type Toggle -->
-                <div class="bg-white rounded-2xl p-4 sm:p-5 shadow-sm border border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200/80 flex flex-col sm:flex-row items-center justify-between gap-4">
                     <div>
                         <h2 class="text-base font-bold text-slate-900">Jenis Permohonan Pembiayaan</h2>
-                        <p class="text-xs text-slate-500 mt-0.5">Pilih untuk gabung pendapatan suami isteri atau ahli keluarga.</p>
+                        <p class="text-xs text-slate-500 mt-0.5">Pilih mod permohonan tunggal atau pinjaman bersama (Joint Loan).</p>
                     </div>
                     
                     <div class="flex items-center justify-center w-full sm:w-auto p-1 bg-slate-100 rounded-xl border border-slate-200">
-                        <button id="btnSingleLoan" onclick="setLoanType('single')" class="flex-1 sm:flex-none px-6 py-2 rounded-lg text-sm font-bold bg-white text-slate-800 shadow-sm transition-all border border-slate-200">
-                            <i class="fa-solid fa-user mr-1.5 text-slate-400"></i> Individu
+                        <button id="btnSingleLoan" onclick="setLoanType('single')" class="flex-1 sm:flex-none px-6 py-2.5 rounded-lg text-sm font-bold bg-white text-slate-900 shadow-sm transition-all border border-slate-200/60">
+                            <i class="fa-solid fa-user mr-2 text-slate-400"></i> Individu
                         </button>
-                        <button id="btnJointLoan" onclick="setLoanType('joint')" class="flex-1 sm:flex-none px-6 py-2 rounded-lg text-sm font-bold text-slate-500 hover:text-slate-700 transition-all border border-transparent">
-                            <i class="fa-solid fa-users mr-1.5"></i> Bersama (Joint)
+                        <button id="btnJointLoan" onclick="setLoanType('joint')" class="flex-1 sm:flex-none px-6 py-2.5 rounded-lg text-sm font-bold text-slate-500 hover:text-slate-700 transition-all border border-transparent">
+                            <i class="fa-solid fa-users mr-2"></i> Bersama (Joint)
                         </button>
                     </div>
                 </div>
 
-                <!-- Applicants Container -->
                 <div id="applicantsGrid" class="grid grid-cols-1 gap-6">
                     
                     <!-- Applicant 1 Form -->
-                    <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
-                        <div class="bg-emerald-50 border-b border-emerald-100 p-4 flex justify-between items-center">
-                            <div class="flex items-center gap-2">
-                                <div class="w-7 h-7 rounded-full bg-emerald-600 text-white flex items-center justify-center text-xs font-bold shadow-sm">1</div>
-                                <h3 class="font-extrabold text-emerald-950 text-sm">Pemohon Utama (Applicant 1)</h3>
+                    <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 overflow-hidden">
+                        <div class="bg-gradient-to-r from-emerald-500/10 via-emerald-500/5 to-transparent border-b border-emerald-100 p-4.5 flex justify-between items-center">
+                            <div class="flex items-center gap-2.5">
+                                <div class="w-8 h-8 rounded-xl bg-emerald-600 text-white flex items-center justify-center text-xs font-black shadow-md shadow-emerald-500/20">1</div>
+                                <div>
+                                    <h3 class="font-extrabold text-slate-900 text-sm">Pemohon Utama (Applicant 1)</h3>
+                                    <p class="text-[11px] text-slate-500">Pendapatan tetap & komitmen bulanan</p>
+                                </div>
                             </div>
                         </div>
                         
-                        <div class="p-5 space-y-5">
+                        <div class="p-6 space-y-6">
                             <!-- Basic Info -->
-                            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 border-b border-slate-100 pb-5">
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 pb-6 border-b border-slate-100">
                                 <div>
-                                    <label class="block text-[11px] font-bold text-slate-500 mb-1">Umur</label>
-                                    <input type="number" id="app1_age" value="30" class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-lg text-sm font-bold focus:ring-2 focus:ring-emerald-500 outline-none" oninput="calculateAll()">
+                                    <label class="block text-[11px] font-bold text-slate-600 mb-1.5">Umur (Tahun)</label>
+                                    <input type="number" id="app1_age" value="30" inputmode="numeric" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm font-bold focus:ring-2 focus:ring-emerald-500 outline-none transition-all" oninput="calculateAll()" onfocus="this.select()">
                                 </div>
                                 <div>
-                                    <label class="block text-[11px] font-bold text-slate-500 mb-1">Gaji Pokok (RM)</label>
-                                    <input type="number" id="app1_basic" value="4000" class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-lg text-sm font-bold focus:ring-2 focus:ring-emerald-500 outline-none" oninput="calculateAll()">
+                                    <label class="block text-[11px] font-bold text-slate-600 mb-1.5">Gaji Pokok (RM)</label>
+                                    <input type="number" id="app1_basic" value="4500" inputmode="decimal" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm font-bold focus:ring-2 focus:ring-emerald-500 outline-none transition-all" oninput="calculateAll()" onfocus="this.select()">
                                 </div>
                                 <div>
-                                    <label class="block text-[11px] font-bold text-slate-500 mb-1">Elaun Tetap (RM)</label>
-                                    <input type="number" id="app1_fixed" value="500" class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-lg text-sm font-bold focus:ring-2 focus:ring-emerald-500 outline-none" oninput="calculateAll()">
+                                    <label class="block text-[11px] font-bold text-slate-600 mb-1.5">Elaun Tetap (RM)</label>
+                                    <input type="number" id="app1_fixed" value="500" inputmode="decimal" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm font-bold focus:ring-2 focus:ring-emerald-500 outline-none transition-all" oninput="calculateAll()" onfocus="this.select()">
                                 </div>
                                 <div>
-                                    <label class="block text-[11px] font-bold text-rose-500 mb-1">Potongan Statutori</label>
-                                    <input type="number" id="app1_statutory" value="550" placeholder="KWSP, SOCSO" class="w-full px-3 py-2 bg-rose-50 border border-rose-200 rounded-lg text-sm font-bold text-rose-700 focus:ring-2 focus:ring-emerald-500 outline-none" oninput="calculateAll()">
+                                    <label class="block text-[11px] font-bold text-rose-600 mb-1.5">Potongan KWSP/SOCSO</label>
+                                    <input type="number" id="app1_statutory" value="550" inputmode="decimal" class="w-full px-3.5 py-2.5 bg-rose-50/50 border border-rose-200 rounded-xl text-sm font-bold text-rose-700 focus:ring-2 focus:ring-emerald-500 outline-none transition-all" oninput="calculateAll()" onfocus="this.select()">
                                 </div>
                             </div>
 
                             <!-- OT 6 Months -->
-                            <div class="bg-slate-50 rounded-xl p-4 border border-slate-200">
-                                <div class="flex justify-between items-center mb-3">
-                                    <label class="text-[11px] font-bold text-slate-700 flex items-center gap-1.5"><i class="fa-solid fa-clock text-emerald-600"></i> OT & Elaun Tak Tetap (6 Bulan)</label>
-                                    <span id="app1_ot_avg_text" class="text-[11px] font-bold text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded">Purata: RM0</span>
+                            <div class="bg-slate-50/80 rounded-2xl p-4.5 border border-slate-200/80">
+                                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-3">
+                                    <label class="text-xs font-bold text-slate-700 flex items-center gap-2"><i class="fa-solid fa-clock-rotate-left text-emerald-600"></i> OT & Elaun Tak Tetap (6 Bulan Terakhir)</label>
+                                    <span id="app1_ot_avg_text" class="text-xs font-extrabold text-emerald-700 bg-emerald-100 px-2.5 py-1 rounded-lg">Purata: RM0</span>
                                 </div>
                                 <div class="grid grid-cols-3 sm:grid-cols-6 gap-2">
-                                    <input type="number" id="app1_ot_1" value="500" placeholder="Bulan 1" class="w-full px-2 py-1.5 bg-white border border-slate-300 rounded text-xs font-semibold text-center outline-none focus:border-emerald-500" oninput="calculateAll()">
-                                    <input type="number" id="app1_ot_2" value="600" placeholder="Bulan 2" class="w-full px-2 py-1.5 bg-white border border-slate-300 rounded text-xs font-semibold text-center outline-none focus:border-emerald-500" oninput="calculateAll()">
-                                    <input type="number" id="app1_ot_3" value="450" placeholder="Bulan 3" class="w-full px-2 py-1.5 bg-white border border-slate-300 rounded text-xs font-semibold text-center outline-none focus:border-emerald-500" oninput="calculateAll()">
-                                    <input type="number" id="app1_ot_4" value="700" placeholder="Bulan 4" class="w-full px-2 py-1.5 bg-white border border-slate-300 rounded text-xs font-semibold text-center outline-none focus:border-emerald-500" oninput="calculateAll()">
-                                    <input type="number" id="app1_ot_5" value="550" placeholder="Bulan 5" class="w-full px-2 py-1.5 bg-white border border-slate-300 rounded text-xs font-semibold text-center outline-none focus:border-emerald-500" oninput="calculateAll()">
-                                    <input type="number" id="app1_ot_6" value="650" placeholder="Bulan 6" class="w-full px-2 py-1.5 bg-white border border-slate-300 rounded text-xs font-semibold text-center outline-none focus:border-emerald-500" oninput="calculateAll()">
+                                    <div>
+                                        <span class="block text-[10px] text-slate-400 mb-1 font-semibold">Bulan 1</span>
+                                        <input type="number" id="app1_ot_1" value="400" inputmode="decimal" class="w-full px-2.5 py-2 bg-white border border-slate-300 rounded-xl text-xs font-bold text-center outline-none focus:border-emerald-500" oninput="calculateAll()" onfocus="this.select()">
+                                    </div>
+                                    <div>
+                                        <span class="block text-[10px] text-slate-400 mb-1 font-semibold">Bulan 2</span>
+                                        <input type="number" id="app1_ot_2" value="500" inputmode="decimal" class="w-full px-2.5 py-2 bg-white border border-slate-300 rounded-xl text-xs font-bold text-center outline-none focus:border-emerald-500" oninput="calculateAll()" onfocus="this.select()">
+                                    </div>
+                                    <div>
+                                        <span class="block text-[10px] text-slate-400 mb-1 font-semibold">Bulan 3</span>
+                                        <input type="number" id="app1_ot_3" value="450" inputmode="decimal" class="w-full px-2.5 py-2 bg-white border border-slate-300 rounded-xl text-xs font-bold text-center outline-none focus:border-emerald-500" oninput="calculateAll()" onfocus="this.select()">
+                                    </div>
+                                    <div>
+                                        <span class="block text-[10px] text-slate-400 mb-1 font-semibold">Bulan 4</span>
+                                        <input type="number" id="app1_ot_4" value="600" inputmode="decimal" class="w-full px-2.5 py-2 bg-white border border-slate-300 rounded-xl text-xs font-bold text-center outline-none focus:border-emerald-500" oninput="calculateAll()" onfocus="this.select()">
+                                    </div>
+                                    <div>
+                                        <span class="block text-[10px] text-slate-400 mb-1 font-semibold">Bulan 5</span>
+                                        <input type="number" id="app1_ot_5" value="350" inputmode="decimal" class="w-full px-2.5 py-2 bg-white border border-slate-300 rounded-xl text-xs font-bold text-center outline-none focus:border-emerald-500" oninput="calculateAll()" onfocus="this.select()">
+                                    </div>
+                                    <div>
+                                        <span class="block text-[10px] text-slate-400 mb-1 font-semibold">Bulan 6</span>
+                                        <input type="number" id="app1_ot_6" value="500" inputmode="decimal" class="w-full px-2.5 py-2 bg-white border border-slate-300 rounded-xl text-xs font-bold text-center outline-none focus:border-emerald-500" oninput="calculateAll()" onfocus="this.select()">
+                                    </div>
                                 </div>
                             </div>
 
-                            <!-- Dynamic Commitments App 1 -->
                             <div>
-                                <div class="flex justify-between items-center mb-2">
-                                    <label class="text-[11px] font-bold text-slate-700"><i class="fa-solid fa-file-invoice-dollar text-rose-500 mr-1"></i> Komitmen Sedia Ada (CCRIS)</label>
-                                    <button onclick="addCommitment('app1')" class="text-[10px] bg-slate-800 text-white px-2 py-1 rounded hover:bg-slate-700 flex items-center gap-1"><i class="fa-solid fa-plus"></i> Tambah</button>
+                                <div class="flex justify-between items-center mb-3">
+                                    <label class="text-xs font-bold text-slate-800 flex items-center gap-1.5"><i class="fa-solid fa-file-invoice-dollar text-rose-500"></i> Komitmen Sedia Ada (Key-in Pantas sebulan)</label>
                                 </div>
-                                <div id="app1_commitments_container" class="space-y-2"></div>
-                                <div class="text-right mt-2 text-[11px] font-bold text-slate-500">
-                                    Jumlah Komitmen: <span id="app1_total_com" class="text-rose-600">RM 0</span>
+                                <div class="grid grid-cols-2 md:grid-cols-3 gap-3.5">
+                                    <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
+                                        <label class="block text-[11px] font-bold text-slate-600 mb-1"><i class="fa-solid fa-car text-slate-400 mr-1"></i> Pembiayaan Kereta</label>
+                                        <input type="number" id="app1_com_car" value="650" inputmode="decimal" class="w-full px-3 py-2.5 bg-white border border-slate-300 rounded-xl text-sm font-extrabold text-slate-800 focus:ring-2 focus:ring-rose-200 focus:border-rose-500 outline-none transition-all shadow-sm" oninput="calculateAll()" onfocus="this.select()">
+                                    </div>
+                                    <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
+                                        <label class="block text-[11px] font-bold text-slate-600 mb-1"><i class="fa-solid fa-wallet text-slate-400 mr-1"></i> Personal Loan</label>
+                                        <input type="number" id="app1_com_personal" value="0" inputmode="decimal" class="w-full px-3 py-2.5 bg-white border border-slate-300 rounded-xl text-sm font-extrabold text-slate-800 focus:ring-2 focus:ring-rose-200 focus:border-rose-500 outline-none transition-all shadow-sm" oninput="calculateAll()" onfocus="this.select()">
+                                    </div>
+                                    <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
+                                        <label class="block text-[11px] font-bold text-slate-600 mb-1"><i class="fa-solid fa-credit-card text-slate-400 mr-1"></i> Baki Kad Kredit (Kira 5%)</label>
+                                        <input type="number" id="app1_com_cc" value="0" inputmode="decimal" class="w-full px-3 py-2.5 bg-white border border-slate-300 rounded-xl text-sm font-extrabold text-slate-800 focus:ring-2 focus:ring-rose-200 focus:border-rose-500 outline-none transition-all shadow-sm" oninput="calculateAll()" onfocus="this.select()">
+                                    </div>
+                                    <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
+                                        <label class="block text-[11px] font-bold text-slate-600 mb-1"><i class="fa-solid fa-graduation-cap text-slate-400 mr-1"></i> PTPTN / Pelajaran</label>
+                                        <input type="number" id="app1_com_ptptn" value="0" inputmode="decimal" class="w-full px-3 py-2.5 bg-white border border-slate-300 rounded-xl text-sm font-extrabold text-slate-800 focus:ring-2 focus:ring-rose-200 focus:border-rose-500 outline-none transition-all shadow-sm" oninput="calculateAll()" onfocus="this.select()">
+                                    </div>
+                                    <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
+                                        <label class="block text-[11px] font-bold text-slate-600 mb-1"><i class="fa-solid fa-house text-slate-400 mr-1"></i> Rumah Sedia Ada</label>
+                                        <input type="number" id="app1_com_house" value="0" inputmode="decimal" class="w-full px-3 py-2.5 bg-white border border-slate-300 rounded-xl text-sm font-extrabold text-slate-800 focus:ring-2 focus:ring-rose-200 focus:border-rose-500 outline-none transition-all shadow-sm" oninput="calculateAll()" onfocus="this.select()">
+                                    </div>
+                                    <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
+                                        <label class="block text-[11px] font-bold text-slate-600 mb-1"><i class="fa-solid fa-basket-shopping text-slate-400 mr-1"></i> Komitmen Lain</label>
+                                        <input type="number" id="app1_com_others" value="0" inputmode="decimal" class="w-full px-3 py-2.5 bg-white border border-slate-300 rounded-xl text-sm font-extrabold text-slate-800 focus:ring-2 focus:ring-rose-200 focus:border-rose-500 outline-none transition-all shadow-sm" oninput="calculateAll()" onfocus="this.select()">
+                                    </div>
+                                </div>
+                                <div class="flex justify-between items-center mt-3 bg-slate-50 px-4 py-2.5 rounded-xl border border-slate-200">
+                                    <span class="text-xs font-bold text-slate-600">Jumlah Komitmen DSR Pemohon 1:</span>
+                                    <span id="app1_total_com" class="text-sm font-black text-rose-600">RM 0</span>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <!-- Applicant 2 Form (Hidden by default) -->
-                    <div id="app2_container" class="hidden bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
-                        <div class="bg-indigo-50 border-b border-indigo-100 p-4 flex justify-between items-center">
-                            <div class="flex items-center gap-2">
-                                <div class="w-7 h-7 rounded-full bg-indigo-600 text-white flex items-center justify-center text-xs font-bold shadow-sm">2</div>
-                                <h3 class="font-extrabold text-indigo-950 text-sm">Pemohon Kedua (Joint Applicant)</h3>
+                    <div id="app2_container" class="hidden bg-white rounded-2xl shadow-sm border border-slate-200/80 overflow-hidden">
+                        <div class="bg-gradient-to-r from-indigo-500/10 via-indigo-500/5 to-transparent border-b border-indigo-100 p-4.5 flex justify-between items-center">
+                            <div class="flex items-center gap-2.5">
+                                <div class="w-8 h-8 rounded-xl bg-indigo-600 text-white flex items-center justify-center text-xs font-black shadow-md shadow-indigo-500/20">2</div>
+                                <div>
+                                    <h3 class="font-extrabold text-slate-900 text-sm">Pemohon Kedua (Joint Applicant)</h3>
+                                    <p class="text-[11px] text-slate-500">Pendapatan & komitmen pasangan / rakan</p>
+                                </div>
                             </div>
                         </div>
                         
-                        <div class="p-5 space-y-5">
+                        <div class="p-6 space-y-6">
                             <!-- Basic Info -->
-                            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 border-b border-slate-100 pb-5">
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 pb-6 border-b border-slate-100">
                                 <div>
-                                    <label class="block text-[11px] font-bold text-slate-500 mb-1">Umur</label>
-                                    <input type="number" id="app2_age" value="28" class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-lg text-sm font-bold focus:ring-2 focus:ring-indigo-500 outline-none" oninput="calculateAll()">
+                                    <label class="block text-[11px] font-bold text-slate-600 mb-1.5">Umur (Tahun)</label>
+                                    <input type="number" id="app2_age" value="28" inputmode="numeric" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm font-bold focus:ring-2 focus:ring-indigo-500 outline-none transition-all" oninput="calculateAll()" onfocus="this.select()">
                                 </div>
                                 <div>
-                                    <label class="block text-[11px] font-bold text-slate-500 mb-1">Gaji Pokok (RM)</label>
-                                    <input type="number" id="app2_basic" value="3500" class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-lg text-sm font-bold focus:ring-2 focus:ring-indigo-500 outline-none" oninput="calculateAll()">
+                                    <label class="block text-[11px] font-bold text-slate-600 mb-1.5">Gaji Pokok (RM)</label>
+                                    <input type="number" id="app2_basic" value="3500" inputmode="decimal" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm font-bold focus:ring-2 focus:ring-indigo-500 outline-none transition-all" oninput="calculateAll()" onfocus="this.select()">
                                 </div>
                                 <div>
-                                    <label class="block text-[11px] font-bold text-slate-500 mb-1">Elaun Tetap (RM)</label>
-                                    <input type="number" id="app2_fixed" value="300" class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-lg text-sm font-bold focus:ring-2 focus:ring-indigo-500 outline-none" oninput="calculateAll()">
+                                    <label class="block text-[11px] font-bold text-slate-600 mb-1.5">Elaun Tetap (RM)</label>
+                                    <input type="number" id="app2_fixed" value="300" inputmode="decimal" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm font-bold focus:ring-2 focus:ring-indigo-500 outline-none transition-all" oninput="calculateAll()" onfocus="this.select()">
                                 </div>
                                 <div>
-                                    <label class="block text-[11px] font-bold text-rose-500 mb-1">Potongan Statutori</label>
-                                    <input type="number" id="app2_statutory" value="400" placeholder="KWSP, SOCSO" class="w-full px-3 py-2 bg-rose-50 border border-rose-200 rounded-lg text-sm font-bold text-rose-700 focus:ring-2 focus:ring-indigo-500 outline-none" oninput="calculateAll()">
+                                    <label class="block text-[11px] font-bold text-rose-600 mb-1.5">Potongan KWSP/SOCSO</label>
+                                    <input type="number" id="app2_statutory" value="400" inputmode="decimal" class="w-full px-3.5 py-2.5 bg-rose-50/50 border border-rose-200 rounded-xl text-sm font-bold text-rose-700 focus:ring-2 focus:ring-indigo-500 outline-none transition-all" oninput="calculateAll()" onfocus="this.select()">
                                 </div>
                             </div>
 
                             <!-- OT 6 Months -->
-                            <div class="bg-slate-50 rounded-xl p-4 border border-slate-200">
-                                <div class="flex justify-between items-center mb-3">
-                                    <label class="text-[11px] font-bold text-slate-700 flex items-center gap-1.5"><i class="fa-solid fa-clock text-indigo-600"></i> OT & Elaun Tak Tetap (6 Bulan)</label>
-                                    <span id="app2_ot_avg_text" class="text-[11px] font-bold text-indigo-700 bg-indigo-100 px-2 py-0.5 rounded">Purata: RM0</span>
+                            <div class="bg-slate-50/80 rounded-2xl p-4.5 border border-slate-200/80">
+                                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-3">
+                                    <label class="text-xs font-bold text-slate-700 flex items-center gap-2"><i class="fa-solid fa-clock-rotate-left text-indigo-600"></i> OT & Elaun Tak Tetap (6 Bulan Terakhir)</label>
+                                    <span id="app2_ot_avg_text" class="text-xs font-extrabold text-indigo-700 bg-indigo-100 px-2.5 py-1 rounded-lg">Purata: RM0</span>
                                 </div>
                                 <div class="grid grid-cols-3 sm:grid-cols-6 gap-2">
-                                    <input type="number" id="app2_ot_1" value="0" placeholder="Bulan 1" class="w-full px-2 py-1.5 bg-white border border-slate-300 rounded text-xs font-semibold text-center outline-none focus:border-indigo-500" oninput="calculateAll()">
-                                    <input type="number" id="app2_ot_2" value="0" placeholder="Bulan 2" class="w-full px-2 py-1.5 bg-white border border-slate-300 rounded text-xs font-semibold text-center outline-none focus:border-indigo-500" oninput="calculateAll()">
-                                    <input type="number" id="app2_ot_3" value="0" placeholder="Bulan 3" class="w-full px-2 py-1.5 bg-white border border-slate-300 rounded text-xs font-semibold text-center outline-none focus:border-indigo-500" oninput="calculateAll()">
-                                    <input type="number" id="app2_ot_4" value="0" placeholder="Bulan 4" class="w-full px-2 py-1.5 bg-white border border-slate-300 rounded text-xs font-semibold text-center outline-none focus:border-indigo-500" oninput="calculateAll()">
-                                    <input type="number" id="app2_ot_5" value="0" placeholder="Bulan 5" class="w-full px-2 py-1.5 bg-white border border-slate-300 rounded text-xs font-semibold text-center outline-none focus:border-indigo-500" oninput="calculateAll()">
-                                    <input type="number" id="app2_ot_6" value="0" placeholder="Bulan 6" class="w-full px-2 py-1.5 bg-white border border-slate-300 rounded text-xs font-semibold text-center outline-none focus:border-indigo-500" oninput="calculateAll()">
+                                    <div>
+                                        <span class="block text-[10px] text-slate-400 mb-1 font-semibold">Bulan 1</span>
+                                        <input type="number" id="app2_ot_1" value="0" inputmode="decimal" class="w-full px-2.5 py-2 bg-white border border-slate-300 rounded-xl text-xs font-bold text-center outline-none focus:border-indigo-500" oninput="calculateAll()" onfocus="this.select()">
+                                    </div>
+                                    <div>
+                                        <span class="block text-[10px] text-slate-400 mb-1 font-semibold">Bulan 2</span>
+                                        <input type="number" id="app2_ot_2" value="0" inputmode="decimal" class="w-full px-2.5 py-2 bg-white border border-slate-300 rounded-xl text-xs font-bold text-center outline-none focus:border-indigo-500" oninput="calculateAll()" onfocus="this.select()">
+                                    </div>
+                                    <div>
+                                        <span class="block text-[10px] text-slate-400 mb-1 font-semibold">Bulan 3</span>
+                                        <input type="number" id="app2_ot_3" value="0" inputmode="decimal" class="w-full px-2.5 py-2 bg-white border border-slate-300 rounded-xl text-xs font-bold text-center outline-none focus:border-indigo-500" oninput="calculateAll()" onfocus="this.select()">
+                                    </div>
+                                    <div>
+                                        <span class="block text-[10px] text-slate-400 mb-1 font-semibold">Bulan 4</span>
+                                        <input type="number" id="app2_ot_4" value="0" inputmode="decimal" class="w-full px-2.5 py-2 bg-white border border-slate-300 rounded-xl text-xs font-bold text-center outline-none focus:border-indigo-500" oninput="calculateAll()" onfocus="this.select()">
+                                    </div>
+                                    <div>
+                                        <span class="block text-[10px] text-slate-400 mb-1 font-semibold">Bulan 5</span>
+                                        <input type="number" id="app2_ot_5" value="0" inputmode="decimal" class="w-full px-2.5 py-2 bg-white border border-slate-300 rounded-xl text-xs font-bold text-center outline-none focus:border-indigo-500" oninput="calculateAll()" onfocus="this.select()">
+                                    </div>
+                                    <div>
+                                        <span class="block text-[10px] text-slate-400 mb-1 font-semibold">Bulan 6</span>
+                                        <input type="number" id="app2_ot_6" value="0" inputmode="decimal" class="w-full px-2.5 py-2 bg-white border border-slate-300 rounded-xl text-xs font-bold text-center outline-none focus:border-indigo-500" oninput="calculateAll()" onfocus="this.select()">
+                                    </div>
                                 </div>
                             </div>
 
-                            <!-- Dynamic Commitments App 2 -->
                             <div>
-                                <div class="flex justify-between items-center mb-2">
-                                    <label class="text-[11px] font-bold text-slate-700"><i class="fa-solid fa-file-invoice-dollar text-rose-500 mr-1"></i> Komitmen Sedia Ada (CCRIS)</label>
-                                    <button onclick="addCommitment('app2')" class="text-[10px] bg-slate-800 text-white px-2 py-1 rounded hover:bg-slate-700 flex items-center gap-1"><i class="fa-solid fa-plus"></i> Tambah</button>
+                                <div class="flex justify-between items-center mb-3">
+                                    <label class="text-xs font-bold text-slate-800 flex items-center gap-1.5"><i class="fa-solid fa-file-invoice-dollar text-rose-500"></i> Komitmen Sedia Ada (Key-in Pantas sebulan)</label>
                                 </div>
-                                <div id="app2_commitments_container" class="space-y-2"></div>
-                                <div class="text-right mt-2 text-[11px] font-bold text-slate-500">
-                                    Jumlah Komitmen: <span id="app2_total_com" class="text-rose-600">RM 0</span>
+                                <div class="grid grid-cols-2 md:grid-cols-3 gap-3.5">
+                                    <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
+                                        <label class="block text-[11px] font-bold text-slate-600 mb-1"><i class="fa-solid fa-car text-slate-400 mr-1"></i> Pembiayaan Kereta</label>
+                                        <input type="number" id="app2_com_car" value="0" inputmode="decimal" class="w-full px-3 py-2.5 bg-white border border-slate-300 rounded-xl text-sm font-extrabold text-slate-800 focus:ring-2 focus:ring-rose-200 focus:border-rose-500 outline-none transition-all shadow-sm" oninput="calculateAll()" onfocus="this.select()">
+                                    </div>
+                                    <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
+                                        <label class="block text-[11px] font-bold text-slate-600 mb-1"><i class="fa-solid fa-wallet text-slate-400 mr-1"></i> Personal Loan</label>
+                                        <input type="number" id="app2_com_personal" value="0" inputmode="decimal" class="w-full px-3 py-2.5 bg-white border border-slate-300 rounded-xl text-sm font-extrabold text-slate-800 focus:ring-2 focus:ring-rose-200 focus:border-rose-500 outline-none transition-all shadow-sm" oninput="calculateAll()" onfocus="this.select()">
+                                    </div>
+                                    <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
+                                        <label class="block text-[11px] font-bold text-slate-600 mb-1"><i class="fa-solid fa-credit-card text-slate-400 mr-1"></i> Baki Kad Kredit (Kira 5%)</label>
+                                        <input type="number" id="app2_com_cc" value="0" inputmode="decimal" class="w-full px-3 py-2.5 bg-white border border-slate-300 rounded-xl text-sm font-extrabold text-slate-800 focus:ring-2 focus:ring-rose-200 focus:border-rose-500 outline-none transition-all shadow-sm" oninput="calculateAll()" onfocus="this.select()">
+                                    </div>
+                                    <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
+                                        <label class="block text-[11px] font-bold text-slate-600 mb-1"><i class="fa-solid fa-graduation-cap text-slate-400 mr-1"></i> PTPTN / Pelajaran</label>
+                                        <input type="number" id="app2_com_ptptn" value="0" inputmode="decimal" class="w-full px-3 py-2.5 bg-white border border-slate-300 rounded-xl text-sm font-extrabold text-slate-800 focus:ring-2 focus:ring-rose-200 focus:border-rose-500 outline-none transition-all shadow-sm" oninput="calculateAll()" onfocus="this.select()">
+                                    </div>
+                                    <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
+                                        <label class="block text-[11px] font-bold text-slate-600 mb-1"><i class="fa-solid fa-house text-slate-400 mr-1"></i> Rumah Sedia Ada</label>
+                                        <input type="number" id="app2_com_house" value="0" inputmode="decimal" class="w-full px-3 py-2.5 bg-white border border-slate-300 rounded-xl text-sm font-extrabold text-slate-800 focus:ring-2 focus:ring-rose-200 focus:border-rose-500 outline-none transition-all shadow-sm" oninput="calculateAll()" onfocus="this.select()">
+                                    </div>
+                                    <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
+                                        <label class="block text-[11px] font-bold text-slate-600 mb-1"><i class="fa-solid fa-basket-shopping text-slate-400 mr-1"></i> Komitmen Lain</label>
+                                        <input type="number" id="app2_com_others" value="0" inputmode="decimal" class="w-full px-3 py-2.5 bg-white border border-slate-300 rounded-xl text-sm font-extrabold text-slate-800 focus:ring-2 focus:ring-rose-200 focus:border-rose-500 outline-none transition-all shadow-sm" oninput="calculateAll()" onfocus="this.select()">
+                                    </div>
+                                </div>
+                                <div class="flex justify-between items-center mt-3 bg-slate-50 px-4 py-2.5 rounded-xl border border-slate-200">
+                                    <span class="text-xs font-bold text-slate-600">Jumlah Komitmen DSR Pemohon 2:</span>
+                                    <span id="app2_total_com" class="text-sm font-black text-rose-600">RM 0</span>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Property & Settings Card -->
-                <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200">
-                    <h2 class="text-sm font-extrabold text-slate-900 mb-4 border-b border-slate-100 pb-2"><i class="fa-solid fa-house-circle-check text-slate-700 mr-2"></i>Maklumat Hartanah & Ketetapan Bank</h2>
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200/80">
+                    <h2 class="text-sm font-extrabold text-slate-900 mb-5 flex items-center gap-2 pb-3 border-b border-slate-100">
+                        <i class="fa-solid fa-house-circle-check text-emerald-600"></i> Maklumat Hartanah & Ketetapan Bank
+                    </h2>
                     
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
                         <div class="lg:col-span-2">
-                            <label class="block text-[11px] font-bold text-slate-500 mb-1">Harga Rumah (RM)</label>
-                            <input type="number" id="propPrice" value="500000" step="5000" class="w-full px-3 py-2.5 bg-slate-50 border border-slate-300 rounded-lg text-base font-bold focus:ring-2 focus:ring-slate-800 outline-none" oninput="calculateAll()">
+                            <label class="block text-[11px] font-bold text-slate-600 mb-1.5">Harga Hartanah (RM)</label>
+                            <input type="number" id="propPrice" value="500000" step="10000" inputmode="decimal" class="w-full px-3.5 py-3 bg-slate-50 border border-slate-300 rounded-xl text-base font-black text-slate-900 focus:ring-2 focus:ring-slate-900 outline-none transition-all" oninput="calculateAll()" onfocus="this.select()">
                         </div>
                         
                         <div>
-                            <label class="block text-[11px] font-bold text-slate-500 mb-1">Margin Pembiayaan (%)</label>
-                            <input type="number" id="propMargin" value="90" max="100" class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-lg text-sm font-bold focus:ring-2 focus:ring-slate-800 outline-none" oninput="calculateAll()">
+                            <label class="block text-[11px] font-bold text-slate-600 mb-1.5">Margin Pembiayaan (%)</label>
+                            <input type="number" id="propMargin" value="90" max="100" inputmode="decimal" class="w-full px-3.5 py-3 bg-slate-50 border border-slate-300 rounded-xl text-sm font-bold focus:ring-2 focus:ring-slate-900 outline-none transition-all" oninput="calculateAll()" onfocus="this.select()">
                         </div>
 
                         <div>
-                            <label class="block text-[11px] font-bold text-slate-500 mb-1">Kadar Faedah Bank (%)</label>
-                            <input type="number" id="propInterest" value="4.2" step="0.1" class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-lg text-sm font-bold focus:ring-2 focus:ring-slate-800 outline-none" oninput="calculateAll()">
+                            <label class="block text-[11px] font-bold text-slate-600 mb-1.5">Kadar Faedah (Interest %)</label>
+                            <input type="number" id="propInterest" value="4.2" step="0.1" inputmode="decimal" class="w-full px-3.5 py-3 bg-slate-50 border border-slate-300 rounded-xl text-sm font-bold focus:ring-2 focus:ring-slate-900 outline-none transition-all" oninput="calculateAll()" onfocus="this.select()">
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 mt-5 pt-4 border-t border-slate-100">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-6 pt-5 border-t border-slate-100">
                         <div>
-                            <div class="flex justify-between">
-                                <label class="block text-[11px] font-bold text-slate-500 mb-1">Had DSR Maksimum (%)</label>
-                                <button onclick="autoSuggestDsr()" class="text-[10px] text-emerald-600 font-bold hover:underline"><i class="fa-solid fa-wand-magic-sparkles"></i> Syor Auto</button>
+                            <div class="flex justify-between items-center mb-1.5">
+                                <label class="text-[11px] font-bold text-slate-600">Had DSR Maksimum Bank (%)</label>
+                                <button onclick="autoSuggestDsr()" class="text-[11px] text-emerald-600 font-extrabold hover:underline flex items-center gap-1"><i class="fa-solid fa-wand-magic-sparkles"></i> Syor Auto Gaji</button>
                             </div>
-                            <input type="number" id="propDsrLimit" value="70" class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-lg text-sm font-bold focus:ring-2 focus:ring-slate-800 outline-none" oninput="calculateAll()">
+                            <input type="number" id="propDsrLimit" value="70" inputmode="decimal" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm font-bold focus:ring-2 focus:ring-slate-900 outline-none transition-all" oninput="calculateAll()" onfocus="this.select()">
                         </div>
                         <div>
-                            <div class="flex justify-between">
-                                <label class="block text-[11px] font-bold text-slate-500 mb-1">Pengiktirafan OT (Haircut %)</label>
-                                <span id="otHaircutVal" class="text-[10px] font-bold text-emerald-700 bg-emerald-100 px-1.5 py-0.5 rounded">50%</span>
+                            <div class="flex justify-between items-center mb-1.5">
+                                <label class="text-[11px] font-bold text-slate-600">Pengiktirafan OT (Haircut %)</label>
+                                <span id="otHaircutVal" class="text-xs font-black text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded-lg">50%</span>
                             </div>
-                            <input type="range" id="propOtHaircut" value="50" min="0" max="100" step="10" class="w-full mt-2" oninput="calculateAll()">
+                            <input type="range" id="propOtHaircut" value="50" min="0" max="100" step="10" class="w-full mt-2 cursor-pointer accent-emerald-600" oninput="calculateAll()">
                         </div>
                     </div>
                 </div>
 
             </div>
 
-            <!-- RIGHT COLUMN: Dashboard -->
+            <!-- RIGHT COLUMN: Dashboard & Analytics -->
             <div class="xl:col-span-4 space-y-6">
                 
-                <!-- Main Result Card -->
-                <div class="bg-slate-900 rounded-2xl p-6 text-white shadow-xl relative overflow-hidden xl:sticky xl:top-24">
-                    <div class="absolute -right-10 -top-10 w-40 h-40 bg-emerald-500/20 rounded-full blur-3xl"></div>
+                <div class="bg-gradient-to-br from-slate-900 via-slate-900 to-slate-950 rounded-3xl p-6 sm:p-7 text-white shadow-2xl relative overflow-hidden xl:sticky xl:top-24 border border-slate-800">
+                    <div class="absolute -right-16 -top-16 w-56 h-56 bg-emerald-500/15 rounded-full blur-3xl pointer-events-none"></div>
+                    <div class="absolute -left-16 -bottom-16 w-56 h-56 bg-blue-500/15 rounded-full blur-3xl pointer-events-none"></div>
                     
-                    <h3 class="text-xs font-semibold text-slate-400 uppercase tracking-widest mb-4">Keputusan Permohonan</h3>
+                    <div class="flex justify-between items-center mb-5 relative z-10">
+                        <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest">Keputusan Analisis DSR</h3>
+                        <span class="bg-slate-800 text-slate-300 text-[10px] font-extrabold px-2.5 py-1 rounded-full border border-slate-700"><span id="dashProfileType">Individu</span></span>
+                    </div>
                     
-                    <div class="flex items-center gap-3 mb-6">
-                        <div id="statusIconBox" class="w-12 h-12 rounded-full bg-emerald-500/20 flex items-center justify-center border border-emerald-500/30">
-                            <i id="statusIcon" class="fa-solid fa-check text-xl text-emerald-400"></i>
+                    <!-- Status Header -->
+                    <div class="flex items-center gap-4 mb-6 relative z-10 bg-slate-800/40 p-4 rounded-2xl border border-slate-700/60 backdrop-blur-sm">
+                        <div id="statusIconBox" class="w-14 h-14 rounded-2xl bg-emerald-500/20 flex items-center justify-center border border-emerald-500/30 shadow-inner flex-shrink-0">
+                            <i id="statusIcon" class="fa-solid fa-check text-2xl text-emerald-400"></i>
                         </div>
                         <div>
-                            <div id="statusText" class="text-xl font-black text-white">LULUS (LAYAK)</div>
-                            <div class="text-[11px] text-slate-400 mt-0.5">Berdasarkan profil <span id="dashProfileType" class="text-slate-200 font-bold">Individu</span></div>
+                            <div id="statusText" class="text-lg sm:text-xl font-black text-emerald-400 tracking-tight">LULUS (LAYAK)</div>
+                            <div class="text-xs text-slate-400 mt-0.5">Kelayakan ansuran rumah baru</div>
                         </div>
                     </div>
 
-                    <div class="bg-slate-800/80 rounded-xl p-4 border border-slate-700 mb-5">
+                    <!-- New Monthly Installment Highlight -->
+                    <div class="bg-slate-800/80 rounded-2xl p-4.5 border border-slate-700/80 mb-5 relative z-10 shadow-lg">
                         <div class="flex justify-between items-center mb-1">
-                            <span class="text-xs text-slate-400">Ansuran Bulanan Baru</span>
-                            <span class="text-[10px] bg-slate-700 px-2 py-0.5 rounded text-slate-300">Tenure: <span id="dashTenure" class="font-bold text-white">35</span> Thn</span>
+                            <span class="text-xs text-slate-400 font-medium">Ansuran Bulanan Rumah (Baru)</span>
+                            <span class="text-[10px] bg-emerald-500/20 text-emerald-300 px-2.5 py-0.5 rounded-full font-bold border border-emerald-500/30">Tenure: <span id="dashTenure" class="font-extrabold">35</span> Thn</span>
                         </div>
-                        <div id="dashInstallment" class="text-3xl font-black text-emerald-400 tracking-tight">RM 0</div>
+                        <div id="dashInstallment" class="text-3xl sm:text-4xl font-black text-emerald-400 tracking-tight">RM 0</div>
                     </div>
 
-                    <!-- DSR Progress -->
-                    <div class="mb-6">
+                    <!-- DSR Progress Bar -->
+                    <div class="mb-6 relative z-10 bg-slate-800/40 p-4 rounded-2xl border border-slate-700/60">
                         <div class="flex justify-between items-end mb-2">
-                            <span class="text-xs font-semibold text-slate-300">Nisbah DSR Gabungan</span>
+                            <span class="text-xs font-bold text-slate-300">Nisbah DSR Gabungan</span>
                             <span id="dashDsrText" class="text-2xl font-black text-white">0%</span>
                         </div>
-                        <div class="w-full h-3 bg-slate-800 rounded-full overflow-hidden relative">
-                            <div id="dsrLimitMarker" class="absolute top-0 bottom-0 w-0.5 bg-yellow-400 z-10" style="left: 70%;"></div>
-                            <div id="dsrProgressBar" class="h-full bg-emerald-500 transition-all duration-500" style="width: 0%"></div>
+                        <div class="w-full h-3.5 bg-slate-900 rounded-full overflow-hidden relative p-0.5 border border-slate-700">
+                            <div id="dsrLimitMarker" class="absolute top-0 bottom-0 w-1 bg-yellow-400 z-20 rounded-full shadow-md" style="left: 70%;"></div>
+                            <div id="dsrProgressBar" class="h-full bg-emerald-500 rounded-full transition-all duration-500" style="width: 0%"></div>
                         </div>
-                        <div class="flex justify-between text-[10px] text-slate-500 mt-1.5 font-medium">
-                            <span>Had Bank: <span id="dashLimitText" class="text-yellow-400">70%</span></span>
+                        <div class="flex justify-between text-[11px] text-slate-400 mt-2 font-medium">
+                            <span>Had Maksimum Bank: <span id="dashLimitText" class="text-yellow-400 font-bold">70%</span></span>
+                            <span id="dsrStatusHint" class="text-emerald-400 font-bold">Dalam Kawalan</span>
                         </div>
                     </div>
 
                     <!-- Combined Metrics Grid -->
-                    <div class="grid grid-cols-2 gap-3 mb-6">
-                        <div class="bg-slate-800/50 p-3 rounded-lg border border-slate-700/50">
-                            <span class="text-[10px] text-slate-400 block mb-0.5">Pendapatan Bersih</span>
-                            <span id="dashTotalIncome" class="text-sm font-bold text-white">RM 0</span>
+                    <div class="grid grid-cols-2 gap-3 mb-6 relative z-10">
+                        <div class="bg-slate-800/60 p-3.5 rounded-2xl border border-slate-700/60">
+                            <span class="text-[10px] text-slate-400 font-semibold block mb-1 uppercase tracking-wider">Pendapatan Bersih</span>
+                            <span id="dashTotalIncome" class="text-sm sm:text-base font-extrabold text-white">RM 0</span>
                         </div>
-                        <div class="bg-slate-800/50 p-3 rounded-lg border border-slate-700/50">
-                            <span class="text-[10px] text-slate-400 block mb-0.5">Lebihan Tunai</span>
-                            <span id="dashCashflow" class="text-sm font-bold text-blue-400">RM 0</span>
+                        <div class="bg-slate-800/60 p-3.5 rounded-2xl border border-slate-700/60">
+                            <span class="text-[10px] text-slate-400 font-semibold block mb-1 uppercase tracking-wider">Lebihan Tunai (Cashflow)</span>
+                            <span id="dashCashflow" class="text-sm sm:text-base font-extrabold text-blue-400">RM 0</span>
                         </div>
                     </div>
 
                     <!-- Chart Container -->
-                    <div class="bg-white p-4 rounded-xl relative">
-                        <div class="h-32 w-full flex items-center justify-center">
+                    <div class="bg-white p-4 rounded-2xl relative z-10 shadow-lg">
+                        <div class="h-36 w-full flex items-center justify-center">
                             <canvas id="dsrChart"></canvas>
                         </div>
                     </div>
@@ -356,28 +447,11 @@
     </main>
 
     <script>
-        // Global State
         let isJointLoan = false;
         let chartInstance = null;
-        
-        let comState = {
-            app1: [
-                { id: '1_1', type: 'car', label: 'Pembiayaan Kenderaan', amount: 0, ccBalance: 0 },
-                { id: '1_2', type: 'personal', label: 'Pembiayaan Peribadi', amount: 0, ccBalance: 0 },
-                { id: '1_3', type: 'credit_card', label: 'Kad Kredit', amount: 0, ccBalance: 0 },
-                { id: '1_4', type: 'ptptn', label: 'PTPTN', amount: 0, ccBalance: 0 }
-            ],
-            app2: [
-                { id: '2_1', type: 'car', label: 'Pembiayaan Kenderaan', amount: 0, ccBalance: 0 },
-                { id: '2_2', type: 'personal', label: 'Pembiayaan Peribadi', amount: 0, ccBalance: 0 },
-                { id: '2_3', type: 'credit_card', label: 'Kad Kredit', amount: 0, ccBalance: 0 },
-                { id: '2_4', type: 'ptptn', label: 'PTPTN', amount: 0, ccBalance: 0 }
-            ]
-        };
 
         const formatRM = (val) => new Intl.NumberFormat('ms-MY', { style: 'currency', currency: 'MYR', maximumFractionDigits: 0 }).format(val).replace('MYR', 'RM');
 
-        // Toggle Single/Joint
         function setLoanType(type) {
             isJointLoan = (type === 'joint');
             
@@ -387,14 +461,14 @@
             const grid = document.getElementById('applicantsGrid');
 
             if (isJointLoan) {
-                btnJoint.className = "flex-1 sm:flex-none px-6 py-2 rounded-lg text-sm font-bold bg-white text-indigo-700 shadow-sm transition-all border border-slate-200";
-                btnSingle.className = "flex-1 sm:flex-none px-6 py-2 rounded-lg text-sm font-bold text-slate-500 hover:text-slate-700 transition-all border border-transparent";
+                btnJoint.className = "flex-1 sm:flex-none px-6 py-2.5 rounded-lg text-sm font-bold bg-white text-indigo-700 shadow-sm transition-all border border-slate-200";
+                btnSingle.className = "flex-1 sm:flex-none px-6 py-2.5 rounded-lg text-sm font-bold text-slate-500 hover:text-slate-700 transition-all border border-transparent";
                 app2Container.classList.remove('hidden');
                 grid.classList.replace('grid-cols-1', 'md:grid-cols-2');
                 document.getElementById('dashProfileType').textContent = "Gabungan Bersama";
             } else {
-                btnSingle.className = "flex-1 sm:flex-none px-6 py-2 rounded-lg text-sm font-bold bg-white text-slate-800 shadow-sm transition-all border border-slate-200";
-                btnJoint.className = "flex-1 sm:flex-none px-6 py-2 rounded-lg text-sm font-bold text-slate-500 hover:text-slate-700 transition-all border border-transparent";
+                btnSingle.className = "flex-1 sm:flex-none px-6 py-2.5 rounded-lg text-sm font-bold bg-white text-slate-900 shadow-sm transition-all border border-slate-200";
+                btnJoint.className = "flex-1 sm:flex-none px-6 py-2.5 rounded-lg text-sm font-bold text-slate-500 hover:text-slate-700 transition-all border border-transparent";
                 app2Container.classList.add('hidden');
                 grid.classList.replace('md:grid-cols-2', 'grid-cols-1');
                 document.getElementById('dashProfileType').textContent = "Individu";
@@ -402,7 +476,6 @@
             calculateAll();
         }
 
-        // Suggest DSR Limit based on combined income
         function autoSuggestDsr() {
             let app1Net = getVal('app1_basic') + getVal('app1_fixed') - getVal('app1_statutory');
             let totalNet = app1Net;
@@ -425,7 +498,6 @@
             return parseFloat(document.getElementById(id).value) || 0;
         }
 
-        // PMT Formula
         function calcPMT(principal, rate, years) {
             if (principal <= 0 || years <= 0) return 0;
             if (rate <= 0) return principal / (years * 12);
@@ -434,75 +506,19 @@
             return principal * (mRate * Math.pow(1 + mRate, n)) / (Math.pow(1 + mRate, n) - 1);
         }
 
-        // Dynamic Commitments Logic
-        function renderCommitments(appId) {
-            const container = document.getElementById(`${appId}_commitments_container`);
-            container.innerHTML = '';
-            let total = 0;
-
-            comState[appId].forEach(c => {
-                const isCC = c.type === 'credit_card';
-                if(isCC) c.amount = c.ccBalance * 0.05;
-                total += c.amount;
-
-                const html = `
-                <div class="flex flex-col sm:flex-row gap-2 items-center bg-white border border-slate-200 p-2 rounded-lg relative">
-                    <select onchange="updateCom('${appId}','${c.id}','type',this.value)" class="w-full sm:w-1/3 text-xs bg-slate-50 border border-slate-200 rounded p-1.5 outline-none">
-                        <option value="car" ${c.type==='car'?'selected':''}>Kereta</option>
-                        <option value="personal" ${c.type==='personal'?'selected':''}>Personal</option>
-                        <option value="credit_card" ${c.type==='credit_card'?'selected':''}>Kad Kredit</option>
-                        <option value="housing" ${c.type==='housing'?'selected':''}>Rumah</option>
-                        <option value="ptptn" ${c.type==='ptptn'?'selected':''}>PTPTN</option>
-                    </select>
-                    <input type="text" value="${c.label}" onchange="updateCom('${appId}','${c.id}','label',this.value)" class="w-full sm:w-1/3 text-xs bg-slate-50 border border-slate-200 rounded p-1.5 outline-none" placeholder="Label">
-                    
-                    ${isCC ? `
-                    <div class="w-full sm:w-1/3 flex items-center gap-1">
-                        <input type="number" value="${c.ccBalance}" oninput="updateCom('${appId}','${c.id}','ccBalance',this.value)" class="w-full text-xs bg-slate-50 border border-slate-200 rounded p-1.5 outline-none" placeholder="Baki">
-                        <button onclick="delCom('${appId}','${c.id}')" class="text-rose-500 p-1.5"><i class="fa-solid fa-times"></i></button>
-                    </div>
-                    ` : `
-                    <div class="w-full sm:w-1/3 flex items-center gap-1">
-                        <input type="number" value="${c.amount}" oninput="updateCom('${appId}','${c.id}','amount',this.value)" class="w-full text-xs bg-slate-50 border border-slate-200 rounded p-1.5 outline-none" placeholder="RM/bln">
-                        <button onclick="delCom('${appId}','${c.id}')" class="text-rose-500 p-1.5"><i class="fa-solid fa-times"></i></button>
-                    </div>
-                    `}
-                </div>`;
-                container.insertAdjacentHTML('beforeend', html);
-            });
-            
-            document.getElementById(`${appId}_total_com`).textContent = formatRM(total);
-            return total;
-        }
-
-        function addCommitment(appId) {
-            comState[appId].push({ id: Date.now().toString(), type: 'car', label: 'Baru', amount: 0, ccBalance: 0 });
-            calculateAll();
-        }
-
-        function delCom(appId, id) {
-            comState[appId] = comState[appId].filter(c => c.id !== id);
-            calculateAll();
-        }
-
-        function updateCom(appId, id, field, val) {
-            const item = comState[appId].find(c => c.id === id);
-            if (item) {
-                if (field === 'type') item.type = val;
-                else if (field === 'label') item.label = val;
-                else if (field === 'amount') item.amount = parseFloat(val) || 0;
-                else if (field === 'ccBalance') item.ccBalance = parseFloat(val) || 0;
-                calculateAll();
-            }
-        }
-
-        // Main Calculation Function
         function calculateAll() {
-            // Render UI lists first to get totals
-            let comTotal1 = renderCommitments('app1');
-            let comTotal2 = isJointLoan ? renderCommitments('app2') : 0;
+            // App 1 Commitments
+            let com1 = getVal('app1_com_car') + getVal('app1_com_personal') + (getVal('app1_com_cc') * 0.05) + getVal('app1_com_ptptn') + getVal('app1_com_house') + getVal('app1_com_others');
+            document.getElementById('app1_total_com').textContent = formatRM(com1);
 
-            // Property & Settings
+            // App 2 Commitments
+            let com2 = 0;
+            if (isJointLoan) {
+                com2 = getVal('app2_com_car') + getVal('app2_com_personal') + (getVal('app2_com_cc') * 0.05) + getVal('app2_com_ptptn') + getVal('app2_com_house') + getVal('app2_com_others');
+                document.getElementById('app2_total_com').textContent = formatRM(com2);
+            }
+
+            // Property parameters
             let price = getVal('propPrice');
             let margin = getVal('propMargin') / 100;
             let interest = getVal('propInterest');
@@ -512,30 +528,30 @@
             document.getElementById('otHaircutVal').textContent = (otHaircut * 100) + '%';
             document.getElementById('dashLimitText').textContent = dsrLimit + '%';
 
-            // Calculate App 1 Income
-            let ot1 = (getVal('app1_ot_1')+getVal('app1_ot_2')+getVal('app1_ot_3')+getVal('app1_ot_4')+getVal('app1_ot_5')+getVal('app1_ot_6')) / 6;
+            // App 1 Income
+            let ot1 = (getVal('app1_ot_1') + getVal('app1_ot_2') + getVal('app1_ot_3') + getVal('app1_ot_4') + getVal('app1_ot_5') + getVal('app1_ot_6')) / 6;
             document.getElementById('app1_ot_avg_text').textContent = 'Purata: ' + formatRM(ot1);
             let netIncome1 = getVal('app1_basic') + getVal('app1_fixed') + (ot1 * otHaircut) - getVal('app1_statutory');
 
-            // Calculate App 2 Income (if joint)
+            // App 2 Income
             let netIncome2 = 0;
             if (isJointLoan) {
-                let ot2 = (getVal('app2_ot_1')+getVal('app2_ot_2')+getVal('app2_ot_3')+getVal('app2_ot_4')+getVal('app2_ot_5')+getVal('app2_ot_6')) / 6;
+                let ot2 = (getVal('app2_ot_1') + getVal('app2_ot_2') + getVal('app2_ot_3') + getVal('app2_ot_4') + getVal('app2_ot_5') + getVal('app2_ot_6')) / 6;
                 document.getElementById('app2_ot_avg_text').textContent = 'Purata: ' + formatRM(ot2);
                 netIncome2 = getVal('app2_basic') + getVal('app2_fixed') + (ot2 * otHaircut) - getVal('app2_statutory');
             }
 
             let combinedNetIncome = Math.max(0, netIncome1 + netIncome2);
-            let combinedExistCom = comTotal1 + comTotal2;
+            let combinedExistCom = com1 + com2;
 
-            // Calculate Tenure
+            // Tenure calculation (Max 35 years or up to age 70)
             let age1 = getVal('app1_age');
             let age2 = isJointLoan ? getVal('app2_age') : age1;
             let minAge = isJointLoan ? Math.min(age1, age2) : age1;
             let tenure = Math.min(35, Math.max(1, 70 - minAge));
             document.getElementById('dashTenure').textContent = tenure;
 
-            // Calculate Loan & Installment
+            // Loan & Installment Calculation
             let loanAmount = price * margin;
             let newInstallment = calcPMT(loanAmount, interest, tenure);
             
@@ -543,7 +559,7 @@
             let dsr = combinedNetIncome > 0 ? (totalCombinedCom / combinedNetIncome) * 100 : 0;
             let cashflow = combinedNetIncome - totalCombinedCom;
 
-            // Update Dashboard UI
+            // Update Dashboard DOM
             document.getElementById('dashTotalIncome').textContent = formatRM(combinedNetIncome);
             document.getElementById('dashInstallment').textContent = formatRM(newInstallment);
             document.getElementById('dashCashflow').textContent = formatRM(cashflow);
@@ -558,28 +574,35 @@
             let iconBox = document.getElementById('statusIconBox');
             let icon = document.getElementById('statusIcon');
             let statusText = document.getElementById('statusText');
+            let hint = document.getElementById('dsrStatusHint');
 
             if (dsr <= dsrLimit) {
-                dsrBar.className = "h-full transition-all duration-500 bg-emerald-500";
+                dsrBar.className = "h-full bg-emerald-500 rounded-full transition-all duration-500";
                 document.getElementById('dashDsrText').className = "text-2xl font-black text-emerald-400";
-                iconBox.className = "w-12 h-12 rounded-full bg-emerald-500/20 flex items-center justify-center border border-emerald-500/30";
-                icon.className = "fa-solid fa-check text-xl text-emerald-400";
+                iconBox.className = "w-14 h-14 rounded-2xl bg-emerald-500/20 flex items-center justify-center border border-emerald-500/30 shadow-inner flex-shrink-0";
+                icon.className = "fa-solid fa-check text-2xl text-emerald-400";
                 statusText.textContent = "LULUS (LAYAK)";
-                statusText.className = "text-xl font-black text-emerald-400";
+                statusText.className = "text-lg sm:text-xl font-black text-emerald-400 tracking-tight";
+                hint.textContent = "Dalam Kawalan";
+                hint.className = "text-emerald-400 font-bold";
             } else if (dsr <= dsrLimit + 5) {
-                dsrBar.className = "h-full transition-all duration-500 bg-amber-500";
+                dsrBar.className = "h-full bg-amber-500 rounded-full transition-all duration-500";
                 document.getElementById('dashDsrText').className = "text-2xl font-black text-amber-400";
-                iconBox.className = "w-12 h-12 rounded-full bg-amber-500/20 flex items-center justify-center border border-amber-500/30";
-                icon.className = "fa-solid fa-exclamation text-xl text-amber-400";
+                iconBox.className = "w-14 h-14 rounded-2xl bg-amber-500/20 flex items-center justify-center border border-amber-500/30 shadow-inner flex-shrink-0";
+                icon.className = "fa-solid fa-triangle-exclamation text-2xl text-amber-400";
                 statusText.textContent = "BERISIKO (AMARAN)";
-                statusText.className = "text-xl font-black text-amber-400";
+                statusText.className = "text-lg sm:text-xl font-black text-amber-400 tracking-tight";
+                hint.textContent = "Hampir Had Bank";
+                hint.className = "text-amber-400 font-bold";
             } else {
-                dsrBar.className = "h-full transition-all duration-500 bg-rose-500";
+                dsrBar.className = "h-full bg-rose-500 rounded-full transition-all duration-500";
                 document.getElementById('dashDsrText').className = "text-2xl font-black text-rose-400";
-                iconBox.className = "w-12 h-12 rounded-full bg-rose-500/20 flex items-center justify-center border border-rose-500/30";
-                icon.className = "fa-solid fa-xmark text-xl text-rose-400";
+                iconBox.className = "w-14 h-14 rounded-2xl bg-rose-500/20 flex items-center justify-center border border-rose-500/30 shadow-inner flex-shrink-0";
+                icon.className = "fa-solid fa-xmark text-2xl text-rose-400";
                 statusText.textContent = "GAGAL (MELEBIHI HAD)";
-                statusText.className = "text-xl font-black text-rose-400";
+                statusText.className = "text-lg sm:text-xl font-black text-rose-400 tracking-tight";
+                hint.textContent = "Melebihi Had DSR";
+                hint.className = "text-rose-400 font-bold";
             }
 
             updateChart(combinedExistCom, newInstallment, Math.max(0, cashflow));
@@ -604,9 +627,9 @@
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    cutout: '70%',
+                    cutout: '72%',
                     plugins: {
-                        legend: { position: 'right', labels: { boxWidth: 10, font: { size: 10 } } },
+                        legend: { position: 'right', labels: { boxWidth: 10, font: { size: 10, family: 'Inter' } } },
                         tooltip: { callbacks: { label: function(c) { return ' ' + formatRM(c.raw); } } }
                     }
                 }
@@ -614,16 +637,12 @@
         }
 
         function resetApp() {
-            if(confirm("Anda pasti untuk reset semua data?")) {
-                location.reload();
-            }
+            location.reload();
         }
 
-        // Initialize on load
         window.addEventListener('DOMContentLoaded', () => {
             calculateAll();
         });
-
     </script>
 </body>
 </html>
