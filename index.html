@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kalkulator Kelayakan Loan Rumah, DSR & OT (Malaysia)</title>
+    <title>Kalkulator DSR, Kelayakan Loan Rumah & OT (Malaysia)</title>
     
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -66,7 +66,6 @@
             transform: scale(1.15);
         }
 
-        /* Scrollbar styling */
         .no-scrollbar::-webkit-scrollbar {
             display: none;
         }
@@ -97,14 +96,14 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col sm:flex-row justify-between items-center gap-4">
             <div class="flex items-center space-x-3.5">
                 <div class="p-2.5 bg-emerald-500/20 backdrop-blur-md rounded-2xl border border-emerald-400/30 text-emerald-300 shadow-inner">
-                    <i class="fa-solid fa-calculator text-2xl"></i>
+                    <i class="fa-solid fa-house-circle-check text-2xl"></i>
                 </div>
                 <div>
                     <div class="flex items-center gap-2">
                         <h1 class="text-lg sm:text-2xl font-black tracking-tight">Kalkulator Kelayakan Loan & DSR</h1>
-                        <span class="bg-emerald-500/20 text-emerald-300 text-[10px] font-bold px-2 py-0.5 rounded-full border border-emerald-400/30">Mod 6 Bulan OT</span>
+                        <span class="bg-emerald-500/20 text-emerald-300 text-[10px] font-bold px-2 py-0.5 rounded-full border border-emerald-400/30">Versi Malaysia 2026</span>
                     </div>
-                    <p class="text-xs sm:text-sm text-emerald-200/80 font-medium">Pengiktirafan Pendapatan Tidak Tetap & Syarat Underwriting Bank Malaysia</p>
+                    <p class="text-xs sm:text-sm text-emerald-200/80 font-medium">Underwriting Bank, Pengiktirafan OT 6-Bulan & Komitmen Dinamik</p>
                 </div>
             </div>
             
@@ -165,7 +164,7 @@
                         <div class="p-3 bg-emerald-50/80 border border-emerald-200/80 rounded-xl text-xs text-emerald-900 flex items-start gap-2.5">
                             <i class="fa-solid fa-circle-info text-emerald-600 text-sm mt-0.5 flex-shrink-0"></i>
                             <p id="tenureNoticeText" class="leading-relaxed">
-                                Berdasarkan umur <strong>30 tahun</strong>, tempoh pinjaman maksimum automatik ialah <strong>35 tahun</strong> (had umur pencen/bersara bank 70 tahun).
+                                Berdasarkan umur <strong>30 tahun</strong>, tempoh pinjaman maksimum automatik ialah <strong>35 tahun</strong> (had umur bersara/pencen bank 70 tahun).
                             </p>
                         </div>
                     </div>
@@ -249,7 +248,7 @@
                                         <input type="number" id="otMonth6" value="900" min="0" step="50" class="w-full px-2 py-1.5 bg-white border border-slate-300 rounded-lg text-xs font-semibold text-center focus:ring-2 focus:ring-emerald-500 outline-none">
                                     </div>
                                 </div>
-                                <p class="text-[10px] text-slate-400">Standard bank utama (Maybank, CIMB, RHB) mengambil purata 6 bulan penyata gaji untuk ketetapan pendapatan berulang.</p>
+                                <p class="text-[10px] text-slate-400">Bank utama (Maybank, CIMB, RHB) mengambil purata 6 bulan penyata gaji untuk kelulusan OT.</p>
                             </div>
 
                             <!-- 3-Month Breakdown Inputs (Hidden by default) -->
@@ -311,14 +310,14 @@
                         <div class="p-3.5 bg-gradient-to-r from-emerald-800 to-teal-800 rounded-xl text-white flex justify-between items-center shadow-sm">
                             <div>
                                 <span class="block text-[10px] uppercase tracking-wider text-emerald-200 font-semibold">Pendapatan Diiktiraf Bank</span>
-                                <span class="text-[11px] text-emerald-100/80">(Bersih + OT Diiktiraf)</span>
+                                <span class="text-[11px] text-emerald-100/80">(Gaji Bersih + OT Diiktiraf)</span>
                             </div>
                             <div id="totalRecognizedIncomeDisplay" class="text-xl font-black text-amber-300">RM 0</div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Card 3: Existing Commitments -->
+                <!-- Card 3: Dynamic Commitments (Komitmen Sedia Ada Dinamik) -->
                 <div class="bg-white rounded-2xl p-5 sm:p-6 shadow-sm border border-slate-200/80 card-shadow transition-all hover:shadow-md">
                     <div class="flex items-center justify-between pb-3 mb-4 border-b border-slate-100">
                         <div class="flex items-center space-x-2.5">
@@ -328,40 +327,20 @@
                         <span class="text-xs text-slate-400 font-medium">Rekod CCRIS / CTOS</span>
                     </div>
 
-                    <div class="space-y-4">
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-600 mb-1">Pinjaman Kereta (RM)</label>
-                                <input type="number" id="carLoan" value="600" min="0" step="50" class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-slate-800 font-semibold focus:ring-2 focus:ring-emerald-500 outline-none">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-600 mb-1">Pinjaman Peribadi (RM)</label>
-                                <input type="number" id="personalLoan" value="300" min="0" step="50" class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-slate-800 font-semibold focus:ring-2 focus:ring-emerald-500 outline-none">
-                            </div>
-                        </div>
+                    <!-- Dynamic List Container -->
+                    <div id="commitmentsContainer" class="space-y-3">
+                        <!-- Dynamic Commitment Rows will be injected here via JavaScript -->
+                    </div>
 
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-600 mb-1">Pinjaman Perumahan Sedia Ada (RM)</label>
-                                <input type="number" id="existingHouseLoan" value="0" min="0" step="50" class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-slate-800 font-semibold focus:ring-2 focus:ring-emerald-500 outline-none">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-600 mb-1">PTPTN / Pendidikan (RM)</label>
-                                <input type="number" id="ptptnLoan" value="150" min="0" step="10" class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-slate-800 font-semibold focus:ring-2 focus:ring-emerald-500 outline-none">
-                            </div>
-                        </div>
-
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-600 mb-1">Jumlah Baki Kad Kredit (RM)</label>
-                                <input type="number" id="creditCardBalance" value="2000" min="0" step="100" class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-slate-800 font-semibold focus:ring-2 focus:ring-emerald-500 outline-none">
-                                <p class="text-[10px] text-slate-400 mt-1">Bank ambil kira <strong>5%</strong> daripada baki (<span id="ccCalculatedPayment">RM 100</span>/bln).</p>
-                            </div>
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-600 mb-1">Komitmen Lain-Lain (RM)</label>
-                                <input type="number" id="otherCommitments" value="0" min="0" step="50" class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-slate-800 font-semibold focus:ring-2 focus:ring-emerald-500 outline-none">
-                            </div>
-                        </div>
+                    <!-- Add Commitment Button -->
+                    <div class="mt-4 pt-3 border-t border-slate-100 flex justify-between items-center">
+                        <button type="button" onclick="addCommitmentRow()" class="px-3.5 py-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-300 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 active:scale-95">
+                            <i class="fa-solid fa-plus text-xs"></i>
+                            <span>Tambah Komitmen Laporan CCRIS</span>
+                        </button>
+                        <span class="text-xs font-bold text-slate-700">
+                            Total: <span id="dynamicCommitmentsTotalDisplay" class="text-rose-600 font-extrabold">RM 0</span>
+                        </span>
                     </div>
                 </div>
 
@@ -407,8 +386,9 @@
                         <div>
                             <div class="flex justify-between items-center mb-1">
                                 <label class="block text-xs font-semibold text-slate-600">Had Limit DSR Bank (%)</label>
-                                <button type="button" onclick="applySmartDsrLimit()" class="text-[10px] text-emerald-700 hover:underline font-bold">
-                                    <i class="fa-solid fa-wand-magic-sparkles mr-1"></i>Syor Mengikut Gaji
+                                <button type="button" onclick="applySmartDsrLimit()" class="text-[10px] text-emerald-700 hover:underline font-bold flex items-center gap-1">
+                                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                                    <span>Syor Mengikut Gaji</span>
                                 </button>
                             </div>
                             <input type="number" id="bankDsrLimit" value="70" min="40" max="90" step="5" class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-slate-800 font-semibold focus:ring-2 focus:ring-emerald-500 outline-none">
@@ -428,7 +408,6 @@
                 
                 <!-- Main DSR Status Card -->
                 <div id="statusCard" class="bg-gradient-to-br from-slate-900 via-slate-800 to-emerald-950 rounded-2xl p-6 text-white shadow-xl card-shadow relative overflow-hidden transition-all border border-slate-700/60">
-                    <!-- Background Glow Overlay -->
                     <div class="absolute -right-12 -bottom-12 w-48 h-48 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
 
                     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-700/80 pb-5">
@@ -577,7 +556,7 @@
                 <div class="bg-amber-50/80 border border-amber-200/80 rounded-2xl p-4 sm:p-5 text-amber-900 text-xs leading-relaxed flex items-start gap-3">
                     <i class="fa-solid fa-lightbulb text-amber-600 text-xl mt-0.5 flex-shrink-0"></i>
                     <div>
-                        <strong class="font-bold block mb-1 text-amber-950 text-sm">Nasihat & Polisi Bank Mengenaik OT 6 Bulan:</strong>
+                        <strong class="font-bold block mb-1 text-amber-950 text-sm">Nasihat & Polisi Bank Mengenaik OT & DSR:</strong>
                         <ul id="recommendationsList" class="list-disc pl-4 space-y-1.5 text-amber-900">
                             <li>Untuk pendapatan tidak tetap (OT/Elaun), bank meneliti penyata gaji <strong>6 bulan berturut-turut</strong> untuk mengira min purata.</li>
                             <li>Sediakan dokumen sokongan seperti Borang EA/EC terkini dan Penyata EPF bagi meningkatkan % pengiktirafan bank.</li>
@@ -599,16 +578,19 @@
 
     <!-- JavaScript Application Logic -->
     <script>
-        // Set Current Year
         document.getElementById('currentYear').textContent = new Date().getFullYear();
 
-        // Chart Instance Handle
         let incomeChartInstance = null;
-
-        // Current OT Input Mode ('6month', '3month', or '1month')
         let otMode = '6month';
 
-        // Number Formatter (RM)
+        // Dynamic Commitments Array State
+        let commitments = [
+            { id: 'c1', type: 'car', label: 'Pinjaman Kereta', amount: 600 },
+            { id: 'c2', type: 'personal', label: 'Pinjaman Peribadi', amount: 300 },
+            { id: 'c3', type: 'ptptn', label: 'PTPTN / Pendidikan', amount: 150 },
+            { id: 'c4', type: 'credit_card', label: 'Baki Kad Kredit', amount: 100, ccBalance: 2000 }
+        ];
+
         const formatRM = (amount) => {
             return new Intl.NumberFormat('ms-MY', {
                 style: 'currency',
@@ -618,7 +600,6 @@
             }).format(amount).replace('MYR', 'RM');
         };
 
-        // Standard PMT Monthly Installment Amortization Formula
         function calculatePMT(principal, annualRate, tenureYears) {
             if (principal <= 0 || tenureYears <= 0) return 0;
             if (annualRate <= 0) return principal / (tenureYears * 12);
@@ -629,7 +610,6 @@
             return principal * (monthlyRate * Math.pow(1 + monthlyRate, totalPayments)) / (Math.pow(1 + monthlyRate, totalPayments) - 1);
         }
 
-        // Calculate Max Loan Principal from Target Monthly PMT
         function calculateMaxLoanFromPMT(maxMonthlyPayment, annualRate, tenureYears) {
             if (maxMonthlyPayment <= 0 || tenureYears <= 0) return 0;
             if (annualRate <= 0) return maxMonthlyPayment * (tenureYears * 12);
@@ -640,55 +620,113 @@
             return maxMonthlyPayment * (Math.pow(1 + monthlyRate, totalPayments) - 1) / (monthlyRate * Math.pow(1 + monthlyRate, totalPayments));
         }
 
-        // Malaysian Upfront Costs Calculation (SPA Legal Fee & MOT Stamp Duty Schedule)
-        function calculateUpfrontCosts(propertyPrice, loanMargin, isFirstHome) {
-            const depositRate = (100 - loanMargin) / 100;
-            const depositAmount = propertyPrice * (depositRate > 0 ? depositRate : 0);
-            
-            // SPA Legal Fee Tiered Schedule (Malaysian Solicitors Remuneration Order)
-            let legalFee = 0;
-            if (propertyPrice <= 500000) {
-                legalFee = Math.max(propertyPrice * 0.0125, 500);
-            } else if (propertyPrice <= 7500000) {
-                legalFee = (500000 * 0.0125) + ((propertyPrice - 500000) * 0.01);
-            } else {
-                legalFee = (500000 * 0.0125) + (7000000 * 0.01) + ((propertyPrice - 7500000) * 0.008);
-            }
+        function renderCommitmentRows() {
+            const container = document.getElementById('commitmentsContainer');
+            container.innerHTML = '';
 
-            // SPA Stamp Duty (MOT Schedule LHDN)
-            let stampDuty = 0;
-            if (isFirstHome && propertyPrice <= 500000) {
-                stampDuty = 0; // 100% exemption for first home <= RM500k
-            } else {
-                if (propertyPrice <= 100000) {
-                    stampDuty = propertyPrice * 0.01;
-                } else if (propertyPrice <= 500000) {
-                    stampDuty = 1000 + ((propertyPrice - 100000) * 0.02);
-                } else if (propertyPrice <= 1000000) {
-                    stampDuty = 1000 + 8000 + ((propertyPrice - 500000) * 0.03);
-                } else {
-                    stampDuty = 1000 + 8000 + 15000 + ((propertyPrice - 1000000) * 0.04);
-                }
-            }
+            commitments.forEach((c) => {
+                const row = document.createElement('div');
+                row.className = "p-3 bg-slate-50 rounded-xl border border-slate-200/90 shadow-sm flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 transition-all";
+                
+                const isCC = c.type === 'credit_card';
 
-            // Loan Agreement Legal & Stamp Duty
-            const loanAmount = propertyPrice * (loanMargin / 100);
-            const loanAgreementFee = Math.max(loanAmount * 0.01, 1000);
-            const loanStampDuty = loanAmount * 0.005;
+                row.innerHTML = `
+                    <!-- Dropdown Commitment Type -->
+                    <div class="sm:w-2/5">
+                        <select onchange="updateCommitmentType('${c.id}', this.value)" class="w-full text-xs font-semibold px-2.5 py-2 bg-white border border-slate-300 rounded-lg text-slate-700 focus:ring-2 focus:ring-emerald-500 outline-none">
+                            <option value="car" ${c.type === 'car' ? 'selected' : ''}>🚗 Pembiayaan Kenderaan (Car Loan)</option>
+                            <option value="credit_card" ${c.type === 'credit_card' ? 'selected' : ''}>💳 Kad Kredit (5% Baki)</option>
+                            <option value="personal" ${c.type === 'personal' ? 'selected' : ''}>💰 Pembiayaan Peribadi (Personal Loan)</option>
+                            <option value="housing" ${c.type === 'housing' ? 'selected' : ''}>🏠 Pembiayaan Perumahan Sedia Ada</option>
+                            <option value="ptptn" ${c.type === 'ptptn' ? 'selected' : ''}>🎓 PTPTN / Pinjaman Pelajaran</option>
+                            <option value="other" ${c.type === 'other' ? 'selected' : ''}>🏢 Sewa / Lain-lain Komitmen</option>
+                        </select>
+                    </div>
 
-            const totalLegal = legalFee + loanAgreementFee;
-            const totalStampDuty = stampDuty + loanStampDuty;
-            const totalUpfront = depositAmount + totalLegal + totalStampDuty;
+                    <!-- Commitment Label -->
+                    <div class="flex-grow">
+                        <input type="text" value="${c.label}" onchange="updateCommitmentLabel('${c.id}', this.value)" placeholder="Nama / Jenis (Contoh: Honda)" class="w-full text-xs px-3 py-2 bg-white border border-slate-300 rounded-lg font-medium text-slate-800 focus:ring-2 focus:ring-emerald-500 outline-none">
+                    </div>
 
-            return {
-                depositAmount,
-                legalFee: totalLegal,
-                stampDuty: totalStampDuty,
-                totalUpfront
-            };
+                    <!-- Amount / CC Balance -->
+                    <div class="sm:w-1/3 flex items-center gap-2">
+                        ${isCC ? `
+                            <div class="w-full relative">
+                                <span class="absolute inset-y-0 left-0 pl-2.5 flex items-center text-slate-400 text-[10px] font-bold">RM</span>
+                                <input type="number" value="${c.ccBalance || 0}" min="0" step="100" oninput="updateCommitmentCcBalance('${c.id}', this.value)" placeholder="Baki Kad Kredit" class="w-full pl-8 pr-2 py-2 bg-white border border-slate-300 rounded-lg text-xs font-bold text-slate-800 focus:ring-2 focus:ring-emerald-500 outline-none">
+                                <span class="block text-[9px] text-slate-400 mt-0.5">5% Bank: <strong>RM ${Math.round((c.ccBalance || 0) * 0.05)}</strong></span>
+                            </div>
+                        ` : `
+                            <div class="w-full relative">
+                                <span class="absolute inset-y-0 left-0 pl-2.5 flex items-center text-slate-400 text-[10px] font-bold">RM</span>
+                                <input type="number" value="${c.amount}" min="0" step="50" oninput="updateCommitmentAmount('${c.id}', this.value)" placeholder="Ansuran / bln" class="w-full pl-8 pr-2 py-2 bg-white border border-slate-300 rounded-lg text-xs font-bold text-slate-800 focus:ring-2 focus:ring-emerald-500 outline-none">
+                            </div>
+                        `}
+
+                        <!-- Delete Button -->
+                        <button type="button" onclick="deleteCommitmentRow('${c.id}')" title="Padam Komitmen" class="p-2 text-rose-500 hover:text-rose-700 hover:bg-rose-50 rounded-lg transition-all active:scale-95 flex-shrink-0">
+                            <i class="fa-solid fa-trash-can text-sm"></i>
+                        </button>
+                    </div>
+                `;
+                container.appendChild(row);
+            });
+
+            calculateAll();
         }
 
-        // Set OT Input Mode
+        function addCommitmentRow() {
+            const newId = 'c_' + Date.now();
+            commitments.push({
+                id: newId,
+                type: 'car',
+                label: 'Komitmen Baru',
+                amount: 0
+            });
+            renderCommitmentRows();
+        }
+
+        function deleteCommitmentRow(id) {
+            commitments = commitments.filter(c => c.id !== id);
+            renderCommitmentRows();
+        }
+
+        function updateCommitmentType(id, type) {
+            const target = commitments.find(c => c.id === id);
+            if (target) {
+                target.type = type;
+                if (type === 'credit_card' && target.ccBalance === undefined) {
+                    target.ccBalance = 1000;
+                    target.amount = 50;
+                }
+                renderCommitmentRows();
+            }
+        }
+
+        function updateCommitmentLabel(id, label) {
+            const target = commitments.find(c => c.id === id);
+            if (target) {
+                target.label = label;
+            }
+        }
+
+        function updateCommitmentAmount(id, val) {
+            const target = commitments.find(c => c.id === id);
+            if (target) {
+                target.amount = parseFloat(val) || 0;
+                calculateAll();
+            }
+        }
+
+        function updateCommitmentCcBalance(id, val) {
+            const target = commitments.find(c => c.id === id);
+            if (target) {
+                target.ccBalance = parseFloat(val) || 0;
+                target.amount = target.ccBalance * 0.05;
+                calculateAll();
+            }
+        }
+
         function setOtMode(mode) {
             otMode = mode;
             const btn6 = document.getElementById('btnOt6Month');
@@ -713,7 +751,6 @@
             calculateAll();
         }
 
-        // Presets Handlers
         function setMargin(val) {
             document.getElementById('marginLoan').value = val;
             calculateAll();
@@ -724,7 +761,6 @@
             calculateAll();
         }
 
-        // Auto Smart DSR Limit based on income tier
         function applySmartDsrLimit() {
             const basicSalary = parseFloat(document.getElementById('basicSalary').value) || 0;
             const fixedAllowance = parseFloat(document.getElementById('fixedAllowance').value) || 0;
@@ -744,7 +780,6 @@
             calculateAll();
         }
 
-        // Calculate Max Allowed Tenure based on Age Rule (Max 35 yrs or age 70)
         function updateAgeTenureRules() {
             const ageInput = document.getElementById('applicantAge');
             const tenureInput = document.getElementById('tenureYears');
@@ -754,10 +789,8 @@
             if (age < 18) age = 18;
             if (age > 65) age = 65;
 
-            // Maximum tenure formula: Math.min(35, 70 - age)
-            const maxTenureAllowed = Math.max(5, Math.min(35, 70 - age));
+            const maxTenureAllowed = Math.max(1, Math.min(35, 70 - age));
 
-            // Constrain tenure input max
             tenureInput.max = maxTenureAllowed;
 
             let currentTenure = parseInt(tenureInput.value) || 35;
@@ -772,12 +805,9 @@
             return { age, currentTenure, maxTenureAllowed };
         }
 
-        // Main Dynamic Calculation Engine
         function calculateAll() {
-            // 1. Age & Tenure Rule Check
             const { currentTenure } = updateAgeTenureRules();
 
-            // 2. Income Inputs & OT Recognition
             const basicSalary = parseFloat(document.getElementById('basicSalary').value) || 0;
             const fixedAllowance = parseFloat(document.getElementById('fixedAllowance').value) || 0;
             
@@ -808,25 +838,25 @@
 
             const statutoryDeductions = parseFloat(document.getElementById('statutoryDeductions').value) || 0;
             
-            // Total Recognized Net Income = (Basic + Fixed Allowance - Statutory) + Recognized OT
             const netBaseSalary = Math.max(0, basicSalary + fixedAllowance - statutoryDeductions);
             const totalRecognizedIncome = netBaseSalary + recognizedOt;
 
             document.getElementById('totalRecognizedIncomeDisplay').textContent = formatRM(totalRecognizedIncome);
 
-            // 3. Existing Commitments
-            const carLoan = parseFloat(document.getElementById('carLoan').value) || 0;
-            const personalLoan = parseFloat(document.getElementById('personalLoan').value) || 0;
-            const existingHouseLoan = parseFloat(document.getElementById('existingHouseLoan').value) || 0;
-            const ptptnLoan = parseFloat(document.getElementById('ptptnLoan').value) || 0;
-            const creditCardBalance = parseFloat(document.getElementById('creditCardBalance').value) || 0;
-            const creditCardMonthly = creditCardBalance * 0.05; // 5% minimum requirement
-            document.getElementById('ccCalculatedPayment').textContent = formatRM(creditCardMonthly);
+            // Compute Total from Dynamic Commitments
+            let existingCommitments = 0;
+            commitments.forEach(c => {
+                if (c.type === 'credit_card') {
+                    const ccPay = (c.ccBalance || 0) * 0.05;
+                    existingCommitments += ccPay;
+                } else {
+                    existingCommitments += (c.amount || 0);
+                }
+            });
 
-            const otherCommitments = parseFloat(document.getElementById('otherCommitments').value) || 0;
-            const existingCommitments = carLoan + personalLoan + existingHouseLoan + ptptnLoan + creditCardMonthly + otherCommitments;
+            document.getElementById('dynamicCommitmentsTotalDisplay').textContent = formatRM(existingCommitments);
 
-            // 4. Property & Proposed Loan
+            // Property & Loan details
             const propertyPrice = parseFloat(document.getElementById('propertyPrice').value) || 0;
             const marginLoan = parseFloat(document.getElementById('marginLoan').value) || 90;
             const interestRate = parseFloat(document.getElementById('interestRate').value) || 4.2;
@@ -839,11 +869,11 @@
             const newMonthlyInstallment = calculatePMT(loanAmount, interestRate, currentTenure);
             const totalCommitmentsWithNew = existingCommitments + newMonthlyInstallment;
 
-            // 5. DSR Calculations
+            // DSR Ratios
             const currentDSR = totalRecognizedIncome > 0 ? (existingCommitments / totalRecognizedIncome) * 100 : 0;
             const newDSR = totalRecognizedIncome > 0 ? (totalCommitmentsWithNew / totalRecognizedIncome) * 100 : 0;
 
-            // 6. Maximum Eligibility Calculations
+            // Maximum Eligibility
             const maxAllowedCommitment = totalRecognizedIncome * (bankDsrLimit / 100);
             const maxAllowedInstallment = Math.max(0, maxAllowedCommitment - existingCommitments);
 
@@ -857,7 +887,7 @@
 
             const remainingCashflow = totalRecognizedIncome - totalCommitmentsWithNew;
 
-            // 7. Render Numeric Outputs
+            // Render Output Fields
             document.getElementById('monthlyInstallment').textContent = formatRM(newMonthlyInstallment);
             document.getElementById('dsrPercentageText').textContent = newDSR.toFixed(1) + '%';
             document.getElementById('currentDsrText').textContent = currentDSR.toFixed(1) + '%';
@@ -874,64 +904,6 @@
 
             document.getElementById('incomeOtSubtext').textContent = `Termasuk ${otRate}% OT (${formatRM(recognizedOt)})`;
 
-            // 8. Visual Progress Bar & Limit Line
-            const progressBar = document.getElementById('dsrProgressBar');
-            const limitMarker = document.getElementById('dsrLimitMarker');
-            
-            limitMarker.style.left = Math.min(bankDsrLimit, 100) + '%';
-            progressBar.style.width = Math.min(newDSR, 100) + '%';
-
-            // Status Card & Badge Cues
-            const statusBadge = document.getElementById('statusBadge');
-            const statusText = document.getElementById('statusText');
-            const statusIcon = document.getElementById('statusIcon');
-            const recommendationsList = document.getElementById('recommendationsList');
-
-            if (newDSR <= bankDsrLimit) {
-                // LULUS
-                progressBar.className = "h-full rounded-full transition-all duration-500 bg-emerald-500";
-                document.getElementById('dsrPercentageText').className = "font-extrabold text-lg text-emerald-400";
-                
-                statusBadge.className = "inline-flex items-center px-4 py-1.5 rounded-full text-xs font-black bg-emerald-500/20 text-emerald-300 border border-emerald-500/30";
-                statusIcon.className = "fa-solid fa-circle-check mr-2 text-sm text-emerald-400";
-                statusText.textContent = "LULUS / LAYAK";
-
-                recommendationsList.innerHTML = `
-                    <li>Nisbah DSR anda (<strong>${newDSR.toFixed(1)}%</strong>) berada di bawah syarat maksimum bank (${bankDsrLimit}%). Rekod pendapatan diiktiraf kukuh.</li>
-                    <li>Sediakan fail permohonan lengkap: <strong>6 bulan Slip Gaji + 6 bulan Penyata Bank</strong> (untuk pengesahan kemasukan OT), Penyata KWSP & Borang EA.</li>
-                    <li>Pastikan rekod CCRIS kekal bersih tanpa sebarang bayaran lewat bagi tempoh 12 bulan terakhir.</li>
-                `;
-            } else if (newDSR <= bankDsrLimit + 5) {
-                // AMARAN
-                progressBar.className = "h-full rounded-full transition-all duration-500 bg-amber-500";
-                document.getElementById('dsrPercentageText').className = "font-extrabold text-lg text-amber-400";
-
-                statusBadge.className = "inline-flex items-center px-4 py-1.5 rounded-full text-xs font-black bg-amber-500/20 text-amber-300 border border-amber-500/30";
-                statusIcon.className = "fa-solid fa-triangle-exclamation mr-2 text-sm text-amber-400";
-                statusText.textContent = "AMARAN - BERISIKO / MENGHAMPIRI LIMIT";
-
-                recommendationsList.innerHTML = `
-                    <li>DSR anda (${newDSR.toFixed(1)}%) hampir melepasi had maksimum bank (${bankDsrLimit}%).</li>
-                    <li>Pertimbangkan untuk melangsaikan Kad Kredit atau Personal Loan secara *one-off* sebelum memohon untuk mengurangkan DSR.</li>
-                    <li>Anda juga boleh merayu peratus pengiktirafan OT yang lebih tinggi dengan menyediakan bukti Borang EA atau rekod cukai LHDN.</li>
-                `;
-            } else {
-                // TIDAK LAYAK
-                progressBar.className = "h-full rounded-full transition-all duration-500 bg-rose-500";
-                document.getElementById('dsrPercentageText').className = "font-extrabold text-lg text-rose-400";
-
-                statusBadge.className = "inline-flex items-center px-4 py-1.5 rounded-full text-xs font-black bg-rose-500/20 text-rose-300 border border-rose-500/30";
-                statusIcon.className = "fa-solid fa-circle-xmark mr-2 text-sm text-rose-400";
-                statusText.textContent = "MELEBIHI HAD DSR (TIDAK LAYAK)";
-
-                recommendationsList.innerHTML = `
-                    <li>DSR anda (${newDSR.toFixed(1)}%) melebihi had maksimum bank (${bankDsrLimit}%). Permohonan berisiko tinggi untuk ditolak.</li>
-                    <li>Syor harga rumah maksimum yang bersesuai dengan DSR anda ialah sekitar <strong class="text-rose-700">${formatRM(maxEligiblePropertyPrice)}</strong>.</li>
-                    <li>Pertimbangkan untuk membuat **Permohonan Bersama (Joint Loan)** dengan suami/isteri atau ibu bapa untuk menggabungkan julat DSR.</li>
-                `;
-            }
-
-            // 9. Upfront Costs Update
             const isFirstHome = document.getElementById('firstHomeBuyerToggle').checked;
             const upfront = calculateUpfrontCosts(propertyPrice, marginLoan, isFirstHome);
             
@@ -943,11 +915,100 @@
 
             document.getElementById('firstHomeNoteText').style.display = isFirstHome && propertyPrice <= 500000 ? 'block' : 'none';
 
-            // 10. Update Visual Chart
+            const progressBar = document.getElementById('dsrProgressBar');
+            const limitMarker = document.getElementById('dsrLimitMarker');
+            
+            limitMarker.style.left = Math.min(bankDsrLimit, 100) + '%';
+            progressBar.style.width = Math.min(newDSR, 100) + '%';
+
+            const statusBadge = document.getElementById('statusBadge');
+            const statusText = document.getElementById('statusText');
+            const statusIcon = document.getElementById('statusIcon');
+            const recommendationsList = document.getElementById('recommendationsList');
+
+            if (newDSR <= bankDsrLimit) {
+                progressBar.className = "h-full rounded-full transition-all duration-500 bg-emerald-500";
+                document.getElementById('dsrPercentageText').className = "font-extrabold text-lg text-emerald-400";
+                
+                statusBadge.className = "inline-flex items-center px-4 py-1.5 rounded-full text-xs font-black bg-emerald-500/20 text-emerald-300 border border-emerald-500/30";
+                statusIcon.className = "fa-solid fa-circle-check mr-2 text-sm text-emerald-400";
+                statusText.textContent = "LULUS / LAYAK";
+
+                recommendationsList.innerHTML = `
+                    <li>Nisbah DSR anda (<strong>${newDSR.toFixed(1)}%</strong>) berada di bawah syarat maksimum bank (${bankDsrLimit}%). Profil kewangan dikategorikan kukuh.</li>
+                    <li>Sediakan fail permohonan lengkap: <strong>6 bulan Slip Gaji + 6 bulan Penyata Bank</strong> (untuk pengesahan OT), Penyata EPF & Borang EA.</li>
+                    <li>Pastikan tiada tunggakan CCRIS dalam 12 bulan terkini.</li>
+                `;
+            } else if (newDSR <= bankDsrLimit + 5) {
+                progressBar.className = "h-full rounded-full transition-all duration-500 bg-amber-500";
+                document.getElementById('dsrPercentageText').className = "font-extrabold text-lg text-amber-400";
+
+                statusBadge.className = "inline-flex items-center px-4 py-1.5 rounded-full text-xs font-black bg-amber-500/20 text-amber-300 border border-amber-500/30";
+                statusIcon.className = "fa-solid fa-triangle-exclamation mr-2 text-sm text-amber-400";
+                statusText.textContent = "AMARAN - BERISIKO / MENGHAMPIRI LIMIT";
+
+                recommendationsList.innerHTML = `
+                    <li>DSR anda (${newDSR.toFixed(1)}%) hampir melepasi had maksimum bank (${bankDsrLimit}%).</li>
+                    <li>Cuba langsaikan kad kredit atau pinjaman peribadi kecil untuk menurunkan nisbah komitmen bulanan.</li>
+                    <li>Gunakan Borang EA/Cukai LHDN bagi memohon peratus pengiktirafan OT yang lebih tinggi daripada pihak bank.</li>
+                `;
+            } else {
+                progressBar.className = "h-full rounded-full transition-all duration-500 bg-rose-500";
+                document.getElementById('dsrPercentageText').className = "font-extrabold text-lg text-rose-400";
+
+                statusBadge.className = "inline-flex items-center px-4 py-1.5 rounded-full text-xs font-black bg-rose-500/20 text-rose-300 border border-rose-500/30";
+                statusIcon.className = "fa-solid fa-circle-xmark mr-2 text-sm text-rose-400";
+                statusText.textContent = "MELEBIHI HAD DSR (TIDAK LAYAK)";
+
+                recommendationsList.innerHTML = `
+                    <li>DSR anda (${newDSR.toFixed(1)}%) melebihi had maksimum bank (${bankDsrLimit}%). Permohonan berisiko tinggi untuk ditolak.</li>
+                    <li>Syor harga rumah maksimum yang bersesuai dengan DSR anda ialah sekitar <strong class="text-rose-700">${formatRM(maxEligiblePropertyPrice)}</strong>.</li>
+                    <li>Pertimbangkan untuk membuat **Permohonan Bersama (Joint Loan)** bagi menggabungkanjulat pendapatan.</li>
+                `;
+            }
+
             updateChart(existingCommitments, newMonthlyInstallment, Math.max(remainingCashflow, 0));
         }
 
-        // Chart.js Visual Rendering
+        function calculateUpfrontCosts(propertyPrice, loanMargin, isFirstHome) {
+            const depositRate = (100 - loanMargin) / 100;
+            const depositAmount = propertyPrice * (depositRate > 0 ? depositRate : 0);
+            
+            let legalFee = 0;
+            if (propertyPrice <= 500000) {
+                legalFee = Math.max(propertyPrice * 0.0125, 500);
+            } else if (propertyPrice <= 7500000) {
+                legalFee = (500000 * 0.0125) + ((propertyPrice - 500000) * 0.01);
+            } else {
+                legalFee = (500000 * 0.0125) + (7000000 * 0.01) + ((propertyPrice - 7500000) * 0.008);
+            }
+
+            let stampDuty = 0;
+            if (isFirstHome && propertyPrice <= 500000) {
+                stampDuty = 0;
+            } else {
+                if (propertyPrice <= 100000) {
+                    stampDuty = propertyPrice * 0.01;
+                } else if (propertyPrice <= 500000) {
+                    stampDuty = 1000 + ((propertyPrice - 100000) * 0.02);
+                } else if (propertyPrice <= 1000000) {
+                    stampDuty = 1000 + 8000 + ((propertyPrice - 500000) * 0.03);
+                } else {
+                    stampDuty = 1000 + 8000 + 15000 + ((propertyPrice - 1000000) * 0.04);
+                }
+            }
+
+            const loanAmount = propertyPrice * (loanMargin / 100);
+            const loanAgreementFee = Math.max(loanAmount * 0.01, 1000);
+            const loanStampDuty = loanAmount * 0.005;
+
+            const totalLegal = legalFee + loanAgreementFee;
+            const totalStampDuty = stampDuty + loanStampDuty;
+            const totalUpfront = depositAmount + totalLegal + totalStampDuty;
+
+            return { depositAmount, legalFee: totalLegal, stampDuty: totalStampDuty, totalUpfront };
+        }
+
         function updateChart(commitments, newHouse, cashflow) {
             const ctx = document.getElementById('incomeChart').getContext('2d');
             
@@ -984,7 +1045,6 @@
             });
         }
 
-        // Sync Range Slider and Price Input
         const priceInput = document.getElementById('propertyPrice');
         const priceRange = document.getElementById('propertyPriceRange');
 
@@ -998,14 +1058,11 @@
             calculateAll();
         });
 
-        // Add Listeners to Inputs
         const inputsToListen = [
             'applicantAge', 'tenureYears', 'basicSalary', 'fixedAllowance',
             'otMonth1', 'otMonth2', 'otMonth3', 'otMonth4', 'otMonth5', 'otMonth6',
             'ot3M1', 'ot3M2', 'ot3M3', 'otDirectAvg', 'otRecognitionRate',
-            'statutoryDeductions', 'carLoan', 'personalLoan', 'existingHouseLoan',
-            'ptptnLoan', 'creditCardBalance', 'otherCommitments',
-            'marginLoan', 'interestRate', 'bankDsrLimit'
+            'statutoryDeductions', 'marginLoan', 'interestRate', 'bankDsrLimit'
         ];
 
         inputsToListen.forEach(id => {
@@ -1016,7 +1073,6 @@
             }
         });
 
-        // Copy Summary to Clipboard Function
         function copySummary() {
             const income = document.getElementById('totalRecognizedIncomeDisplay').textContent;
             const dsr = document.getElementById('dsrPercentageText').textContent;
@@ -1024,14 +1080,14 @@
             const installment = document.getElementById('monthlyInstallment').textContent;
             const maxPrice = document.getElementById('maxPropertyPrice').textContent;
 
-            const summaryText = `--- RINGKASAN KELAYAKAN LOAN RUMAH (MOD OT 6 BULAN) ---
+            const summaryText = `--- RINGKASAN KELAYAKAN LOAN RUMAH (MALAYSIA) ---
 Pendapatan Diiktiraf Bank: ${income}
 Ansuran Bulanan Cadangan: ${installment}
 DSR Semasa: ${dsr}
 Status Kelayakan: ${status}
 Maksimum Harga Rumah Layak: ${maxPrice}
 ---------------------------------------
-Dikira via Kalkulator DSR Malaysia`;
+Kalkulator DSR Malaysia`;
 
             const tempTextArea = document.createElement('textarea');
             tempTextArea.value = summaryText;
@@ -1040,7 +1096,6 @@ Dikira via Kalkulator DSR Malaysia`;
             document.execCommand('copy');
             document.body.removeChild(tempTextArea);
 
-            // Custom Toast Notification
             const btn = event.currentTarget;
             const originalHTML = btn.innerHTML;
             btn.innerHTML = `<i class="fa-solid fa-check text-emerald-300"></i> Disalin!`;
@@ -1049,7 +1104,6 @@ Dikira via Kalkulator DSR Malaysia`;
             }, 2000);
         }
 
-        // Reset Form Function
         function resetForm() {
             document.getElementById('applicantAge').value = 30;
             document.getElementById('tenureYears').value = 35;
@@ -1071,25 +1125,26 @@ Dikira via Kalkulator DSR Malaysia`;
             document.getElementById('otRecognitionRate').value = 50;
             document.getElementById('statutoryDeductions').value = 550;
             
-            document.getElementById('carLoan').value = 600;
-            document.getElementById('personalLoan').value = 300;
-            document.getElementById('existingHouseLoan').value = 0;
-            document.getElementById('ptptnLoan').value = 150;
-            document.getElementById('creditCardBalance').value = 2000;
-            document.getElementById('otherCommitments').value = 0;
-            
             document.getElementById('propertyPrice').value = 450000;
             document.getElementById('propertyPriceRange').value = 450000;
             document.getElementById('marginLoan').value = 90;
             document.getElementById('interestRate').value = 4.2;
             document.getElementById('bankDsrLimit').value = 70;
+
+            commitments = [
+                { id: 'c1', type: 'car', label: 'Pinjaman Kereta', amount: 600 },
+                { id: 'c2', type: 'personal', label: 'Pinjaman Peribadi', amount: 300 },
+                { id: 'c3', type: 'ptptn', label: 'PTPTN / Pendidikan', amount: 150 },
+                { id: 'c4', type: 'credit_card', label: 'Baki Kad Kredit', amount: 100, ccBalance: 2000 }
+            ];
             
             setOtMode('6month');
-            calculateAll();
+            renderCommitmentRows();
         }
 
-        // Initial Calculation Trigger
-        window.addEventListener('DOMContentLoaded', calculateAll);
+        window.addEventListener('DOMContentLoaded', () => {
+            renderCommitmentRows();
+        });
     </script>
 </body>
 </html>
