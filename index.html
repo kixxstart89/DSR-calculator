@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kalkulator DSR, Kelayakan Loan Rumah & OT (Malaysia)</title>
+    <title>Kalkulator DSR & Joint Loan Rumah Malaysia</title>
     
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -19,7 +19,6 @@
     <!-- Chart.js CDN for Visual Dashboard -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-    <!-- Tailwind Configuration -->
     <script>
         tailwind.config = {
             theme: {
@@ -33,8 +32,6 @@
                             100: '#dcfce7',
                             500: '#10b981',
                             600: '#059669',
-                            700: '#047857',
-                            800: '#065f46',
                             900: '#064e3b',
                         }
                     }
@@ -46,7 +43,7 @@
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f8fafc;
+            background-color: #f1f5f9;
         }
         
         /* Custom range slider styling */
@@ -56,511 +53,301 @@
             height: 18px;
             width: 18px;
             border-radius: 50%;
-            background: #059669;
+            background: #0f172a;
             cursor: pointer;
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
             transition: transform 0.1s ease;
         }
+        input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.15); }
 
-        input[type="range"]::-webkit-slider-thumb:hover {
-            transform: scale(1.15);
-        }
-
-        .no-scrollbar::-webkit-scrollbar {
-            display: none;
-        }
-        .no-scrollbar {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
         @media print {
-            .no-print {
-                display: none !important;
-            }
-            body {
-                background: white !important;
-                color: black !important;
-            }
-            .card-shadow {
-                box-shadow: none !important;
-                border: 1px solid #e2e8f0 !important;
-            }
+            .no-print { display: none !important; }
+            body { background: white !important; color: black !important; }
+            .card-shadow { box-shadow: none !important; border: 1px solid #e2e8f0 !important; }
         }
+
+        .toggle-checkbox:checked { right: 0; border-color: #10b981; }
+        .toggle-checkbox:checked + .toggle-label { background-color: #10b981; }
     </style>
 </head>
 <body class="text-slate-800 min-h-screen flex flex-col justify-between antialiased">
 
-    <!-- Header Navigation -->
-    <header class="bg-gradient-to-r from-emerald-950 via-emerald-900 to-slate-900 text-white shadow-xl sticky top-0 z-50 border-b border-emerald-800/40">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col sm:flex-row justify-between items-center gap-4">
-            <div class="flex items-center space-x-3.5">
-                <div class="p-2.5 bg-emerald-500/20 backdrop-blur-md rounded-2xl border border-emerald-400/30 text-emerald-300 shadow-inner">
-                    <i class="fa-solid fa-house-circle-check text-2xl"></i>
+    <header class="bg-white shadow-sm sticky top-0 z-50 border-b border-slate-200">
+        <div class="max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-col sm:flex-row justify-between items-center gap-4">
+            <div class="flex items-center space-x-3">
+                <div class="p-2 bg-slate-900 rounded-xl text-white shadow-md">
+                    <i class="fa-solid fa-calculator text-xl"></i>
                 </div>
                 <div>
+                    <h1 class="text-lg sm:text-xl font-extrabold text-slate-900 tracking-tight">Kalkulator DSR & Kelayakan Loan</h1>
                     <div class="flex items-center gap-2">
-                        <h1 class="text-lg sm:text-2xl font-black tracking-tight">Kalkulator Kelayakan Loan & DSR</h1>
-                        <span class="bg-emerald-500/20 text-emerald-300 text-[10px] font-bold px-2 py-0.5 rounded-full border border-emerald-400/30">Versi Malaysia 2026</span>
+                        <p class="text-[11px] font-semibold text-slate-500 uppercase tracking-wide">Sokongan Joint Loan & OT 6-Bulan</p>
+                        <span class="bg-emerald-100 text-emerald-700 text-[9px] font-bold px-1.5 py-0.5 rounded">v2.0</span>
                     </div>
-                    <p class="text-xs sm:text-sm text-emerald-200/80 font-medium">Underwriting Bank, Pengiktirafan OT 6-Bulan & Komitmen Dinamik</p>
                 </div>
             </div>
             
-            <div class="flex items-center gap-2.5 no-print w-full sm:w-auto justify-end">
-                <button onclick="copySummary()" class="px-3.5 py-2 bg-emerald-700/60 hover:bg-emerald-600 border border-emerald-400/30 text-xs font-semibold rounded-xl transition-all flex items-center gap-2 text-emerald-100 shadow-sm active:scale-95">
-                    <i class="fa-regular fa-copy"></i>
-                    <span class="hidden sm:inline">Salin Ringkasan</span>
+            <div class="flex items-center gap-2 no-print w-full sm:w-auto justify-end">
+                <button onclick="window.print()" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded-lg transition-all flex items-center gap-1.5 border border-slate-200">
+                    <i class="fa-solid fa-print"></i> <span>Cetak</span>
                 </button>
-                <button onclick="window.print()" class="px-3.5 py-2 bg-white/10 hover:bg-white/20 border border-white/20 text-xs font-semibold rounded-xl transition-all flex items-center gap-2 text-white shadow-sm active:scale-95">
-                    <i class="fa-solid fa-print"></i>
-                    <span>Cetak PDF</span>
-                </button>
-                <button onclick="resetForm()" class="px-3.5 py-2 bg-rose-600 hover:bg-rose-500 text-xs font-semibold rounded-xl shadow-md transition-all flex items-center gap-2 text-white active:scale-95">
-                    <i class="fa-solid fa-rotate-left"></i>
-                    <span>Reset</span>
+                <button onclick="resetApp()" class="px-3 py-1.5 bg-rose-50 hover:bg-rose-100 text-rose-600 text-xs font-semibold rounded-lg transition-all flex items-center gap-1.5 border border-rose-200">
+                    <i class="fa-solid fa-rotate-left"></i> <span>Reset</span>
                 </button>
             </div>
         </div>
     </header>
 
-    <!-- Main Content Layout -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full flex-grow">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+    <main class="max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-8 py-6 w-full flex-grow">
+        <div class="grid grid-cols-1 xl:grid-cols-12 gap-6 xl:gap-8">
             
-            <!-- ================= LEFT COLUMN: INPUT FORMS ================= -->
-            <div class="lg:col-span-6 xl:col-span-5 space-y-6">
+            <!-- LEFT COLUMN: Forms -->
+            <div class="xl:col-span-8 space-y-6">
                 
-                <!-- Card 1: Umur & Tempoh Pembiayaan -->
-                <div class="bg-white rounded-2xl p-5 sm:p-6 shadow-sm border border-slate-200/80 card-shadow transition-all hover:shadow-md">
-                    <div class="flex items-center justify-between pb-3 mb-4 border-b border-slate-100">
-                        <div class="flex items-center space-x-2.5">
-                            <div class="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-sm">1</div>
-                            <h2 class="text-base font-bold text-slate-800">Umur & Tempoh Pinjaman</h2>
-                        </div>
-                        <span class="text-xs font-semibold px-2.5 py-1 bg-slate-100 text-slate-600 rounded-md">Maks 35 Thn / Umur 70</span>
+                <!-- Loan Type Toggle -->
+                <div class="bg-white rounded-2xl p-4 sm:p-5 shadow-sm border border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <div>
+                        <h2 class="text-base font-bold text-slate-900">Jenis Permohonan Pembiayaan</h2>
+                        <p class="text-xs text-slate-500 mt-0.5">Pilih untuk gabung pendapatan suami isteri atau ahli keluarga.</p>
                     </div>
-
-                    <div class="space-y-4">
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-600 mb-1">Umur Pemohon (Tahun)</label>
-                                <div class="relative">
-                                    <input type="number" id="applicantAge" value="30" min="18" max="65" step="1" class="w-full pl-3 pr-8 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-slate-800 font-bold focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none transition-all">
-                                    <span class="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 text-xs font-medium">Thn</span>
-                                </div>
-                            </div>
-
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-600 mb-1">Tempoh Pinjaman (Tenure)</label>
-                                <div class="relative">
-                                    <input type="number" id="tenureYears" value="35" min="5" max="35" step="1" class="w-full pl-3 pr-10 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-slate-800 font-bold focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none transition-all">
-                                    <span class="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 text-xs font-medium">Thn</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Age Tenure Info Alert -->
-                        <div class="p-3 bg-emerald-50/80 border border-emerald-200/80 rounded-xl text-xs text-emerald-900 flex items-start gap-2.5">
-                            <i class="fa-solid fa-circle-info text-emerald-600 text-sm mt-0.5 flex-shrink-0"></i>
-                            <p id="tenureNoticeText" class="leading-relaxed">
-                                Berdasarkan umur <strong>30 tahun</strong>, tempoh pinjaman maksimum automatik ialah <strong>35 tahun</strong> (had umur bersara/pencen bank 70 tahun).
-                            </p>
-                        </div>
+                    
+                    <div class="flex items-center justify-center w-full sm:w-auto p-1 bg-slate-100 rounded-xl border border-slate-200">
+                        <button id="btnSingleLoan" onclick="setLoanType('single')" class="flex-1 sm:flex-none px-6 py-2 rounded-lg text-sm font-bold bg-white text-slate-800 shadow-sm transition-all border border-slate-200">
+                            <i class="fa-solid fa-user mr-1.5 text-slate-400"></i> Individu
+                        </button>
+                        <button id="btnJointLoan" onclick="setLoanType('joint')" class="flex-1 sm:flex-none px-6 py-2 rounded-lg text-sm font-bold text-slate-500 hover:text-slate-700 transition-all border border-transparent">
+                            <i class="fa-solid fa-users mr-1.5"></i> Bersama (Joint)
+                        </button>
                     </div>
                 </div>
 
-                <!-- Card 2: Income & 6-Month Variable OT / Allowances -->
-                <div class="bg-white rounded-2xl p-5 sm:p-6 shadow-sm border border-slate-200/80 card-shadow transition-all hover:shadow-md">
-                    <div class="flex items-center justify-between pb-3 mb-4 border-b border-slate-100">
-                        <div class="flex items-center space-x-2.5">
-                            <div class="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-sm">2</div>
-                            <h2 class="text-base font-bold text-slate-800">Pendapatan & OT / Elaun</h2>
-                        </div>
-                        <span class="text-xs font-semibold px-2.5 py-1 bg-emerald-100 text-emerald-800 rounded-md">Syarat Bank 2026</span>
-                    </div>
-
-                    <div class="space-y-4">
-                        <!-- Basic Salary & Fixed Allowance -->
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-600 mb-1">Gaji Pokok / Basic (RM)</label>
-                                <div class="relative">
-                                    <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400 text-xs font-bold">RM</span>
-                                    <input type="number" id="basicSalary" value="4000" min="0" step="100" class="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-slate-800 font-bold focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none transition-all">
-                                </div>
-                            </div>
-
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-600 mb-1">Elaun Tetap (RM)</label>
-                                <div class="relative">
-                                    <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400 text-xs font-bold">RM</span>
-                                    <input type="number" id="fixedAllowance" value="500" min="0" step="50" class="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-slate-800 font-bold focus:ring-2 focus:ring-emerald-500 focus:bg-white outline-none transition-all">
-                                </div>
+                <!-- Applicants Container -->
+                <div id="applicantsGrid" class="grid grid-cols-1 gap-6">
+                    
+                    <!-- Applicant 1 Form -->
+                    <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                        <div class="bg-emerald-50 border-b border-emerald-100 p-4 flex justify-between items-center">
+                            <div class="flex items-center gap-2">
+                                <div class="w-7 h-7 rounded-full bg-emerald-600 text-white flex items-center justify-center text-xs font-bold shadow-sm">1</div>
+                                <h3 class="font-extrabold text-emerald-950 text-sm">Pemohon Utama (Applicant 1)</h3>
                             </div>
                         </div>
-
-                        <!-- OT / Variable Allowance Sub-Card -->
-                        <div class="p-4 bg-slate-50 rounded-xl border border-slate-200/80 space-y-3.5">
-                            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                                <label class="text-xs font-bold text-slate-700 flex items-center gap-1.5">
-                                    <i class="fa-solid fa-business-time text-emerald-600"></i>
-                                    <span>OT / Elaun Tidak Tetap (Variable)</span>
-                                </label>
-                                
-                                <!-- Mode Switcher Toggle (6 Month, 3 Month, 1 Month) -->
-                                <div class="inline-flex p-0.5 bg-slate-200/80 rounded-lg text-[11px] font-semibold">
-                                    <button type="button" onclick="setOtMode('6month')" id="btnOt6Month" class="px-2.5 py-1 rounded-md bg-white text-emerald-700 shadow-sm transition-all">Purata 6 Bulan</button>
-                                    <button type="button" onclick="setOtMode('3month')" id="btnOt3Month" class="px-2.5 py-1 rounded-md text-slate-600 hover:text-slate-900 transition-all">3 Bulan</button>
-                                    <button type="button" onclick="setOtMode('1month')" id="btnOt1Month" class="px-2.5 py-1 rounded-md text-slate-600 hover:text-slate-900 transition-all">Direct</button>
+                        
+                        <div class="p-5 space-y-5">
+                            <!-- Basic Info -->
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 border-b border-slate-100 pb-5">
+                                <div>
+                                    <label class="block text-[11px] font-bold text-slate-500 mb-1">Umur</label>
+                                    <input type="number" id="app1_age" value="30" class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-lg text-sm font-bold focus:ring-2 focus:ring-emerald-500 outline-none" oninput="calculateAll()">
+                                </div>
+                                <div>
+                                    <label class="block text-[11px] font-bold text-slate-500 mb-1">Gaji Pokok (RM)</label>
+                                    <input type="number" id="app1_basic" value="4000" class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-lg text-sm font-bold focus:ring-2 focus:ring-emerald-500 outline-none" oninput="calculateAll()">
+                                </div>
+                                <div>
+                                    <label class="block text-[11px] font-bold text-slate-500 mb-1">Elaun Tetap (RM)</label>
+                                    <input type="number" id="app1_fixed" value="500" class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-lg text-sm font-bold focus:ring-2 focus:ring-emerald-500 outline-none" oninput="calculateAll()">
+                                </div>
+                                <div>
+                                    <label class="block text-[11px] font-bold text-rose-500 mb-1">Potongan Statutori</label>
+                                    <input type="number" id="app1_statutory" value="550" placeholder="KWSP, SOCSO" class="w-full px-3 py-2 bg-rose-50 border border-rose-200 rounded-lg text-sm font-bold text-rose-700 focus:ring-2 focus:ring-emerald-500 outline-none" oninput="calculateAll()">
                                 </div>
                             </div>
 
-                            <!-- 6-Month Breakdown Inputs -->
-                            <div id="ot6MonthContainer" class="space-y-2">
-                                <div class="flex justify-between items-center text-[11px] text-slate-500">
-                                    <span>Masukkan OT / Elaun Bulan 1 hingga 6 (RM):</span>
-                                    <span class="text-emerald-700 font-bold" id="sixMonthAvgText">Purata: RM 0</span>
+                            <!-- OT 6 Months -->
+                            <div class="bg-slate-50 rounded-xl p-4 border border-slate-200">
+                                <div class="flex justify-between items-center mb-3">
+                                    <label class="text-[11px] font-bold text-slate-700 flex items-center gap-1.5"><i class="fa-solid fa-clock text-emerald-600"></i> OT & Elaun Tak Tetap (6 Bulan)</label>
+                                    <span id="app1_ot_avg_text" class="text-[11px] font-bold text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded">Purata: RM0</span>
                                 </div>
                                 <div class="grid grid-cols-3 sm:grid-cols-6 gap-2">
-                                    <div>
-                                        <span class="block text-[10px] font-medium text-slate-400 mb-0.5 text-center">Bulan 1</span>
-                                        <input type="number" id="otMonth1" value="800" min="0" step="50" class="w-full px-2 py-1.5 bg-white border border-slate-300 rounded-lg text-xs font-semibold text-center focus:ring-2 focus:ring-emerald-500 outline-none">
-                                    </div>
-                                    <div>
-                                        <span class="block text-[10px] font-medium text-slate-400 mb-0.5 text-center">Bulan 2</span>
-                                        <input type="number" id="otMonth2" value="950" min="0" step="50" class="w-full px-2 py-1.5 bg-white border border-slate-300 rounded-lg text-xs font-semibold text-center focus:ring-2 focus:ring-emerald-500 outline-none">
-                                    </div>
-                                    <div>
-                                        <span class="block text-[10px] font-medium text-slate-400 mb-0.5 text-center">Bulan 3</span>
-                                        <input type="number" id="otMonth3" value="700" min="0" step="50" class="w-full px-2 py-1.5 bg-white border border-slate-300 rounded-lg text-xs font-semibold text-center focus:ring-2 focus:ring-emerald-500 outline-none">
-                                    </div>
-                                    <div>
-                                        <span class="block text-[10px] font-medium text-slate-400 mb-0.5 text-center">Bulan 4</span>
-                                        <input type="number" id="otMonth4" value="850" min="0" step="50" class="w-full px-2 py-1.5 bg-white border border-slate-300 rounded-lg text-xs font-semibold text-center focus:ring-2 focus:ring-emerald-500 outline-none">
-                                    </div>
-                                    <div>
-                                        <span class="block text-[10px] font-medium text-slate-400 mb-0.5 text-center">Bulan 5</span>
-                                        <input type="number" id="otMonth5" value="600" min="0" step="50" class="w-full px-2 py-1.5 bg-white border border-slate-300 rounded-lg text-xs font-semibold text-center focus:ring-2 focus:ring-emerald-500 outline-none">
-                                    </div>
-                                    <div>
-                                        <span class="block text-[10px] font-medium text-slate-400 mb-0.5 text-center">Bulan 6</span>
-                                        <input type="number" id="otMonth6" value="900" min="0" step="50" class="w-full px-2 py-1.5 bg-white border border-slate-300 rounded-lg text-xs font-semibold text-center focus:ring-2 focus:ring-emerald-500 outline-none">
-                                    </div>
-                                </div>
-                                <p class="text-[10px] text-slate-400">Bank utama (Maybank, CIMB, RHB) mengambil purata 6 bulan penyata gaji untuk kelulusan OT.</p>
-                            </div>
-
-                            <!-- 3-Month Breakdown Inputs (Hidden by default) -->
-                            <div id="ot3MonthContainer" class="hidden space-y-2">
-                                <div class="grid grid-cols-3 gap-2">
-                                    <div>
-                                        <span class="block text-[10px] font-medium text-slate-500 mb-0.5">Bulan 1 (RM)</span>
-                                        <input type="number" id="ot3M1" value="800" min="0" step="50" class="w-full px-2 py-1.5 bg-white border border-slate-300 rounded-lg text-xs font-semibold focus:ring-2 focus:ring-emerald-500 outline-none">
-                                    </div>
-                                    <div>
-                                        <span class="block text-[10px] font-medium text-slate-500 mb-0.5">Bulan 2 (RM)</span>
-                                        <input type="number" id="ot3M2" value="900" min="0" step="50" class="w-full px-2 py-1.5 bg-white border border-slate-300 rounded-lg text-xs font-semibold focus:ring-2 focus:ring-emerald-500 outline-none">
-                                    </div>
-                                    <div>
-                                        <span class="block text-[10px] font-medium text-slate-500 mb-0.5">Bulan 3 (RM)</span>
-                                        <input type="number" id="ot3M3" value="700" min="0" step="50" class="w-full px-2 py-1.5 bg-white border border-slate-300 rounded-lg text-xs font-semibold focus:ring-2 focus:ring-emerald-500 outline-none">
-                                    </div>
+                                    <input type="number" id="app1_ot_1" value="500" placeholder="Bulan 1" class="w-full px-2 py-1.5 bg-white border border-slate-300 rounded text-xs font-semibold text-center outline-none focus:border-emerald-500" oninput="calculateAll()">
+                                    <input type="number" id="app1_ot_2" value="600" placeholder="Bulan 2" class="w-full px-2 py-1.5 bg-white border border-slate-300 rounded text-xs font-semibold text-center outline-none focus:border-emerald-500" oninput="calculateAll()">
+                                    <input type="number" id="app1_ot_3" value="450" placeholder="Bulan 3" class="w-full px-2 py-1.5 bg-white border border-slate-300 rounded text-xs font-semibold text-center outline-none focus:border-emerald-500" oninput="calculateAll()">
+                                    <input type="number" id="app1_ot_4" value="700" placeholder="Bulan 4" class="w-full px-2 py-1.5 bg-white border border-slate-300 rounded text-xs font-semibold text-center outline-none focus:border-emerald-500" oninput="calculateAll()">
+                                    <input type="number" id="app1_ot_5" value="550" placeholder="Bulan 5" class="w-full px-2 py-1.5 bg-white border border-slate-300 rounded text-xs font-semibold text-center outline-none focus:border-emerald-500" oninput="calculateAll()">
+                                    <input type="number" id="app1_ot_6" value="650" placeholder="Bulan 6" class="w-full px-2 py-1.5 bg-white border border-slate-300 rounded text-xs font-semibold text-center outline-none focus:border-emerald-500" oninput="calculateAll()">
                                 </div>
                             </div>
 
-                            <!-- Direct Average Input (Hidden by default) -->
-                            <div id="ot1MonthContainer" class="hidden">
-                                <span class="block text-[10px] font-medium text-slate-500 mb-0.5">Anggaran Purata OT Bulanan Terus (RM)</span>
-                                <input type="number" id="otDirectAvg" value="800" min="0" step="50" class="w-full px-3 py-1.5 bg-white border border-slate-300 rounded-lg text-xs font-semibold focus:ring-2 focus:ring-emerald-500 outline-none">
-                            </div>
-
-                            <!-- Bank Recognition Percentage Slider -->
-                            <div class="pt-2 border-t border-slate-200">
-                                <div class="flex justify-between items-center text-xs mb-1">
-                                    <span class="font-semibold text-slate-700">Peratus Pengiktirafan Bank (% Haircut OT):</span>
-                                    <span id="otRateDisplay" class="font-extrabold text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded">50%</span>
-                                </div>
-                                <input type="range" id="otRecognitionRate" value="50" min="0" max="100" step="5" class="w-full">
-                                <div class="flex justify-between text-[10px] text-slate-400 mt-1">
-                                    <span>50% (Standard)</span>
-                                    <span>70%-80% (Sektor Kritikal)</span>
-                                    <span>100% (Penuh)</span>
-                                </div>
-                            </div>
-
-                            <!-- Computed Recognized OT Summary -->
-                            <div class="flex justify-between items-center bg-emerald-100/60 p-2.5 rounded-lg border border-emerald-200/60 text-xs">
-                                <span class="font-medium text-emerald-900">Jumlah OT Diiktiraf:</span>
-                                <span id="recognizedOtDisplay" class="font-extrabold text-emerald-800">RM 400 / bln</span>
-                            </div>
-                        </div>
-
-                        <!-- Statutory Deductions (KWSP, SOCSO, PCB) -->
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-600 mb-1">Potongan Statutori Bulanan (KWSP, SOCSO, PCB) (RM)</label>
-                            <div class="relative">
-                                <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400 text-xs font-bold">RM</span>
-                                <input type="number" id="statutoryDeductions" value="550" min="0" step="50" class="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-slate-800 font-semibold focus:ring-2 focus:ring-emerald-500 outline-none transition-all">
-                            </div>
-                            <p class="text-[10px] text-slate-400 mt-1">Ditolak untuk mendapatkan gaji bersih yang dinilai pihak underwriting bank.</p>
-                        </div>
-
-                        <!-- Total Recognized Income Banner -->
-                        <div class="p-3.5 bg-gradient-to-r from-emerald-800 to-teal-800 rounded-xl text-white flex justify-between items-center shadow-sm">
+                            <!-- Dynamic Commitments App 1 -->
                             <div>
-                                <span class="block text-[10px] uppercase tracking-wider text-emerald-200 font-semibold">Pendapatan Diiktiraf Bank</span>
-                                <span class="text-[11px] text-emerald-100/80">(Gaji Bersih + OT Diiktiraf)</span>
+                                <div class="flex justify-between items-center mb-2">
+                                    <label class="text-[11px] font-bold text-slate-700"><i class="fa-solid fa-file-invoice-dollar text-rose-500 mr-1"></i> Komitmen Sedia Ada (CCRIS)</label>
+                                    <button onclick="addCommitment('app1')" class="text-[10px] bg-slate-800 text-white px-2 py-1 rounded hover:bg-slate-700 flex items-center gap-1"><i class="fa-solid fa-plus"></i> Tambah</button>
+                                </div>
+                                <div id="app1_commitments_container" class="space-y-2"></div>
+                                <div class="text-right mt-2 text-[11px] font-bold text-slate-500">
+                                    Jumlah Komitmen: <span id="app1_total_com" class="text-rose-600">RM 0</span>
+                                </div>
                             </div>
-                            <div id="totalRecognizedIncomeDisplay" class="text-xl font-black text-amber-300">RM 0</div>
+                        </div>
+                    </div>
+
+                    <!-- Applicant 2 Form (Hidden by default) -->
+                    <div id="app2_container" class="hidden bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                        <div class="bg-indigo-50 border-b border-indigo-100 p-4 flex justify-between items-center">
+                            <div class="flex items-center gap-2">
+                                <div class="w-7 h-7 rounded-full bg-indigo-600 text-white flex items-center justify-center text-xs font-bold shadow-sm">2</div>
+                                <h3 class="font-extrabold text-indigo-950 text-sm">Pemohon Kedua (Joint Applicant)</h3>
+                            </div>
+                        </div>
+                        
+                        <div class="p-5 space-y-5">
+                            <!-- Basic Info -->
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 border-b border-slate-100 pb-5">
+                                <div>
+                                    <label class="block text-[11px] font-bold text-slate-500 mb-1">Umur</label>
+                                    <input type="number" id="app2_age" value="28" class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-lg text-sm font-bold focus:ring-2 focus:ring-indigo-500 outline-none" oninput="calculateAll()">
+                                </div>
+                                <div>
+                                    <label class="block text-[11px] font-bold text-slate-500 mb-1">Gaji Pokok (RM)</label>
+                                    <input type="number" id="app2_basic" value="3500" class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-lg text-sm font-bold focus:ring-2 focus:ring-indigo-500 outline-none" oninput="calculateAll()">
+                                </div>
+                                <div>
+                                    <label class="block text-[11px] font-bold text-slate-500 mb-1">Elaun Tetap (RM)</label>
+                                    <input type="number" id="app2_fixed" value="300" class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-lg text-sm font-bold focus:ring-2 focus:ring-indigo-500 outline-none" oninput="calculateAll()">
+                                </div>
+                                <div>
+                                    <label class="block text-[11px] font-bold text-rose-500 mb-1">Potongan Statutori</label>
+                                    <input type="number" id="app2_statutory" value="400" placeholder="KWSP, SOCSO" class="w-full px-3 py-2 bg-rose-50 border border-rose-200 rounded-lg text-sm font-bold text-rose-700 focus:ring-2 focus:ring-indigo-500 outline-none" oninput="calculateAll()">
+                                </div>
+                            </div>
+
+                            <!-- OT 6 Months -->
+                            <div class="bg-slate-50 rounded-xl p-4 border border-slate-200">
+                                <div class="flex justify-between items-center mb-3">
+                                    <label class="text-[11px] font-bold text-slate-700 flex items-center gap-1.5"><i class="fa-solid fa-clock text-indigo-600"></i> OT & Elaun Tak Tetap (6 Bulan)</label>
+                                    <span id="app2_ot_avg_text" class="text-[11px] font-bold text-indigo-700 bg-indigo-100 px-2 py-0.5 rounded">Purata: RM0</span>
+                                </div>
+                                <div class="grid grid-cols-3 sm:grid-cols-6 gap-2">
+                                    <input type="number" id="app2_ot_1" value="0" placeholder="Bulan 1" class="w-full px-2 py-1.5 bg-white border border-slate-300 rounded text-xs font-semibold text-center outline-none focus:border-indigo-500" oninput="calculateAll()">
+                                    <input type="number" id="app2_ot_2" value="0" placeholder="Bulan 2" class="w-full px-2 py-1.5 bg-white border border-slate-300 rounded text-xs font-semibold text-center outline-none focus:border-indigo-500" oninput="calculateAll()">
+                                    <input type="number" id="app2_ot_3" value="0" placeholder="Bulan 3" class="w-full px-2 py-1.5 bg-white border border-slate-300 rounded text-xs font-semibold text-center outline-none focus:border-indigo-500" oninput="calculateAll()">
+                                    <input type="number" id="app2_ot_4" value="0" placeholder="Bulan 4" class="w-full px-2 py-1.5 bg-white border border-slate-300 rounded text-xs font-semibold text-center outline-none focus:border-indigo-500" oninput="calculateAll()">
+                                    <input type="number" id="app2_ot_5" value="0" placeholder="Bulan 5" class="w-full px-2 py-1.5 bg-white border border-slate-300 rounded text-xs font-semibold text-center outline-none focus:border-indigo-500" oninput="calculateAll()">
+                                    <input type="number" id="app2_ot_6" value="0" placeholder="Bulan 6" class="w-full px-2 py-1.5 bg-white border border-slate-300 rounded text-xs font-semibold text-center outline-none focus:border-indigo-500" oninput="calculateAll()">
+                                </div>
+                            </div>
+
+                            <!-- Dynamic Commitments App 2 -->
+                            <div>
+                                <div class="flex justify-between items-center mb-2">
+                                    <label class="text-[11px] font-bold text-slate-700"><i class="fa-solid fa-file-invoice-dollar text-rose-500 mr-1"></i> Komitmen Sedia Ada (CCRIS)</label>
+                                    <button onclick="addCommitment('app2')" class="text-[10px] bg-slate-800 text-white px-2 py-1 rounded hover:bg-slate-700 flex items-center gap-1"><i class="fa-solid fa-plus"></i> Tambah</button>
+                                </div>
+                                <div id="app2_commitments_container" class="space-y-2"></div>
+                                <div class="text-right mt-2 text-[11px] font-bold text-slate-500">
+                                    Jumlah Komitmen: <span id="app2_total_com" class="text-rose-600">RM 0</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Card 3: Dynamic Commitments (Komitmen Sedia Ada Dinamik) -->
-                <div class="bg-white rounded-2xl p-5 sm:p-6 shadow-sm border border-slate-200/80 card-shadow transition-all hover:shadow-md">
-                    <div class="flex items-center justify-between pb-3 mb-4 border-b border-slate-100">
-                        <div class="flex items-center space-x-2.5">
-                            <div class="w-8 h-8 rounded-lg bg-rose-100 text-rose-700 flex items-center justify-center font-bold text-sm">3</div>
-                            <h2 class="text-base font-bold text-slate-800">Komitmen Bulanan Sedia Ada</h2>
+                <!-- Property & Settings Card -->
+                <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200">
+                    <h2 class="text-sm font-extrabold text-slate-900 mb-4 border-b border-slate-100 pb-2"><i class="fa-solid fa-house-circle-check text-slate-700 mr-2"></i>Maklumat Hartanah & Ketetapan Bank</h2>
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                        <div class="lg:col-span-2">
+                            <label class="block text-[11px] font-bold text-slate-500 mb-1">Harga Rumah (RM)</label>
+                            <input type="number" id="propPrice" value="500000" step="5000" class="w-full px-3 py-2.5 bg-slate-50 border border-slate-300 rounded-lg text-base font-bold focus:ring-2 focus:ring-slate-800 outline-none" oninput="calculateAll()">
                         </div>
-                        <span class="text-xs text-slate-400 font-medium">Rekod CCRIS / CTOS</span>
-                    </div>
-
-                    <!-- Dynamic List Container -->
-                    <div id="commitmentsContainer" class="space-y-3">
-                        <!-- Dynamic Commitment Rows will be injected here via JavaScript -->
-                    </div>
-
-                    <!-- Add Commitment Button -->
-                    <div class="mt-4 pt-3 border-t border-slate-100 flex justify-between items-center">
-                        <button type="button" onclick="addCommitmentRow()" class="px-3.5 py-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-300 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 active:scale-95">
-                            <i class="fa-solid fa-plus text-xs"></i>
-                            <span>Tambah Komitmen Laporan CCRIS</span>
-                        </button>
-                        <span class="text-xs font-bold text-slate-700">
-                            Total: <span id="dynamicCommitmentsTotalDisplay" class="text-rose-600 font-extrabold">RM 0</span>
-                        </span>
-                    </div>
-                </div>
-
-                <!-- Card 4: New Property & Loan Details -->
-                <div class="bg-white rounded-2xl p-5 sm:p-6 shadow-sm border border-slate-200/80 card-shadow transition-all hover:shadow-md">
-                    <div class="flex items-center justify-between pb-3 mb-4 border-b border-slate-100">
-                        <div class="flex items-center space-x-2.5">
-                            <div class="w-8 h-8 rounded-lg bg-teal-100 text-teal-700 flex items-center justify-center font-bold text-sm">4</div>
-                            <h2 class="text-base font-bold text-slate-800">Rumah & Pembiayaan Baru</h2>
-                        </div>
-                        <i class="fa-solid fa-house-chimney text-teal-600"></i>
-                    </div>
-
-                    <div class="space-y-4">
+                        
                         <div>
-                            <div class="flex justify-between items-center mb-1">
-                                <label class="text-xs font-semibold text-slate-600">Harga Rumah Cadangan (RM)</label>
-                                <span id="propertyPriceDisplay" class="text-xs font-extrabold text-emerald-700">RM 450,000</span>
-                            </div>
-                            <input type="number" id="propertyPrice" value="450000" min="50000" max="3000000" step="5000" class="w-full px-3 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-slate-800 font-bold focus:ring-2 focus:ring-emerald-500 outline-none transition-all">
-                            <input type="range" id="propertyPriceRange" value="450000" min="50000" max="1500000" step="5000" class="w-full mt-2">
+                            <label class="block text-[11px] font-bold text-slate-500 mb-1">Margin Pembiayaan (%)</label>
+                            <input type="number" id="propMargin" value="90" max="100" class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-lg text-sm font-bold focus:ring-2 focus:ring-slate-800 outline-none" oninput="calculateAll()">
                         </div>
 
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-600 mb-1">Margin Pembiayaan (%)</label>
-                                <input type="number" id="marginLoan" value="90" min="50" max="100" step="5" class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-slate-800 font-semibold focus:ring-2 focus:ring-emerald-500 outline-none">
-                                <div class="flex gap-1.5 mt-1.5">
-                                    <button type="button" onclick="setMargin(90)" class="px-2 py-0.5 text-[10px] bg-slate-100 hover:bg-slate-200 rounded font-medium text-slate-600">90%</button>
-                                    <button type="button" onclick="setMargin(95)" class="px-2 py-0.5 text-[10px] bg-slate-100 hover:bg-slate-200 rounded font-medium text-slate-600">95%</button>
-                                    <button type="button" onclick="setMargin(100)" class="px-2 py-0.5 text-[10px] bg-slate-100 hover:bg-slate-200 rounded font-medium text-slate-600">100%</button>
-                                </div>
-                            </div>
-
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-600 mb-1">Kadar Faedah Bank (% p.a.)</label>
-                                <input type="number" id="interestRate" value="4.2" min="1" max="10" step="0.05" class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-slate-800 font-semibold focus:ring-2 focus:ring-emerald-500 outline-none">
-                                <p class="text-[10px] text-slate-400 mt-1">Purata semasa: 4.0% - 4.4%</p>
-                            </div>
-                        </div>
-
-                        <!-- Smart DSR Limit Selector based on income tiers -->
                         <div>
-                            <div class="flex justify-between items-center mb-1">
-                                <label class="block text-xs font-semibold text-slate-600">Had Limit DSR Bank (%)</label>
-                                <button type="button" onclick="applySmartDsrLimit()" class="text-[10px] text-emerald-700 hover:underline font-bold flex items-center gap-1">
-                                    <i class="fa-solid fa-wand-magic-sparkles"></i>
-                                    <span>Syor Mengikut Gaji</span>
-                                </button>
+                            <label class="block text-[11px] font-bold text-slate-500 mb-1">Kadar Faedah Bank (%)</label>
+                            <input type="number" id="propInterest" value="4.2" step="0.1" class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-lg text-sm font-bold focus:ring-2 focus:ring-slate-800 outline-none" oninput="calculateAll()">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 mt-5 pt-4 border-t border-slate-100">
+                        <div>
+                            <div class="flex justify-between">
+                                <label class="block text-[11px] font-bold text-slate-500 mb-1">Had DSR Maksimum (%)</label>
+                                <button onclick="autoSuggestDsr()" class="text-[10px] text-emerald-600 font-bold hover:underline"><i class="fa-solid fa-wand-magic-sparkles"></i> Syor Auto</button>
                             </div>
-                            <input type="number" id="bankDsrLimit" value="70" min="40" max="90" step="5" class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-slate-800 font-semibold focus:ring-2 focus:ring-emerald-500 outline-none">
-                            <div class="flex gap-1.5 mt-1.5">
-                                <button type="button" onclick="setDSRLimit(60)" class="px-2 py-0.5 text-[10px] bg-slate-100 hover:bg-slate-200 rounded font-medium text-slate-600">60% (&lt; RM3k)</button>
-                                <button type="button" onclick="setDSRLimit(70)" class="px-2 py-0.5 text-[10px] bg-slate-100 hover:bg-slate-200 rounded font-medium text-slate-600">70% (RM3k - RM5k)</button>
-                                <button type="button" onclick="setDSRLimit(80)" class="px-2 py-0.5 text-[10px] bg-slate-100 hover:bg-slate-200 rounded font-medium text-slate-600">80% (&gt; RM5k)</button>
+                            <input type="number" id="propDsrLimit" value="70" class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-lg text-sm font-bold focus:ring-2 focus:ring-slate-800 outline-none" oninput="calculateAll()">
+                        </div>
+                        <div>
+                            <div class="flex justify-between">
+                                <label class="block text-[11px] font-bold text-slate-500 mb-1">Pengiktirafan OT (Haircut %)</label>
+                                <span id="otHaircutVal" class="text-[10px] font-bold text-emerald-700 bg-emerald-100 px-1.5 py-0.5 rounded">50%</span>
                             </div>
+                            <input type="range" id="propOtHaircut" value="50" min="0" max="100" step="10" class="w-full mt-2" oninput="calculateAll()">
                         </div>
                     </div>
                 </div>
 
             </div>
 
-            <!-- ================= RIGHT COLUMN: DASHBOARD RESULTS ================= -->
-            <div class="lg:col-span-6 xl:col-span-7 space-y-6">
+            <!-- RIGHT COLUMN: Dashboard -->
+            <div class="xl:col-span-4 space-y-6">
                 
-                <!-- Main DSR Status Card -->
-                <div id="statusCard" class="bg-gradient-to-br from-slate-900 via-slate-800 to-emerald-950 rounded-2xl p-6 text-white shadow-xl card-shadow relative overflow-hidden transition-all border border-slate-700/60">
-                    <div class="absolute -right-12 -bottom-12 w-48 h-48 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
-
-                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-700/80 pb-5">
+                <!-- Main Result Card -->
+                <div class="bg-slate-900 rounded-2xl p-6 text-white shadow-xl relative overflow-hidden xl:sticky xl:top-24">
+                    <div class="absolute -right-10 -top-10 w-40 h-40 bg-emerald-500/20 rounded-full blur-3xl"></div>
+                    
+                    <h3 class="text-xs font-semibold text-slate-400 uppercase tracking-widest mb-4">Keputusan Permohonan</h3>
+                    
+                    <div class="flex items-center gap-3 mb-6">
+                        <div id="statusIconBox" class="w-12 h-12 rounded-full bg-emerald-500/20 flex items-center justify-center border border-emerald-500/30">
+                            <i id="statusIcon" class="fa-solid fa-check text-xl text-emerald-400"></i>
+                        </div>
                         <div>
-                            <span class="text-[11px] uppercase tracking-wider text-slate-400 font-semibold">Keputusan Kelayakan DSR Sebenar</span>
-                            <div class="flex items-center gap-3 mt-1.5">
-                                <span id="statusBadge" class="inline-flex items-center px-4 py-1.5 rounded-full text-xs font-black bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 shadow-sm">
-                                    <i id="statusIcon" class="fa-solid fa-circle-check mr-2 text-sm"></i>
-                                    <span id="statusText">LULUS / LAYAK</span>
-                                </span>
-                            </div>
-                        </div>
-
-                        <div class="text-left sm:text-right">
-                            <span class="text-xs text-slate-400 font-medium">Anggaran Ansuran Bulanan Rumah Baru</span>
-                            <div id="monthlyInstallment" class="text-2xl sm:text-3xl font-black text-emerald-400 tracking-tight">RM 0</div>
+                            <div id="statusText" class="text-xl font-black text-white">LULUS (LAYAK)</div>
+                            <div class="text-[11px] text-slate-400 mt-0.5">Berdasarkan profil <span id="dashProfileType" class="text-slate-200 font-bold">Individu</span></div>
                         </div>
                     </div>
 
-                    <!-- DSR Gauge & Visual Bar -->
-                    <div class="mt-5 space-y-2">
-                        <div class="flex justify-between items-center text-xs">
-                            <span class="text-slate-300 font-medium">Nisbah DSR Terkumpul (Komitmen / Pendapatan)</span>
-                            <span id="dsrPercentageText" class="font-extrabold text-lg text-emerald-400">0%</span>
+                    <div class="bg-slate-800/80 rounded-xl p-4 border border-slate-700 mb-5">
+                        <div class="flex justify-between items-center mb-1">
+                            <span class="text-xs text-slate-400">Ansuran Bulanan Baru</span>
+                            <span class="text-[10px] bg-slate-700 px-2 py-0.5 rounded text-slate-300">Tenure: <span id="dashTenure" class="font-bold text-white">35</span> Thn</span>
                         </div>
-                        
-                        <div class="w-full bg-slate-800/90 rounded-full h-4 p-0.5 overflow-hidden relative border border-slate-700">
-                            <!-- Bank Limit Marker Line -->
-                            <div id="dsrLimitMarker" class="absolute top-0 bottom-0 w-0.5 bg-yellow-400 z-10" style="left: 70%;" title="Limit DSR Bank"></div>
-                            
-                            <!-- Dynamic Bar Fill -->
-                            <div id="dsrProgressBar" class="h-full rounded-full transition-all duration-500 bg-emerald-500" style="width: 0%"></div>
-                        </div>
-
-                        <div class="flex justify-between items-center text-[11px] text-slate-400 pt-1">
-                            <span>DSR Komitmen Sedia Ada: <strong id="currentDsrText" class="text-slate-200">0%</strong></span>
-                            <span>Had Limit Bank: <strong id="limitDsrDisplay" class="text-yellow-400">70%</strong></span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Key Metrics Grid -->
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                    <div class="bg-white rounded-2xl p-4 shadow-sm border border-slate-200/80 card-shadow">
-                        <span class="text-xs font-semibold text-slate-500 block">Pendapatan Diiktiraf</span>
-                        <div id="totalIncomeDisplay" class="text-lg font-bold text-slate-800 mt-1">RM 0</div>
-                        <span class="text-[10px] text-emerald-600 font-medium block mt-0.5" id="incomeOtSubtext">Termasuk Purata OT</span>
+                        <div id="dashInstallment" class="text-3xl font-black text-emerald-400 tracking-tight">RM 0</div>
                     </div>
 
-                    <div class="bg-white rounded-2xl p-4 shadow-sm border border-slate-200/80 card-shadow">
-                        <span class="text-xs font-semibold text-slate-500 block">Jumlah Komitmen Keseluruhan</span>
-                        <div id="totalCommitmentsDisplay" class="text-lg font-bold text-slate-800 mt-1">RM 0</div>
-                        <span class="text-[10px] text-slate-400 font-medium block mt-0.5">Sedia Ada + Loan Rumah</span>
-                    </div>
-
-                    <div class="bg-white rounded-2xl p-4 shadow-sm border border-slate-200/80 card-shadow">
-                        <span class="text-xs font-semibold text-slate-500 block">Baki Cashflow Sebenar</span>
-                        <div id="remainingCashflowDisplay" class="text-lg font-bold text-slate-800 mt-1">RM 0</div>
-                        <span class="text-[10px] text-slate-400 font-medium block mt-0.5">Sisa Sara Hidup</span>
-                    </div>
-                </div>
-
-                <!-- Maximum Eligible Property Calculation Card -->
-                <div class="bg-gradient-to-br from-emerald-900 via-teal-900 to-slate-900 rounded-2xl p-5 sm:p-6 text-white shadow-md card-shadow border border-emerald-500/30">
-                    <div class="flex items-center justify-between border-b border-emerald-800/80 pb-3 mb-4">
-                        <div class="flex items-center space-x-2.5">
-                            <i class="fa-solid fa-award text-yellow-400 text-xl"></i>
-                            <h3 class="font-bold text-sm sm:text-base">Anggaran Maksimum Kelayakan Pembiayaan</h3>
+                    <!-- DSR Progress -->
+                    <div class="mb-6">
+                        <div class="flex justify-between items-end mb-2">
+                            <span class="text-xs font-semibold text-slate-300">Nisbah DSR Gabungan</span>
+                            <span id="dashDsrText" class="text-2xl font-black text-white">0%</span>
                         </div>
-                        <span class="text-[11px] bg-emerald-500/20 text-emerald-300 px-2.5 py-1 rounded-lg border border-emerald-500/30 font-semibold">Mengikut Limit DSR</span>
-                    </div>
-
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                        <div class="bg-white/5 p-3.5 rounded-xl border border-white/10">
-                            <span class="text-[11px] text-slate-300 block">Harga Rumah Maksimum:</span>
-                            <span id="maxPropertyPrice" class="text-lg font-extrabold text-yellow-300 block mt-1">RM 0</span>
+                        <div class="w-full h-3 bg-slate-800 rounded-full overflow-hidden relative">
+                            <div id="dsrLimitMarker" class="absolute top-0 bottom-0 w-0.5 bg-yellow-400 z-10" style="left: 70%;"></div>
+                            <div id="dsrProgressBar" class="h-full bg-emerald-500 transition-all duration-500" style="width: 0%"></div>
                         </div>
-                        <div class="bg-white/5 p-3.5 rounded-xl border border-white/10">
-                            <span class="text-[11px] text-slate-300 block">Jumlah Loan Maksimum:</span>
-                            <span id="maxLoanAmount" class="text-lg font-extrabold text-emerald-300 block mt-1">RM 0</span>
-                        </div>
-                        <div class="bg-white/5 p-3.5 rounded-xl border border-white/10">
-                            <span class="text-[11px] text-slate-300 block">Ansuran Maksimum Mampu:</span>
-                            <span id="maxInstallmentAmount" class="text-lg font-extrabold text-teal-300 block mt-1">RM 0</span>
+                        <div class="flex justify-between text-[10px] text-slate-500 mt-1.5 font-medium">
+                            <span>Had Bank: <span id="dashLimitText" class="text-yellow-400">70%</span></span>
                         </div>
                     </div>
-                    <p class="text-[11px] text-slate-300/80 mt-3 leading-relaxed">
-                        *Anggaran harga rumah tertinggi yang layak dimohon supaya DSR tidak melebihi syarat bank (<span id="maxDsrMention">70%</span>) bagi tempoh <span id="tenureMention">35</span> tahun.
-                    </p>
-                </div>
 
-                <!-- Visual Breakdown Chart & Upfront Purchase Costs -->
-                <div class="bg-white rounded-2xl p-5 sm:p-6 shadow-sm border border-slate-200/80 card-shadow">
-                    <div class="pb-3 mb-4 border-b border-slate-100 flex justify-between items-center">
-                        <h3 class="font-bold text-slate-800 text-sm sm:text-base flex items-center gap-2">
-                            <i class="fa-solid fa-chart-pie text-emerald-600"></i>
-                            <span>Pecahan Agihan Pendapatan & Anggaran Kos Belian Awal</span>
-                        </h3>
-                    </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
-                        <!-- Chart Container -->
-                        <div class="md:col-span-5 flex flex-col items-center justify-center">
-                            <div class="w-44 h-44 relative">
-                                <canvas id="incomeChart"></canvas>
-                            </div>
-                            <div class="flex flex-wrap gap-2 justify-center mt-3 text-[10px] font-semibold text-slate-600">
-                                <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-rose-500 inline-block"></span> Komitmen Lama</span>
-                                <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block"></span> Loan Rumah</span>
-                                <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-blue-500 inline-block"></span> Cashflow</span>
-                            </div>
+                    <!-- Combined Metrics Grid -->
+                    <div class="grid grid-cols-2 gap-3 mb-6">
+                        <div class="bg-slate-800/50 p-3 rounded-lg border border-slate-700/50">
+                            <span class="text-[10px] text-slate-400 block mb-0.5">Pendapatan Bersih</span>
+                            <span id="dashTotalIncome" class="text-sm font-bold text-white">RM 0</span>
                         </div>
-
-                        <!-- Upfront Costs Estimation Table -->
-                        <div class="md:col-span-7 bg-slate-50 p-4 rounded-xl border border-slate-200/60 text-xs space-y-2.5">
-                            <div class="font-bold text-slate-700 border-b border-slate-200 pb-1.5 flex justify-between items-center">
-                                <span>Anggaran Kos Belian Awal (Entry Cost):</span>
-                                <label class="text-[10px] font-normal text-emerald-800 flex items-center gap-1 cursor-pointer bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
-                                    <input type="checkbox" id="firstHomeBuyerToggle" checked onchange="calculateAll()" class="rounded text-emerald-600 focus:ring-emerald-500">
-                                    <span>Rumah Pertama (Pengecualian Setem)</span>
-                                </label>
-                            </div>
-                            
-                            <div class="flex justify-between text-slate-600">
-                                <span>Deposit Tunai (<span id="depositPercentText">10%</span>):</span>
-                                <span id="depositAmount" class="font-semibold text-slate-800">RM 0</span>
-                            </div>
-                            <div class="flex justify-between text-slate-600">
-                                <span>Anggaran Yuran Guaman (SPA & Loan):</span>
-                                <span id="legalFeeAmount" class="font-semibold text-slate-800">RM 0</span>
-                            </div>
-                            <div class="flex justify-between text-slate-600">
-                                <span>Anggaran Duti Setem MOT (LHDN):</span>
-                                <span id="stampDutyAmount" class="font-semibold text-slate-800">RM 0</span>
-                            </div>
-                            <div class="flex justify-between text-slate-600 border-t border-slate-200 pt-2 font-bold text-slate-800">
-                                <span>Jumlah Kos Awal Disediakan:</span>
-                                <span id="totalUpfrontAmount" class="text-emerald-700 font-extrabold text-sm">RM 0</span>
-                            </div>
-                            <p id="firstHomeNoteText" class="text-[10px] text-emerald-700 pt-0.5">*Pengecualian duti setem 100% untuk rumah pertama bawah RM500,000 dimanfaatkan.</p>
+                        <div class="bg-slate-800/50 p-3 rounded-lg border border-slate-700/50">
+                            <span class="text-[10px] text-slate-400 block mb-0.5">Lebihan Tunai</span>
+                            <span id="dashCashflow" class="text-sm font-bold text-blue-400">RM 0</span>
                         </div>
                     </div>
-                </div>
 
-                <!-- Recommendation & Tips Box -->
-                <div class="bg-amber-50/80 border border-amber-200/80 rounded-2xl p-4 sm:p-5 text-amber-900 text-xs leading-relaxed flex items-start gap-3">
-                    <i class="fa-solid fa-lightbulb text-amber-600 text-xl mt-0.5 flex-shrink-0"></i>
-                    <div>
-                        <strong class="font-bold block mb-1 text-amber-950 text-sm">Nasihat & Polisi Bank Mengenaik OT & DSR:</strong>
-                        <ul id="recommendationsList" class="list-disc pl-4 space-y-1.5 text-amber-900">
-                            <li>Untuk pendapatan tidak tetap (OT/Elaun), bank meneliti penyata gaji <strong>6 bulan berturut-turut</strong> untuk mengira min purata.</li>
-                            <li>Sediakan dokumen sokongan seperti Borang EA/EC terkini dan Penyata EPF bagi meningkatkan % pengiktirafan bank.</li>
-                        </ul>
+                    <!-- Chart Container -->
+                    <div class="bg-white p-4 rounded-xl relative">
+                        <div class="h-32 w-full flex items-center justify-center">
+                            <canvas id="dsrChart"></canvas>
+                        </div>
                     </div>
                 </div>
 
@@ -568,583 +355,271 @@
         </div>
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-slate-900 text-slate-400 py-6 border-t border-slate-800 mt-12 text-center text-xs">
-        <div class="max-w-7xl mx-auto px-4 space-y-2">
-            <p>© <span id="currentYear"></span> Kalkulator Kelayakan Loan Rumah, DSR & OT (Malaysia). Sedia Untuk GitHub & Vercel.</p>
-            <p class="text-slate-500 text-[11px]">Penafian: Keputusan kalkulator ini adalah untuk tujuan simulasi dan anggaran sahaja. Kelulusan pembiayaan bergantung kepada underwriting dan polisi semasa bank masing-masing.</p>
-        </div>
-    </footer>
-
-    <!-- JavaScript Application Logic -->
     <script>
-        document.getElementById('currentYear').textContent = new Date().getFullYear();
-
-        let incomeChartInstance = null;
-        let otMode = '6month';
-
-        // Dynamic Commitments Array State
-        let commitments = [
-            { id: 'c1', type: 'car', label: 'Pinjaman Kereta', amount: 600 },
-            { id: 'c2', type: 'personal', label: 'Pinjaman Peribadi', amount: 300 },
-            { id: 'c3', type: 'ptptn', label: 'PTPTN / Pendidikan', amount: 150 },
-            { id: 'c4', type: 'credit_card', label: 'Baki Kad Kredit', amount: 100, ccBalance: 2000 }
-        ];
-
-        const formatRM = (amount) => {
-            return new Intl.NumberFormat('ms-MY', {
-                style: 'currency',
-                currency: 'MYR',
-                minimumFractionDigits: 0,
-                maximumFractionDigits: 0
-            }).format(amount).replace('MYR', 'RM');
+        // Global State
+        let isJointLoan = false;
+        let chartInstance = null;
+        
+        let comState = {
+            app1: [
+                { id: '1_1', type: 'car', label: 'Kereta', amount: 600, ccBalance: 0 },
+                { id: '1_2', type: 'personal', label: 'Personal Loan', amount: 350, ccBalance: 0 }
+            ],
+            app2: [
+                { id: '2_1', type: 'ptptn', label: 'PTPTN', amount: 150, ccBalance: 0 },
+                { id: '2_2', type: 'credit_card', label: 'Kad Kredit', amount: 100, ccBalance: 2000 }
+            ]
         };
 
-        function calculatePMT(principal, annualRate, tenureYears) {
-            if (principal <= 0 || tenureYears <= 0) return 0;
-            if (annualRate <= 0) return principal / (tenureYears * 12);
+        const formatRM = (val) => new Intl.NumberFormat('ms-MY', { style: 'currency', currency: 'MYR', maximumFractionDigits: 0 }).format(val).replace('MYR', 'RM');
+
+        // Toggle Single/Joint
+        function setLoanType(type) {
+            isJointLoan = (type === 'joint');
             
-            const monthlyRate = (annualRate / 100) / 12;
-            const totalPayments = tenureYears * 12;
-            
-            return principal * (monthlyRate * Math.pow(1 + monthlyRate, totalPayments)) / (Math.pow(1 + monthlyRate, totalPayments) - 1);
+            const btnSingle = document.getElementById('btnSingleLoan');
+            const btnJoint = document.getElementById('btnJointLoan');
+            const app2Container = document.getElementById('app2_container');
+            const grid = document.getElementById('applicantsGrid');
+
+            if (isJointLoan) {
+                btnJoint.className = "flex-1 sm:flex-none px-6 py-2 rounded-lg text-sm font-bold bg-white text-indigo-700 shadow-sm transition-all border border-slate-200";
+                btnSingle.className = "flex-1 sm:flex-none px-6 py-2 rounded-lg text-sm font-bold text-slate-500 hover:text-slate-700 transition-all border border-transparent";
+                app2Container.classList.remove('hidden');
+                grid.classList.replace('grid-cols-1', 'md:grid-cols-2');
+                document.getElementById('dashProfileType').textContent = "Gabungan Bersama";
+            } else {
+                btnSingle.className = "flex-1 sm:flex-none px-6 py-2 rounded-lg text-sm font-bold bg-white text-slate-800 shadow-sm transition-all border border-slate-200";
+                btnJoint.className = "flex-1 sm:flex-none px-6 py-2 rounded-lg text-sm font-bold text-slate-500 hover:text-slate-700 transition-all border border-transparent";
+                app2Container.classList.add('hidden');
+                grid.classList.replace('md:grid-cols-2', 'grid-cols-1');
+                document.getElementById('dashProfileType').textContent = "Individu";
+            }
+            calculateAll();
         }
 
-        function calculateMaxLoanFromPMT(maxMonthlyPayment, annualRate, tenureYears) {
-            if (maxMonthlyPayment <= 0 || tenureYears <= 0) return 0;
-            if (annualRate <= 0) return maxMonthlyPayment * (tenureYears * 12);
+        // Suggest DSR Limit based on combined income
+        function autoSuggestDsr() {
+            let app1Net = getVal('app1_basic') + getVal('app1_fixed') - getVal('app1_statutory');
+            let totalNet = app1Net;
             
-            const monthlyRate = (annualRate / 100) / 12;
-            const totalPayments = tenureYears * 12;
-            
-            return maxMonthlyPayment * (Math.pow(1 + monthlyRate, totalPayments) - 1) / (monthlyRate * Math.pow(1 + monthlyRate, totalPayments));
+            if (isJointLoan) {
+                let app2Net = getVal('app2_basic') + getVal('app2_fixed') - getVal('app2_statutory');
+                totalNet += app2Net;
+            }
+
+            let suggest = 70;
+            if (totalNet < 3500) suggest = 60;
+            else if (totalNet > 7000) suggest = 80;
+            else if (totalNet > 10000) suggest = 85;
+
+            document.getElementById('propDsrLimit').value = suggest;
+            calculateAll();
         }
 
-        function renderCommitmentRows() {
-            const container = document.getElementById('commitmentsContainer');
+        function getVal(id) {
+            return parseFloat(document.getElementById(id).value) || 0;
+        }
+
+        // PMT Formula
+        function calcPMT(principal, rate, years) {
+            if (principal <= 0 || years <= 0) return 0;
+            if (rate <= 0) return principal / (years * 12);
+            const mRate = (rate / 100) / 12;
+            const n = years * 12;
+            return principal * (mRate * Math.pow(1 + mRate, n)) / (Math.pow(1 + mRate, n) - 1);
+        }
+
+        // Dynamic Commitments Logic
+        function renderCommitments(appId) {
+            const container = document.getElementById(`${appId}_commitments_container`);
             container.innerHTML = '';
+            let total = 0;
 
-            commitments.forEach((c) => {
-                const row = document.createElement('div');
-                row.className = "p-3 bg-slate-50 rounded-xl border border-slate-200/90 shadow-sm flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 transition-all";
-                
+            comState[appId].forEach(c => {
                 const isCC = c.type === 'credit_card';
+                if(isCC) c.amount = c.ccBalance * 0.05;
+                total += c.amount;
 
-                row.innerHTML = `
-                    <!-- Dropdown Commitment Type -->
-                    <div class="sm:w-2/5">
-                        <select onchange="updateCommitmentType('${c.id}', this.value)" class="w-full text-xs font-semibold px-2.5 py-2 bg-white border border-slate-300 rounded-lg text-slate-700 focus:ring-2 focus:ring-emerald-500 outline-none">
-                            <option value="car" ${c.type === 'car' ? 'selected' : ''}>🚗 Pembiayaan Kenderaan (Car Loan)</option>
-                            <option value="credit_card" ${c.type === 'credit_card' ? 'selected' : ''}>💳 Kad Kredit (5% Baki)</option>
-                            <option value="personal" ${c.type === 'personal' ? 'selected' : ''}>💰 Pembiayaan Peribadi (Personal Loan)</option>
-                            <option value="housing" ${c.type === 'housing' ? 'selected' : ''}>🏠 Pembiayaan Perumahan Sedia Ada</option>
-                            <option value="ptptn" ${c.type === 'ptptn' ? 'selected' : ''}>🎓 PTPTN / Pinjaman Pelajaran</option>
-                            <option value="other" ${c.type === 'other' ? 'selected' : ''}>🏢 Sewa / Lain-lain Komitmen</option>
-                        </select>
+                const html = `
+                <div class="flex flex-col sm:flex-row gap-2 items-center bg-white border border-slate-200 p-2 rounded-lg relative">
+                    <select onchange="updateCom('${appId}','${c.id}','type',this.value)" class="w-full sm:w-1/3 text-xs bg-slate-50 border border-slate-200 rounded p-1.5 outline-none">
+                        <option value="car" ${c.type==='car'?'selected':''}>Kereta</option>
+                        <option value="personal" ${c.type==='personal'?'selected':''}>Personal</option>
+                        <option value="credit_card" ${c.type==='credit_card'?'selected':''}>Kad Kredit</option>
+                        <option value="housing" ${c.type==='housing'?'selected':''}>Rumah</option>
+                        <option value="ptptn" ${c.type==='ptptn'?'selected':''}>PTPTN</option>
+                    </select>
+                    <input type="text" value="${c.label}" onchange="updateCom('${appId}','${c.id}','label',this.value)" class="w-full sm:w-1/3 text-xs bg-slate-50 border border-slate-200 rounded p-1.5 outline-none" placeholder="Label">
+                    
+                    ${isCC ? `
+                    <div class="w-full sm:w-1/3 flex items-center gap-1">
+                        <input type="number" value="${c.ccBalance}" oninput="updateCom('${appId}','${c.id}','ccBalance',this.value)" class="w-full text-xs bg-slate-50 border border-slate-200 rounded p-1.5 outline-none" placeholder="Baki">
+                        <button onclick="delCom('${appId}','${c.id}')" class="text-rose-500 p-1.5"><i class="fa-solid fa-times"></i></button>
                     </div>
-
-                    <!-- Commitment Label -->
-                    <div class="flex-grow">
-                        <input type="text" value="${c.label}" onchange="updateCommitmentLabel('${c.id}', this.value)" placeholder="Nama / Jenis (Contoh: Honda)" class="w-full text-xs px-3 py-2 bg-white border border-slate-300 rounded-lg font-medium text-slate-800 focus:ring-2 focus:ring-emerald-500 outline-none">
+                    ` : `
+                    <div class="w-full sm:w-1/3 flex items-center gap-1">
+                        <input type="number" value="${c.amount}" oninput="updateCom('${appId}','${c.id}','amount',this.value)" class="w-full text-xs bg-slate-50 border border-slate-200 rounded p-1.5 outline-none" placeholder="RM/bln">
+                        <button onclick="delCom('${appId}','${c.id}')" class="text-rose-500 p-1.5"><i class="fa-solid fa-times"></i></button>
                     </div>
-
-                    <!-- Amount / CC Balance -->
-                    <div class="sm:w-1/3 flex items-center gap-2">
-                        ${isCC ? `
-                            <div class="w-full relative">
-                                <span class="absolute inset-y-0 left-0 pl-2.5 flex items-center text-slate-400 text-[10px] font-bold">RM</span>
-                                <input type="number" value="${c.ccBalance || 0}" min="0" step="100" oninput="updateCommitmentCcBalance('${c.id}', this.value)" placeholder="Baki Kad Kredit" class="w-full pl-8 pr-2 py-2 bg-white border border-slate-300 rounded-lg text-xs font-bold text-slate-800 focus:ring-2 focus:ring-emerald-500 outline-none">
-                                <span class="block text-[9px] text-slate-400 mt-0.5">5% Bank: <strong>RM ${Math.round((c.ccBalance || 0) * 0.05)}</strong></span>
-                            </div>
-                        ` : `
-                            <div class="w-full relative">
-                                <span class="absolute inset-y-0 left-0 pl-2.5 flex items-center text-slate-400 text-[10px] font-bold">RM</span>
-                                <input type="number" value="${c.amount}" min="0" step="50" oninput="updateCommitmentAmount('${c.id}', this.value)" placeholder="Ansuran / bln" class="w-full pl-8 pr-2 py-2 bg-white border border-slate-300 rounded-lg text-xs font-bold text-slate-800 focus:ring-2 focus:ring-emerald-500 outline-none">
-                            </div>
-                        `}
-
-                        <!-- Delete Button -->
-                        <button type="button" onclick="deleteCommitmentRow('${c.id}')" title="Padam Komitmen" class="p-2 text-rose-500 hover:text-rose-700 hover:bg-rose-50 rounded-lg transition-all active:scale-95 flex-shrink-0">
-                            <i class="fa-solid fa-trash-can text-sm"></i>
-                        </button>
-                    </div>
-                `;
-                container.appendChild(row);
+                    `}
+                </div>`;
+                container.insertAdjacentHTML('beforeend', html);
             });
-
-            calculateAll();
-        }
-
-        function addCommitmentRow() {
-            const newId = 'c_' + Date.now();
-            commitments.push({
-                id: newId,
-                type: 'car',
-                label: 'Komitmen Baru',
-                amount: 0
-            });
-            renderCommitmentRows();
-        }
-
-        function deleteCommitmentRow(id) {
-            commitments = commitments.filter(c => c.id !== id);
-            renderCommitmentRows();
-        }
-
-        function updateCommitmentType(id, type) {
-            const target = commitments.find(c => c.id === id);
-            if (target) {
-                target.type = type;
-                if (type === 'credit_card' && target.ccBalance === undefined) {
-                    target.ccBalance = 1000;
-                    target.amount = 50;
-                }
-                renderCommitmentRows();
-            }
-        }
-
-        function updateCommitmentLabel(id, label) {
-            const target = commitments.find(c => c.id === id);
-            if (target) {
-                target.label = label;
-            }
-        }
-
-        function updateCommitmentAmount(id, val) {
-            const target = commitments.find(c => c.id === id);
-            if (target) {
-                target.amount = parseFloat(val) || 0;
-                calculateAll();
-            }
-        }
-
-        function updateCommitmentCcBalance(id, val) {
-            const target = commitments.find(c => c.id === id);
-            if (target) {
-                target.ccBalance = parseFloat(val) || 0;
-                target.amount = target.ccBalance * 0.05;
-                calculateAll();
-            }
-        }
-
-        function setOtMode(mode) {
-            otMode = mode;
-            const btn6 = document.getElementById('btnOt6Month');
-            const btn3 = document.getElementById('btnOt3Month');
-            const btn1 = document.getElementById('btnOt1Month');
             
-            const container6 = document.getElementById('ot6MonthContainer');
-            const container3 = document.getElementById('ot3MonthContainer');
-            const container1 = document.getElementById('ot1MonthContainer');
+            document.getElementById(`${appId}_total_com`).textContent = formatRM(total);
+            return total;
+        }
 
-            const activeClass = "px-2.5 py-1 rounded-md bg-white text-emerald-700 shadow-sm transition-all font-bold";
-            const inactiveClass = "px-2.5 py-1 rounded-md text-slate-600 hover:text-slate-900 transition-all font-medium";
-
-            btn6.className = mode === '6month' ? activeClass : inactiveClass;
-            btn3.className = mode === '3month' ? activeClass : inactiveClass;
-            btn1.className = mode === '1month' ? activeClass : inactiveClass;
-
-            container6.classList.toggle('hidden', mode !== '6month');
-            container3.classList.toggle('hidden', mode !== '3month');
-            container1.classList.toggle('hidden', mode !== '1month');
-
+        function addCommitment(appId) {
+            comState[appId].push({ id: Date.now().toString(), type: 'car', label: 'Baru', amount: 0, ccBalance: 0 });
             calculateAll();
         }
 
-        function setMargin(val) {
-            document.getElementById('marginLoan').value = val;
+        function delCom(appId, id) {
+            comState[appId] = comState[appId].filter(c => c.id !== id);
             calculateAll();
         }
 
-        function setDSRLimit(val) {
-            document.getElementById('bankDsrLimit').value = val;
-            calculateAll();
-        }
-
-        function applySmartDsrLimit() {
-            const basicSalary = parseFloat(document.getElementById('basicSalary').value) || 0;
-            const fixedAllowance = parseFloat(document.getElementById('fixedAllowance').value) || 0;
-            const statutory = parseFloat(document.getElementById('statutoryDeductions').value) || 0;
-            const approxNet = Math.max(0, basicSalary + fixedAllowance - statutory);
-
-            let recommendedDsr = 70;
-            if (approxNet < 3000) {
-                recommendedDsr = 60;
-            } else if (approxNet <= 5000) {
-                recommendedDsr = 70;
-            } else {
-                recommendedDsr = 80;
+        function updateCom(appId, id, field, val) {
+            const item = comState[appId].find(c => c.id === id);
+            if (item) {
+                if (field === 'type') item.type = val;
+                else if (field === 'label') item.label = val;
+                else if (field === 'amount') item.amount = parseFloat(val) || 0;
+                else if (field === 'ccBalance') item.ccBalance = parseFloat(val) || 0;
+                calculateAll();
             }
-
-            document.getElementById('bankDsrLimit').value = recommendedDsr;
-            calculateAll();
         }
 
-        function updateAgeTenureRules() {
-            const ageInput = document.getElementById('applicantAge');
-            const tenureInput = document.getElementById('tenureYears');
-            const tenureNotice = document.getElementById('tenureNoticeText');
-
-            let age = parseInt(ageInput.value) || 30;
-            if (age < 18) age = 18;
-            if (age > 65) age = 65;
-
-            const maxTenureAllowed = Math.max(1, Math.min(35, 70 - age));
-
-            tenureInput.max = maxTenureAllowed;
-
-            let currentTenure = parseInt(tenureInput.value) || 35;
-            if (currentTenure > maxTenureAllowed) {
-                tenureInput.value = maxTenureAllowed;
-                currentTenure = maxTenureAllowed;
-            }
-
-            tenureNotice.innerHTML = `Berdasarkan umur <strong>${age} tahun</strong>, tempoh pinjaman maksimum automatik ialah <strong>${maxTenureAllowed} tahun</strong> (syarat umur bersara max 70 tahun).`;
-            document.getElementById('tenureMention').textContent = currentTenure;
-
-            return { age, currentTenure, maxTenureAllowed };
-        }
-
+        // Main Calculation Function
         function calculateAll() {
-            const { currentTenure } = updateAgeTenureRules();
+            // Render UI lists first to get totals
+            let comTotal1 = renderCommitments('app1');
+            let comTotal2 = isJointLoan ? renderCommitments('app2') : 0;
 
-            const basicSalary = parseFloat(document.getElementById('basicSalary').value) || 0;
-            const fixedAllowance = parseFloat(document.getElementById('fixedAllowance').value) || 0;
+            // Property & Settings
+            let price = getVal('propPrice');
+            let margin = getVal('propMargin') / 100;
+            let interest = getVal('propInterest');
+            let dsrLimit = getVal('propDsrLimit');
+            let otHaircut = getVal('propOtHaircut') / 100;
+
+            document.getElementById('otHaircutVal').textContent = (otHaircut * 100) + '%';
+            document.getElementById('dashLimitText').textContent = dsrLimit + '%';
+
+            // Calculate App 1 Income
+            let ot1 = (getVal('app1_ot_1')+getVal('app1_ot_2')+getVal('app1_ot_3')+getVal('app1_ot_4')+getVal('app1_ot_5')+getVal('app1_ot_6')) / 6;
+            document.getElementById('app1_ot_avg_text').textContent = 'Purata: ' + formatRM(ot1);
+            let netIncome1 = getVal('app1_basic') + getVal('app1_fixed') + (ot1 * otHaircut) - getVal('app1_statutory');
+
+            // Calculate App 2 Income (if joint)
+            let netIncome2 = 0;
+            if (isJointLoan) {
+                let ot2 = (getVal('app2_ot_1')+getVal('app2_ot_2')+getVal('app2_ot_3')+getVal('app2_ot_4')+getVal('app2_ot_5')+getVal('app2_ot_6')) / 6;
+                document.getElementById('app2_ot_avg_text').textContent = 'Purata: ' + formatRM(ot2);
+                netIncome2 = getVal('app2_basic') + getVal('app2_fixed') + (ot2 * otHaircut) - getVal('app2_statutory');
+            }
+
+            let combinedNetIncome = Math.max(0, netIncome1 + netIncome2);
+            let combinedExistCom = comTotal1 + comTotal2;
+
+            // Calculate Tenure
+            let age1 = getVal('app1_age');
+            let age2 = isJointLoan ? getVal('app2_age') : age1;
+            let minAge = isJointLoan ? Math.min(age1, age2) : age1;
+            let tenure = Math.min(35, Math.max(1, 70 - minAge));
+            document.getElementById('dashTenure').textContent = tenure;
+
+            // Calculate Loan & Installment
+            let loanAmount = price * margin;
+            let newInstallment = calcPMT(loanAmount, interest, tenure);
             
-            let avgOt = 0;
-            if (otMode === '6month') {
-                const ot1 = parseFloat(document.getElementById('otMonth1').value) || 0;
-                const ot2 = parseFloat(document.getElementById('otMonth2').value) || 0;
-                const ot3 = parseFloat(document.getElementById('otMonth3').value) || 0;
-                const ot4 = parseFloat(document.getElementById('otMonth4').value) || 0;
-                const ot5 = parseFloat(document.getElementById('otMonth5').value) || 0;
-                const ot6 = parseFloat(document.getElementById('otMonth6').value) || 0;
-                avgOt = (ot1 + ot2 + ot3 + ot4 + ot5 + ot6) / 6;
-                document.getElementById('sixMonthAvgText').textContent = 'Purata 6 Bulan: ' + formatRM(avgOt);
-            } else if (otMode === '3month') {
-                const ot1 = parseFloat(document.getElementById('ot3M1').value) || 0;
-                const ot2 = parseFloat(document.getElementById('ot3M2').value) || 0;
-                const ot3 = parseFloat(document.getElementById('ot3M3').value) || 0;
-                avgOt = (ot1 + ot2 + ot3) / 3;
+            let totalCombinedCom = combinedExistCom + newInstallment;
+            let dsr = combinedNetIncome > 0 ? (totalCombinedCom / combinedNetIncome) * 100 : 0;
+            let cashflow = combinedNetIncome - totalCombinedCom;
+
+            // Update Dashboard UI
+            document.getElementById('dashTotalIncome').textContent = formatRM(combinedNetIncome);
+            document.getElementById('dashInstallment').textContent = formatRM(newInstallment);
+            document.getElementById('dashCashflow').textContent = formatRM(cashflow);
+            document.getElementById('dashDsrText').textContent = dsr.toFixed(1) + '%';
+            
+            let dsrBar = document.getElementById('dsrProgressBar');
+            let dsrMarker = document.getElementById('dsrLimitMarker');
+            
+            dsrMarker.style.left = Math.min(dsrLimit, 100) + '%';
+            dsrBar.style.width = Math.min(dsr, 100) + '%';
+
+            let iconBox = document.getElementById('statusIconBox');
+            let icon = document.getElementById('statusIcon');
+            let statusText = document.getElementById('statusText');
+
+            if (dsr <= dsrLimit) {
+                dsrBar.className = "h-full transition-all duration-500 bg-emerald-500";
+                document.getElementById('dashDsrText').className = "text-2xl font-black text-emerald-400";
+                iconBox.className = "w-12 h-12 rounded-full bg-emerald-500/20 flex items-center justify-center border border-emerald-500/30";
+                icon.className = "fa-solid fa-check text-xl text-emerald-400";
+                statusText.textContent = "LULUS (LAYAK)";
+                statusText.className = "text-xl font-black text-emerald-400";
+            } else if (dsr <= dsrLimit + 5) {
+                dsrBar.className = "h-full transition-all duration-500 bg-amber-500";
+                document.getElementById('dashDsrText').className = "text-2xl font-black text-amber-400";
+                iconBox.className = "w-12 h-12 rounded-full bg-amber-500/20 flex items-center justify-center border border-amber-500/30";
+                icon.className = "fa-solid fa-exclamation text-xl text-amber-400";
+                statusText.textContent = "BERISIKO (AMARAN)";
+                statusText.className = "text-xl font-black text-amber-400";
             } else {
-                avgOt = parseFloat(document.getElementById('otDirectAvg').value) || 0;
+                dsrBar.className = "h-full transition-all duration-500 bg-rose-500";
+                document.getElementById('dashDsrText').className = "text-2xl font-black text-rose-400";
+                iconBox.className = "w-12 h-12 rounded-full bg-rose-500/20 flex items-center justify-center border border-rose-500/30";
+                icon.className = "fa-solid fa-xmark text-xl text-rose-400";
+                statusText.textContent = "GAGAL (MELEBIHI HAD)";
+                statusText.className = "text-xl font-black text-rose-400";
             }
 
-            const otRate = parseFloat(document.getElementById('otRecognitionRate').value) || 50;
-            document.getElementById('otRateDisplay').textContent = otRate + '%';
-
-            const recognizedOt = avgOt * (otRate / 100);
-            document.getElementById('recognizedOtDisplay').textContent = formatRM(recognizedOt) + ' / bln';
-
-            const statutoryDeductions = parseFloat(document.getElementById('statutoryDeductions').value) || 0;
-            
-            const netBaseSalary = Math.max(0, basicSalary + fixedAllowance - statutoryDeductions);
-            const totalRecognizedIncome = netBaseSalary + recognizedOt;
-
-            document.getElementById('totalRecognizedIncomeDisplay').textContent = formatRM(totalRecognizedIncome);
-
-            // Compute Total from Dynamic Commitments
-            let existingCommitments = 0;
-            commitments.forEach(c => {
-                if (c.type === 'credit_card') {
-                    const ccPay = (c.ccBalance || 0) * 0.05;
-                    existingCommitments += ccPay;
-                } else {
-                    existingCommitments += (c.amount || 0);
-                }
-            });
-
-            document.getElementById('dynamicCommitmentsTotalDisplay').textContent = formatRM(existingCommitments);
-
-            // Property & Loan details
-            const propertyPrice = parseFloat(document.getElementById('propertyPrice').value) || 0;
-            const marginLoan = parseFloat(document.getElementById('marginLoan').value) || 90;
-            const interestRate = parseFloat(document.getElementById('interestRate').value) || 4.2;
-            const bankDsrLimit = parseFloat(document.getElementById('bankDsrLimit').value) || 70;
-
-            document.getElementById('propertyPriceDisplay').textContent = formatRM(propertyPrice);
-            document.getElementById('propertyPriceRange').value = propertyPrice;
-
-            const loanAmount = propertyPrice * (marginLoan / 100);
-            const newMonthlyInstallment = calculatePMT(loanAmount, interestRate, currentTenure);
-            const totalCommitmentsWithNew = existingCommitments + newMonthlyInstallment;
-
-            // DSR Ratios
-            const currentDSR = totalRecognizedIncome > 0 ? (existingCommitments / totalRecognizedIncome) * 100 : 0;
-            const newDSR = totalRecognizedIncome > 0 ? (totalCommitmentsWithNew / totalRecognizedIncome) * 100 : 0;
-
-            // Maximum Eligibility
-            const maxAllowedCommitment = totalRecognizedIncome * (bankDsrLimit / 100);
-            const maxAllowedInstallment = Math.max(0, maxAllowedCommitment - existingCommitments);
-
-            let maxEligibleLoan = 0;
-            let maxEligiblePropertyPrice = 0;
-
-            if (maxAllowedInstallment > 0) {
-                maxEligibleLoan = calculateMaxLoanFromPMT(maxAllowedInstallment, interestRate, currentTenure);
-                maxEligiblePropertyPrice = marginLoan > 0 ? maxEligibleLoan / (marginLoan / 100) : maxEligibleLoan;
-            }
-
-            const remainingCashflow = totalRecognizedIncome - totalCommitmentsWithNew;
-
-            // Render Output Fields
-            document.getElementById('monthlyInstallment').textContent = formatRM(newMonthlyInstallment);
-            document.getElementById('dsrPercentageText').textContent = newDSR.toFixed(1) + '%';
-            document.getElementById('currentDsrText').textContent = currentDSR.toFixed(1) + '%';
-            document.getElementById('limitDsrDisplay').textContent = bankDsrLimit + '%';
-            document.getElementById('maxDsrMention').textContent = bankDsrLimit + '%';
-
-            document.getElementById('totalIncomeDisplay').textContent = formatRM(totalRecognizedIncome);
-            document.getElementById('totalCommitmentsDisplay').textContent = formatRM(totalCommitmentsWithNew);
-            document.getElementById('remainingCashflowDisplay').textContent = formatRM(remainingCashflow);
-
-            document.getElementById('maxPropertyPrice').textContent = formatRM(maxEligiblePropertyPrice);
-            document.getElementById('maxLoanAmount').textContent = formatRM(maxEligibleLoan);
-            document.getElementById('maxInstallmentAmount').textContent = formatRM(maxAllowedInstallment);
-
-            document.getElementById('incomeOtSubtext').textContent = `Termasuk ${otRate}% OT (${formatRM(recognizedOt)})`;
-
-            const isFirstHome = document.getElementById('firstHomeBuyerToggle').checked;
-            const upfront = calculateUpfrontCosts(propertyPrice, marginLoan, isFirstHome);
-            
-            document.getElementById('depositPercentText').textContent = (100 - marginLoan) + '%';
-            document.getElementById('depositAmount').textContent = formatRM(upfront.depositAmount);
-            document.getElementById('legalFeeAmount').textContent = formatRM(upfront.legalFee);
-            document.getElementById('stampDutyAmount').textContent = formatRM(upfront.stampDuty);
-            document.getElementById('totalUpfrontAmount').textContent = formatRM(upfront.totalUpfront);
-
-            document.getElementById('firstHomeNoteText').style.display = isFirstHome && propertyPrice <= 500000 ? 'block' : 'none';
-
-            const progressBar = document.getElementById('dsrProgressBar');
-            const limitMarker = document.getElementById('dsrLimitMarker');
-            
-            limitMarker.style.left = Math.min(bankDsrLimit, 100) + '%';
-            progressBar.style.width = Math.min(newDSR, 100) + '%';
-
-            const statusBadge = document.getElementById('statusBadge');
-            const statusText = document.getElementById('statusText');
-            const statusIcon = document.getElementById('statusIcon');
-            const recommendationsList = document.getElementById('recommendationsList');
-
-            if (newDSR <= bankDsrLimit) {
-                progressBar.className = "h-full rounded-full transition-all duration-500 bg-emerald-500";
-                document.getElementById('dsrPercentageText').className = "font-extrabold text-lg text-emerald-400";
-                
-                statusBadge.className = "inline-flex items-center px-4 py-1.5 rounded-full text-xs font-black bg-emerald-500/20 text-emerald-300 border border-emerald-500/30";
-                statusIcon.className = "fa-solid fa-circle-check mr-2 text-sm text-emerald-400";
-                statusText.textContent = "LULUS / LAYAK";
-
-                recommendationsList.innerHTML = `
-                    <li>Nisbah DSR anda (<strong>${newDSR.toFixed(1)}%</strong>) berada di bawah syarat maksimum bank (${bankDsrLimit}%). Profil kewangan dikategorikan kukuh.</li>
-                    <li>Sediakan fail permohonan lengkap: <strong>6 bulan Slip Gaji + 6 bulan Penyata Bank</strong> (untuk pengesahan OT), Penyata EPF & Borang EA.</li>
-                    <li>Pastikan tiada tunggakan CCRIS dalam 12 bulan terkini.</li>
-                `;
-            } else if (newDSR <= bankDsrLimit + 5) {
-                progressBar.className = "h-full rounded-full transition-all duration-500 bg-amber-500";
-                document.getElementById('dsrPercentageText').className = "font-extrabold text-lg text-amber-400";
-
-                statusBadge.className = "inline-flex items-center px-4 py-1.5 rounded-full text-xs font-black bg-amber-500/20 text-amber-300 border border-amber-500/30";
-                statusIcon.className = "fa-solid fa-triangle-exclamation mr-2 text-sm text-amber-400";
-                statusText.textContent = "AMARAN - BERISIKO / MENGHAMPIRI LIMIT";
-
-                recommendationsList.innerHTML = `
-                    <li>DSR anda (${newDSR.toFixed(1)}%) hampir melepasi had maksimum bank (${bankDsrLimit}%).</li>
-                    <li>Cuba langsaikan kad kredit atau pinjaman peribadi kecil untuk menurunkan nisbah komitmen bulanan.</li>
-                    <li>Gunakan Borang EA/Cukai LHDN bagi memohon peratus pengiktirafan OT yang lebih tinggi daripada pihak bank.</li>
-                `;
-            } else {
-                progressBar.className = "h-full rounded-full transition-all duration-500 bg-rose-500";
-                document.getElementById('dsrPercentageText').className = "font-extrabold text-lg text-rose-400";
-
-                statusBadge.className = "inline-flex items-center px-4 py-1.5 rounded-full text-xs font-black bg-rose-500/20 text-rose-300 border border-rose-500/30";
-                statusIcon.className = "fa-solid fa-circle-xmark mr-2 text-sm text-rose-400";
-                statusText.textContent = "MELEBIHI HAD DSR (TIDAK LAYAK)";
-
-                recommendationsList.innerHTML = `
-                    <li>DSR anda (${newDSR.toFixed(1)}%) melebihi had maksimum bank (${bankDsrLimit}%). Permohonan berisiko tinggi untuk ditolak.</li>
-                    <li>Syor harga rumah maksimum yang bersesuai dengan DSR anda ialah sekitar <strong class="text-rose-700">${formatRM(maxEligiblePropertyPrice)}</strong>.</li>
-                    <li>Pertimbangkan untuk membuat **Permohonan Bersama (Joint Loan)** bagi menggabungkanjulat pendapatan.</li>
-                `;
-            }
-
-            updateChart(existingCommitments, newMonthlyInstallment, Math.max(remainingCashflow, 0));
+            updateChart(combinedExistCom, newInstallment, Math.max(0, cashflow));
         }
 
-        function calculateUpfrontCosts(propertyPrice, loanMargin, isFirstHome) {
-            const depositRate = (100 - loanMargin) / 100;
-            const depositAmount = propertyPrice * (depositRate > 0 ? depositRate : 0);
+        function updateChart(existingCom, newLoan, cashflow) {
+            const ctx = document.getElementById('dsrChart').getContext('2d');
             
-            let legalFee = 0;
-            if (propertyPrice <= 500000) {
-                legalFee = Math.max(propertyPrice * 0.0125, 500);
-            } else if (propertyPrice <= 7500000) {
-                legalFee = (500000 * 0.0125) + ((propertyPrice - 500000) * 0.01);
-            } else {
-                legalFee = (500000 * 0.0125) + (7000000 * 0.01) + ((propertyPrice - 7500000) * 0.008);
-            }
+            if (chartInstance) chartInstance.destroy();
 
-            let stampDuty = 0;
-            if (isFirstHome && propertyPrice <= 500000) {
-                stampDuty = 0;
-            } else {
-                if (propertyPrice <= 100000) {
-                    stampDuty = propertyPrice * 0.01;
-                } else if (propertyPrice <= 500000) {
-                    stampDuty = 1000 + ((propertyPrice - 100000) * 0.02);
-                } else if (propertyPrice <= 1000000) {
-                    stampDuty = 1000 + 8000 + ((propertyPrice - 500000) * 0.03);
-                } else {
-                    stampDuty = 1000 + 8000 + 15000 + ((propertyPrice - 1000000) * 0.04);
-                }
-            }
-
-            const loanAmount = propertyPrice * (loanMargin / 100);
-            const loanAgreementFee = Math.max(loanAmount * 0.01, 1000);
-            const loanStampDuty = loanAmount * 0.005;
-
-            const totalLegal = legalFee + loanAgreementFee;
-            const totalStampDuty = stampDuty + loanStampDuty;
-            const totalUpfront = depositAmount + totalLegal + totalStampDuty;
-
-            return { depositAmount, legalFee: totalLegal, stampDuty: totalStampDuty, totalUpfront };
-        }
-
-        function updateChart(commitments, newHouse, cashflow) {
-            const ctx = document.getElementById('incomeChart').getContext('2d');
-            
-            if (incomeChartInstance) {
-                incomeChartInstance.destroy();
-            }
-
-            incomeChartInstance = new Chart(ctx, {
+            chartInstance = new Chart(ctx, {
                 type: 'doughnut',
                 data: {
-                    labels: ['Komitmen Sedia Ada', 'Ansuran Rumah Baru', 'Baki Cashflow'],
+                    labels: ['Komitmen Semasa', 'Ansuran Baru', 'Lebihan Tunai'],
                     datasets: [{
-                        data: [commitments, newHouse, cashflow],
+                        data: [existingCom, newLoan, cashflow],
                         backgroundColor: ['#f43f5e', '#10b981', '#3b82f6'],
-                        borderWidth: 2,
-                        borderColor: '#ffffff'
+                        borderWidth: 0,
+                        hoverOffset: 4
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
+                    cutout: '70%',
                     plugins: {
-                        legend: { display: false },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    return ' ' + context.label + ': ' + formatRM(context.raw);
-                                }
-                            }
-                        }
-                    },
-                    cutout: '72%'
+                        legend: { position: 'right', labels: { boxWidth: 10, font: { size: 10 } } },
+                        tooltip: { callbacks: { label: function(c) { return ' ' + formatRM(c.raw); } } }
+                    }
                 }
             });
         }
 
-        const priceInput = document.getElementById('propertyPrice');
-        const priceRange = document.getElementById('propertyPriceRange');
-
-        priceInput.addEventListener('input', () => {
-            priceRange.value = priceInput.value;
-            calculateAll();
-        });
-
-        priceRange.addEventListener('input', () => {
-            priceInput.value = priceRange.value;
-            calculateAll();
-        });
-
-        const inputsToListen = [
-            'applicantAge', 'tenureYears', 'basicSalary', 'fixedAllowance',
-            'otMonth1', 'otMonth2', 'otMonth3', 'otMonth4', 'otMonth5', 'otMonth6',
-            'ot3M1', 'ot3M2', 'ot3M3', 'otDirectAvg', 'otRecognitionRate',
-            'statutoryDeductions', 'marginLoan', 'interestRate', 'bankDsrLimit'
-        ];
-
-        inputsToListen.forEach(id => {
-            const elem = document.getElementById(id);
-            if (elem) {
-                elem.addEventListener('input', calculateAll);
-                elem.addEventListener('change', calculateAll);
+        function resetApp() {
+            if(confirm("Anda pasti untuk reset semua data?")) {
+                location.reload();
             }
-        });
-
-        function copySummary() {
-            const income = document.getElementById('totalRecognizedIncomeDisplay').textContent;
-            const dsr = document.getElementById('dsrPercentageText').textContent;
-            const status = document.getElementById('statusText').textContent;
-            const installment = document.getElementById('monthlyInstallment').textContent;
-            const maxPrice = document.getElementById('maxPropertyPrice').textContent;
-
-            const summaryText = `--- RINGKASAN KELAYAKAN LOAN RUMAH (MALAYSIA) ---
-Pendapatan Diiktiraf Bank: ${income}
-Ansuran Bulanan Cadangan: ${installment}
-DSR Semasa: ${dsr}
-Status Kelayakan: ${status}
-Maksimum Harga Rumah Layak: ${maxPrice}
----------------------------------------
-Kalkulator DSR Malaysia`;
-
-            const tempTextArea = document.createElement('textarea');
-            tempTextArea.value = summaryText;
-            document.body.appendChild(tempTextArea);
-            tempTextArea.select();
-            document.execCommand('copy');
-            document.body.removeChild(tempTextArea);
-
-            const btn = event.currentTarget;
-            const originalHTML = btn.innerHTML;
-            btn.innerHTML = `<i class="fa-solid fa-check text-emerald-300"></i> Disalin!`;
-            setTimeout(() => {
-                btn.innerHTML = originalHTML;
-            }, 2000);
         }
 
-        function resetForm() {
-            document.getElementById('applicantAge').value = 30;
-            document.getElementById('tenureYears').value = 35;
-            document.getElementById('basicSalary').value = 4000;
-            document.getElementById('fixedAllowance').value = 500;
-            
-            document.getElementById('otMonth1').value = 800;
-            document.getElementById('otMonth2').value = 950;
-            document.getElementById('otMonth3').value = 700;
-            document.getElementById('otMonth4').value = 850;
-            document.getElementById('otMonth5').value = 600;
-            document.getElementById('otMonth6').value = 900;
-
-            document.getElementById('ot3M1').value = 800;
-            document.getElementById('ot3M2').value = 900;
-            document.getElementById('ot3M3').value = 700;
-            document.getElementById('otDirectAvg').value = 800;
-
-            document.getElementById('otRecognitionRate').value = 50;
-            document.getElementById('statutoryDeductions').value = 550;
-            
-            document.getElementById('propertyPrice').value = 450000;
-            document.getElementById('propertyPriceRange').value = 450000;
-            document.getElementById('marginLoan').value = 90;
-            document.getElementById('interestRate').value = 4.2;
-            document.getElementById('bankDsrLimit').value = 70;
-
-            commitments = [
-                { id: 'c1', type: 'car', label: 'Pinjaman Kereta', amount: 600 },
-                { id: 'c2', type: 'personal', label: 'Pinjaman Peribadi', amount: 300 },
-                { id: 'c3', type: 'ptptn', label: 'PTPTN / Pendidikan', amount: 150 },
-                { id: 'c4', type: 'credit_card', label: 'Baki Kad Kredit', amount: 100, ccBalance: 2000 }
-            ];
-            
-            setOtMode('6month');
-            renderCommitmentRows();
-        }
-
+        // Initialize on load
         window.addEventListener('DOMContentLoaded', () => {
-            renderCommitmentRows();
+            calculateAll();
         });
+
     </script>
 </body>
 </html>
