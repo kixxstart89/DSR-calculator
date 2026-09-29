@@ -81,7 +81,7 @@
                     <h1 class="text-lg sm:text-xl font-extrabold text-slate-900 tracking-tight">Kalkulator DSR & Kelayakan Loan Rumah</h1>
                     <div class="flex items-center gap-2">
                         <p class="text-[11px] font-semibold text-slate-500 uppercase tracking-wide">Malaysia Underwriting Engine</p>
-                        <span class="bg-emerald-100 text-emerald-700 text-[9px] font-bold px-2 py-0.5 rounded-full">v3.2 Pro</span>
+                        <span class="bg-emerald-100 text-emerald-700 text-[9px] font-bold px-2 py-0.5 rounded-full">v3.3 Pro</span>
                     </div>
                 </div>
             </div>
@@ -504,20 +504,34 @@
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-6 pt-5 border-t border-slate-100">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mt-6 pt-5 border-t border-slate-100">
                         <div>
                             <div class="flex justify-between items-center mb-1.5">
                                 <label class="text-[11px] font-bold text-slate-600">Had DSR Maksimum Bank (%)</label>
-                                <button onclick="autoSuggestDsr()" class="text-[11px] text-emerald-600 font-extrabold hover:underline flex items-center gap-1"><i class="fa-solid fa-wand-magic-sparkles"></i> Syor Auto Gaji</button>
+                                <button onclick="autoSuggestDsr()" class="text-[11px] text-emerald-600 font-extrabold hover:underline flex items-center gap-1"><i class="fa-solid fa-wand-magic-sparkles"></i> Syor Auto</button>
                             </div>
                             <input type="number" id="propDsrLimit" value="70" inputmode="decimal" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm font-bold focus:ring-2 focus:ring-slate-900 outline-none transition-all" oninput="calculateAll()" onfocus="this.select()">
                         </div>
                         <div>
                             <div class="flex justify-between items-center mb-1.5">
-                                <label class="text-[11px] font-bold text-slate-600">Pengiktirafan OT (Haircut %)</label>
+                                <label class="text-[11px] font-bold text-slate-600">Pengiktirafan OT (%)</label>
                                 <span id="otHaircutVal" class="text-xs font-black text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded-lg">50%</span>
                             </div>
                             <input type="range" id="propOtHaircut" value="50" min="0" max="100" step="10" class="w-full mt-2 cursor-pointer accent-emerald-600" oninput="calculateAll()">
+                        </div>
+                        <div>
+                            <div class="flex justify-between items-center mb-1.5">
+                                <label class="text-[11px] font-bold text-slate-600">Pengiktirafan Komisen (%)</label>
+                                <span id="commHaircutVal" class="text-xs font-black text-blue-700 bg-blue-100 px-2 py-0.5 rounded-lg">100%</span>
+                            </div>
+                            <input type="range" id="propCommHaircut" value="100" min="0" max="100" step="10" class="w-full mt-2 cursor-pointer accent-blue-600" oninput="calculateAll()">
+                        </div>
+                        <div>
+                            <div class="flex justify-between items-center mb-1.5">
+                                <label class="text-[11px] font-bold text-slate-600">Pengiktirafan Perniagaan (%)</label>
+                                <span id="bizHaircutVal" class="text-xs font-black text-purple-700 bg-purple-100 px-2 py-0.5 rounded-lg">100%</span>
+                            </div>
+                            <input type="range" id="propBizHaircut" value="100" min="0" max="100" step="10" class="w-full mt-2 cursor-pointer accent-purple-600" oninput="calculateAll()">
                         </div>
                     </div>
                 </div>
@@ -649,15 +663,23 @@
         }
 
         function autoSuggestDsr() {
+            let otHaircut = (parseFloat(document.getElementById('propOtHaircut').value) || 0) / 100;
+            let commHaircut = (parseFloat(document.getElementById('propCommHaircut').value) || 0) / 100;
+            let bizHaircut = (parseFloat(document.getElementById('propBizHaircut').value) || 0) / 100;
+
+            let app1OtAvg = (getVal('app1_ot_1') + getVal('app1_ot_2') + getVal('app1_ot_3') + getVal('app1_ot_4') + getVal('app1_ot_5') + getVal('app1_ot_6')) / 6;
             let app1CommAvg = (getVal('app1_comm_1') + getVal('app1_comm_2') + getVal('app1_comm_3') + getVal('app1_comm_4') + getVal('app1_comm_5') + getVal('app1_comm_6')) / 6;
             let app1BizAvg = (getVal('app1_biz_1') + getVal('app1_biz_2') + getVal('app1_biz_3') + getVal('app1_biz_4') + getVal('app1_biz_5') + getVal('app1_biz_6')) / 6;
-            let app1Net = getVal('app1_basic') + getVal('app1_fixed') + app1CommAvg + app1BizAvg - getVal('app1_statutory');
+            
+            let app1Net = getVal('app1_basic') + getVal('app1_fixed') + (app1OtAvg * otHaircut) + (app1CommAvg * commHaircut) + (app1BizAvg * bizHaircut) - getVal('app1_statutory');
             let totalNet = app1Net;
             
             if (isJointLoan) {
+                let app2OtAvg = (getVal('app2_ot_1') + getVal('app2_ot_2') + getVal('app2_ot_3') + getVal('app2_ot_4') + getVal('app2_ot_5') + getVal('app2_ot_6')) / 6;
                 let app2CommAvg = (getVal('app2_comm_1') + getVal('app2_comm_2') + getVal('app2_comm_3') + getVal('app2_comm_4') + getVal('app2_comm_5') + getVal('app2_comm_6')) / 6;
                 let app2BizAvg = (getVal('app2_biz_1') + getVal('app2_biz_2') + getVal('app2_biz_3') + getVal('app2_biz_4') + getVal('app2_biz_5') + getVal('app2_biz_6')) / 6;
-                let app2Net = getVal('app2_basic') + getVal('app2_fixed') + app2CommAvg + app2BizAvg - getVal('app2_statutory');
+                
+                let app2Net = getVal('app2_basic') + getVal('app2_fixed') + (app2OtAvg * otHaircut) + (app2CommAvg * commHaircut) + (app2BizAvg * bizHaircut) - getVal('app2_statutory');
                 totalNet += app2Net;
             }
 
@@ -716,9 +738,14 @@
             let margin = getVal('propMargin') / 100;
             let interest = getVal('propInterest');
             let dsrLimit = getVal('propDsrLimit');
+            
             let otHaircut = getVal('propOtHaircut') / 100;
+            let commHaircut = getVal('propCommHaircut') / 100;
+            let bizHaircut = getVal('propBizHaircut') / 100;
 
             document.getElementById('otHaircutVal').textContent = (otHaircut * 100) + '%';
+            document.getElementById('commHaircutVal').textContent = (commHaircut * 100) + '%';
+            document.getElementById('bizHaircutVal').textContent = (bizHaircut * 100) + '%';
             document.getElementById('dashLimitText').textContent = dsrLimit + '%';
 
             // App 1 Income Calculations
@@ -731,7 +758,7 @@
             let biz1 = (getVal('app1_biz_1') + getVal('app1_biz_2') + getVal('app1_biz_3') + getVal('app1_biz_4') + getVal('app1_biz_5') + getVal('app1_biz_6')) / 6;
             document.getElementById('app1_biz_avg_text').textContent = 'Purata: ' + formatRM(biz1);
 
-            let netIncome1 = getVal('app1_basic') + getVal('app1_fixed') + (ot1 * otHaircut) + comm1 + biz1 - getVal('app1_statutory');
+            let netIncome1 = getVal('app1_basic') + getVal('app1_fixed') + (ot1 * otHaircut) + (comm1 * commHaircut) + (biz1 * bizHaircut) - getVal('app1_statutory');
 
             // App 2 Income Calculations
             let netIncome2 = 0;
@@ -745,7 +772,7 @@
                 let biz2 = (getVal('app2_biz_1') + getVal('app2_biz_2') + getVal('app2_biz_3') + getVal('app2_biz_4') + getVal('app2_biz_5') + getVal('app2_biz_6')) / 6;
                 document.getElementById('app2_biz_avg_text').textContent = 'Purata: ' + formatRM(biz2);
 
-                netIncome2 = getVal('app2_basic') + getVal('app2_fixed') + (ot2 * otHaircut) + comm2 + biz2 - getVal('app2_statutory');
+                netIncome2 = getVal('app2_basic') + getVal('app2_fixed') + (ot2 * otHaircut) + (comm2 * commHaircut) + (biz2 * bizHaircut) - getVal('app2_statutory');
             }
 
             let combinedNetIncome = Math.max(0, netIncome1 + netIncome2);
@@ -861,24 +888,19 @@
         }
 
         function resetApp() {
-            // Kosongkan semua input nombor dan teks di dalam borang utama
             const inputs = document.querySelectorAll('main input');
             inputs.forEach(input => {
                 if (input.type === 'range') {
-                    input.value = '0';
+                    input.value = (input.id === 'propOtHaircut' ? '50' : '100');
                 } else {
                     input.value = '';
                 }
             });
 
-            // Buang semua senarai komitmen tersuai
             document.getElementById('app1_custom_commitments').innerHTML = '';
             document.getElementById('app2_custom_commitments').innerHTML = '';
 
-            // Kembali ke mod individu
             setLoanType('single');
-            
-            // Kira semula (akan menjadi kosong/0)
             calculateAll();
         }
 
