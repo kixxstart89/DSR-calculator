@@ -128,14 +128,14 @@
                                 <div class="w-8 h-8 rounded-xl bg-emerald-600 text-white flex items-center justify-center text-xs font-black shadow-md shadow-emerald-500/20">1</div>
                                 <div>
                                     <h3 class="font-extrabold text-slate-900 text-sm">Pemohon Utama (Applicant 1)</h3>
-                                    <p class="text-[11px] text-slate-500">Pendapatan tetap & komitmen bulanan</p>
+                                    <p class="text-[11px] text-slate-500">Pendapatan tetap, komisen, perniagaan & komitmen</p>
                                 </div>
                             </div>
                         </div>
                         
                         <div class="p-6 space-y-6">
-                            <!-- Basic Info -->
-                            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 pb-6 border-b border-slate-100">
+                            <!-- Basic Info (Updated for Comm & Biz) -->
+                            <div class="grid grid-cols-2 md:grid-cols-3 gap-4 pb-6 border-b border-slate-100">
                                 <div>
                                     <label class="block text-[11px] font-bold text-slate-600 mb-1.5">Umur (Tahun)</label>
                                     <input type="number" id="app1_age" value="30" inputmode="numeric" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm font-bold focus:ring-2 focus:ring-emerald-500 outline-none transition-all" oninput="calculateAll()" onfocus="this.select()">
@@ -149,7 +149,15 @@
                                     <input type="number" id="app1_fixed" value="500" inputmode="decimal" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm font-bold focus:ring-2 focus:ring-emerald-500 outline-none transition-all" oninput="calculateAll()" onfocus="this.select()">
                                 </div>
                                 <div>
-                                    <label class="block text-[11px] font-bold text-rose-600 mb-1.5">Potongan KWSP/SOCSO</label>
+                                    <label class="block text-[11px] font-bold text-blue-600 mb-1.5">Komisen Purata (RM)</label>
+                                    <input type="number" id="app1_commission" value="0" inputmode="decimal" class="w-full px-3.5 py-2.5 bg-blue-50/50 border border-blue-200 rounded-xl text-sm font-bold text-blue-700 focus:ring-2 focus:ring-emerald-500 outline-none transition-all" oninput="calculateAll()" onfocus="this.select()" placeholder="Purata komisen">
+                                </div>
+                                <div>
+                                    <label class="block text-[11px] font-bold text-purple-600 mb-1.5">Perniagaan Bersih (RM)</label>
+                                    <input type="number" id="app1_business" value="0" inputmode="decimal" class="w-full px-3.5 py-2.5 bg-purple-50/50 border border-purple-200 rounded-xl text-sm font-bold text-purple-700 focus:ring-2 focus:ring-emerald-500 outline-none transition-all" oninput="calculateAll()" onfocus="this.select()" placeholder="Untung perniagaan">
+                                </div>
+                                <div>
+                                    <label class="block text-[11px] font-bold text-rose-600 mb-1.5">Potongan KWSP/Lain</label>
                                     <input type="number" id="app1_statutory" value="550" inputmode="decimal" class="w-full px-3.5 py-2.5 bg-rose-50/50 border border-rose-200 rounded-xl text-sm font-bold text-rose-700 focus:ring-2 focus:ring-emerald-500 outline-none transition-all" oninput="calculateAll()" onfocus="this.select()">
                                 </div>
                             </div>
@@ -233,14 +241,14 @@
                                 <div class="w-8 h-8 rounded-xl bg-indigo-600 text-white flex items-center justify-center text-xs font-black shadow-md shadow-indigo-500/20">2</div>
                                 <div>
                                     <h3 class="font-extrabold text-slate-900 text-sm">Pemohon Kedua (Joint Applicant)</h3>
-                                    <p class="text-[11px] text-slate-500">Pendapatan & komitmen pasangan / rakan</p>
+                                    <p class="text-[11px] text-slate-500">Pendapatan tetap, komisen, perniagaan & komitmen pasangan</p>
                                 </div>
                             </div>
                         </div>
                         
                         <div class="p-6 space-y-6">
-                            <!-- Basic Info -->
-                            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 pb-6 border-b border-slate-100">
+                            <!-- Basic Info (Updated for Comm & Biz) -->
+                            <div class="grid grid-cols-2 md:grid-cols-3 gap-4 pb-6 border-b border-slate-100">
                                 <div>
                                     <label class="block text-[11px] font-bold text-slate-600 mb-1.5">Umur (Tahun)</label>
                                     <input type="number" id="app2_age" value="28" inputmode="numeric" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm font-bold focus:ring-2 focus:ring-indigo-500 outline-none transition-all" oninput="calculateAll()" onfocus="this.select()">
@@ -254,7 +262,15 @@
                                     <input type="number" id="app2_fixed" value="300" inputmode="decimal" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm font-bold focus:ring-2 focus:ring-indigo-500 outline-none transition-all" oninput="calculateAll()" onfocus="this.select()">
                                 </div>
                                 <div>
-                                    <label class="block text-[11px] font-bold text-rose-600 mb-1.5">Potongan KWSP/SOCSO</label>
+                                    <label class="block text-[11px] font-bold text-blue-600 mb-1.5">Komisen Purata (RM)</label>
+                                    <input type="number" id="app2_commission" value="0" inputmode="decimal" class="w-full px-3.5 py-2.5 bg-blue-50/50 border border-blue-200 rounded-xl text-sm font-bold text-blue-700 focus:ring-2 focus:ring-indigo-500 outline-none transition-all" oninput="calculateAll()" onfocus="this.select()" placeholder="Purata komisen">
+                                </div>
+                                <div>
+                                    <label class="block text-[11px] font-bold text-purple-600 mb-1.5">Perniagaan Bersih (RM)</label>
+                                    <input type="number" id="app2_business" value="0" inputmode="decimal" class="w-full px-3.5 py-2.5 bg-purple-50/50 border border-purple-200 rounded-xl text-sm font-bold text-purple-700 focus:ring-2 focus:ring-indigo-500 outline-none transition-all" oninput="calculateAll()" onfocus="this.select()" placeholder="Untung perniagaan">
+                                </div>
+                                <div>
+                                    <label class="block text-[11px] font-bold text-rose-600 mb-1.5">Potongan KWSP/Lain</label>
                                     <input type="number" id="app2_statutory" value="400" inputmode="decimal" class="w-full px-3.5 py-2.5 bg-rose-50/50 border border-rose-200 rounded-xl text-sm font-bold text-rose-700 focus:ring-2 focus:ring-indigo-500 outline-none transition-all" oninput="calculateAll()" onfocus="this.select()">
                                 </div>
                             </div>
@@ -398,12 +414,21 @@
                     </div>
 
                     <!-- New Monthly Installment Highlight -->
-                    <div class="bg-slate-800/80 rounded-2xl p-4.5 border border-slate-700/80 mb-5 relative z-10 shadow-lg">
+                    <div class="bg-slate-800/80 rounded-2xl p-4.5 border border-slate-700/80 mb-3 relative z-10 shadow-lg">
                         <div class="flex justify-between items-center mb-1">
                             <span class="text-xs text-slate-400 font-medium">Ansuran Bulanan Rumah (Baru)</span>
                             <span class="text-[10px] bg-emerald-500/20 text-emerald-300 px-2.5 py-0.5 rounded-full font-bold border border-emerald-500/30">Tenure: <span id="dashTenure" class="font-extrabold">35</span> Thn</span>
                         </div>
                         <div id="dashInstallment" class="text-3xl sm:text-4xl font-black text-emerald-400 tracking-tight">RM 0</div>
+                    </div>
+
+                    <!-- Max Loan Eligibility Highlight (NEW) -->
+                    <div class="bg-slate-800/80 rounded-2xl p-4.5 border border-slate-700/80 mb-5 relative z-10 shadow-lg">
+                        <div class="flex justify-between items-center mb-1">
+                            <span class="text-xs text-slate-400 font-medium">Maksimum Kelayakan Loan</span>
+                            <span class="text-[10px] bg-blue-500/20 text-blue-300 px-2.5 py-0.5 rounded-full font-bold border border-blue-500/30">DSR <span id="dashMaxDsrLabel">70</span>%</span>
+                        </div>
+                        <div id="dashMaxLoan" class="text-2xl sm:text-3xl font-black text-white tracking-tight">RM 0</div>
                     </div>
 
                     <!-- DSR Progress Bar -->
@@ -477,11 +502,11 @@
         }
 
         function autoSuggestDsr() {
-            let app1Net = getVal('app1_basic') + getVal('app1_fixed') - getVal('app1_statutory');
+            let app1Net = getVal('app1_basic') + getVal('app1_fixed') + getVal('app1_commission') + getVal('app1_business') - getVal('app1_statutory');
             let totalNet = app1Net;
             
             if (isJointLoan) {
-                let app2Net = getVal('app2_basic') + getVal('app2_fixed') - getVal('app2_statutory');
+                let app2Net = getVal('app2_basic') + getVal('app2_fixed') + getVal('app2_commission') + getVal('app2_business') - getVal('app2_statutory');
                 totalNet += app2Net;
             }
 
@@ -528,17 +553,21 @@
             document.getElementById('otHaircutVal').textContent = (otHaircut * 100) + '%';
             document.getElementById('dashLimitText').textContent = dsrLimit + '%';
 
-            // App 1 Income
+            // App 1 Income (Included Commission & Business)
             let ot1 = (getVal('app1_ot_1') + getVal('app1_ot_2') + getVal('app1_ot_3') + getVal('app1_ot_4') + getVal('app1_ot_5') + getVal('app1_ot_6')) / 6;
             document.getElementById('app1_ot_avg_text').textContent = 'Purata: ' + formatRM(ot1);
-            let netIncome1 = getVal('app1_basic') + getVal('app1_fixed') + (ot1 * otHaircut) - getVal('app1_statutory');
+            let comm1 = getVal('app1_commission');
+            let biz1 = getVal('app1_business');
+            let netIncome1 = getVal('app1_basic') + getVal('app1_fixed') + (ot1 * otHaircut) + comm1 + biz1 - getVal('app1_statutory');
 
-            // App 2 Income
+            // App 2 Income (Included Commission & Business)
             let netIncome2 = 0;
             if (isJointLoan) {
                 let ot2 = (getVal('app2_ot_1') + getVal('app2_ot_2') + getVal('app2_ot_3') + getVal('app2_ot_4') + getVal('app2_ot_5') + getVal('app2_ot_6')) / 6;
                 document.getElementById('app2_ot_avg_text').textContent = 'Purata: ' + formatRM(ot2);
-                netIncome2 = getVal('app2_basic') + getVal('app2_fixed') + (ot2 * otHaircut) - getVal('app2_statutory');
+                let comm2 = getVal('app2_commission');
+                let biz2 = getVal('app2_business');
+                netIncome2 = getVal('app2_basic') + getVal('app2_fixed') + (ot2 * otHaircut) + comm2 + biz2 - getVal('app2_statutory');
             }
 
             let combinedNetIncome = Math.max(0, netIncome1 + netIncome2);
@@ -559,9 +588,26 @@
             let dsr = combinedNetIncome > 0 ? (totalCombinedCom / combinedNetIncome) * 100 : 0;
             let cashflow = combinedNetIncome - totalCombinedCom;
 
+            // Calculate Max Loan Eligibility based on max DSR allowable
+            let maxAllowedTotalCom = combinedNetIncome * (dsrLimit / 100);
+            let maxNewInstallment = maxAllowedTotalCom - combinedExistCom;
+            let maxLoanAmount = 0;
+            
+            if (maxNewInstallment > 0) {
+                if (interest <= 0) {
+                    maxLoanAmount = maxNewInstallment * (tenure * 12);
+                } else {
+                    let mRate = (interest / 100) / 12;
+                    let n = tenure * 12;
+                    maxLoanAmount = maxNewInstallment * (Math.pow(1 + mRate, n) - 1) / (mRate * Math.pow(1 + mRate, n));
+                }
+            }
+
             // Update Dashboard DOM
             document.getElementById('dashTotalIncome').textContent = formatRM(combinedNetIncome);
             document.getElementById('dashInstallment').textContent = formatRM(newInstallment);
+            document.getElementById('dashMaxLoan').textContent = formatRM(maxLoanAmount);
+            document.getElementById('dashMaxDsrLabel').textContent = dsrLimit;
             document.getElementById('dashCashflow').textContent = formatRM(cashflow);
             document.getElementById('dashDsrText').textContent = dsr.toFixed(1) + '%';
             
