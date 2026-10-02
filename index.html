@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DSR & Kelayakan Loan Rumah</title>
+    <title>Kalkulator DSR & Kelayakan Loan Rumah</title>
     
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -78,7 +78,7 @@
                     <i class="fa-solid fa-house-chimney-user text-lg"></i>
                 </div>
                 <div>
-                    <h1 class="text-lg sm:text-xl font-extrabold text-slate-900 tracking-tight">DSR & Kelayakan Loan Rumah</h1>
+                    <h1 class="text-lg sm:text-xl font-extrabold text-slate-900 tracking-tight">Kalkulator DSR & Kelayakan Loan Rumah</h1>
                     <div class="flex items-center gap-2">
                         <p class="text-[11px] font-semibold text-slate-500 uppercase tracking-wide">Malaysia Underwriting Engine</p>
                         <span class="bg-emerald-100 text-emerald-700 text-[9px] font-bold px-2 py-0.5 rounded-full">v3.3 Pro</span>
@@ -106,7 +106,7 @@
                 <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200/80 flex flex-col sm:flex-row items-center justify-between gap-4">
                     <div>
                         <h2 class="text-base font-bold text-slate-900">Jenis Permohonan Pembiayaan</h2>
-                        <p class="text-xs text-slate-500 mt-0.5">Pilih mod permohonan tunggal atau pinjaman bersama</p>
+                        <p class="text-xs text-slate-500 mt-0.5">Pilih mod permohonan tunggal atau pinjaman bersama (Joint Loan).</p>
                     </div>
                     
                     <div class="flex items-center justify-center w-full sm:w-auto p-1 bg-slate-100 rounded-xl border border-slate-200">
@@ -307,7 +307,7 @@
                             <div class="flex items-center gap-2.5">
                                 <div class="w-8 h-8 rounded-xl bg-indigo-600 text-white flex items-center justify-center text-xs font-black shadow-md shadow-indigo-500/20">2</div>
                                 <div>
-                                    <h3 class="font-extrabold text-slate-900 text-sm">Pemohon Kedua (Joint Applicant)[cite: 4]</h3>
+                                    <h3 class="font-extrabold text-slate-900 text-sm">Pemohon Kedua (Joint Applicant)</h3>
                                     <p class="text-[11px] text-slate-500">Pendapatan tetap, OT, komisen, perniagaan & komitmen pasangan</p>
                                 </div>
                             </div>
@@ -570,13 +570,22 @@
                         <div id="dashInstallment" class="text-3xl sm:text-4xl font-black text-emerald-400 tracking-tight">RM 0</div>
                     </div>
 
-                    <!-- Max Loan Eligibility Highlight -->
+                    <!-- Max Loan Eligibility Highlight (KINI BOLEH DIMINIMIZE) -->
                     <div class="bg-slate-800/80 rounded-2xl p-4.5 border border-slate-700/80 mb-5 relative z-10 shadow-lg">
-                        <div class="flex justify-between items-center mb-1">
-                            <span class="text-xs text-slate-400 font-medium">Maksimum Kelayakan Loan</span>
+                        <!-- Header (Clickable) -->
+                        <div class="flex justify-between items-center cursor-pointer group mb-1" onclick="toggleMaxLoan()">
+                            <div class="flex items-center gap-2">
+                                <span class="text-xs text-slate-400 font-medium group-hover:text-slate-300 transition-colors">Maksimum Kelayakan Loan</span>
+                                <button type="button" class="text-slate-400 group-hover:text-white transition-colors">
+                                    <i id="maxLoanIcon" class="fa-solid fa-chevron-up text-[10px] transition-transform duration-300"></i>
+                                </button>
+                            </div>
                             <span class="text-[10px] bg-blue-500/20 text-blue-300 px-2.5 py-0.5 rounded-full font-bold border border-blue-500/30">DSR <span id="dashMaxDsrLabel">70</span>%</span>
                         </div>
-                        <div id="dashMaxLoan" class="text-2xl sm:text-3xl font-black text-white tracking-tight">RM 0</div>
+                        <!-- Kandungan yang disembunyikan/dipaparkan -->
+                        <div id="maxLoanContent" class="overflow-hidden transition-all duration-300 max-h-20 opacity-100">
+                            <div id="dashMaxLoan" class="text-2xl sm:text-3xl font-black text-white tracking-tight mt-1">RM 0</div>
+                        </div>
                     </div>
 
                     <!-- DSR Progress Bar -->
@@ -622,8 +631,29 @@
     <script>
         let isJointLoan = false;
         let chartInstance = null;
+        let isMaxLoanOpen = true; // Variable baru untuk status butang minimize
 
         const formatRM = (val) => new Intl.NumberFormat('ms-MY', { style: 'currency', currency: 'MYR', maximumFractionDigits: 0 }).format(val).replace('MYR', 'RM');
+
+        // Fungsi baru untuk minimize/maximize bahagian "Maksimum Kelayakan Loan"
+        function toggleMaxLoan() {
+            const content = document.getElementById('maxLoanContent');
+            const icon = document.getElementById('maxLoanIcon');
+            
+            isMaxLoanOpen = !isMaxLoanOpen;
+            
+            if (isMaxLoanOpen) {
+                // Expand (Buka)
+                content.style.maxHeight = '5rem';
+                content.style.opacity = '1';
+                icon.style.transform = 'rotate(0deg)';
+            } else {
+                // Collapse (Tutup)
+                content.style.maxHeight = '0px';
+                content.style.opacity = '0';
+                icon.style.transform = 'rotate(180deg)';
+            }
+        }
 
         function setLoanType(type) {
             isJointLoan = (type === 'joint');
