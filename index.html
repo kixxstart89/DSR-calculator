@@ -570,8 +570,9 @@
                         <div id="dashInstallment" class="text-3xl sm:text-4xl font-black text-emerald-400 tracking-tight">RM 0</div>
                     </div>
 
-                    <!-- Max Loan Eligibility Highlight -->
+                    <!-- Max Loan Eligibility Highlight (KINI BOLEH DIMINIMIZE) -->
                     <div class="bg-slate-800/80 rounded-2xl p-4.5 border border-slate-700/80 mb-5 relative z-10 shadow-lg">
+                        <!-- Header (Clickable) -->
                         <div class="flex justify-between items-center cursor-pointer group mb-1" onclick="toggleMaxLoan()">
                             <div class="flex items-center gap-2">
                                 <span class="text-xs text-slate-400 font-medium group-hover:text-slate-300 transition-colors">Maksimum Kelayakan Loan</span>
@@ -581,6 +582,7 @@
                             </div>
                             <span class="text-[10px] bg-blue-500/20 text-blue-300 px-2.5 py-0.5 rounded-full font-bold border border-blue-500/30">DSR <span id="dashMaxDsrLabel">70</span>%</span>
                         </div>
+                        <!-- Kandungan yang disembunyikan/dipaparkan -->
                         <div id="maxLoanContent" class="overflow-hidden transition-all duration-300 max-h-20 opacity-100">
                             <div id="dashMaxLoan" class="text-2xl sm:text-3xl font-black text-white tracking-tight mt-1">RM 0</div>
                         </div>
@@ -614,34 +616,6 @@
                         </div>
                     </div>
 
-                    <!-- Anggaran Kos Guaman & Duti Setem (Bagian Baru) -->
-                    <div class="bg-slate-800/80 rounded-2xl p-4.5 border border-slate-700/80 mb-6 relative z-10 shadow-lg space-y-2.5">
-                        <div class="flex justify-between items-center border-b border-slate-700 pb-2">
-                            <span class="text-xs font-bold text-slate-200 flex items-center gap-1.5">
-                                <i class="fa-solid fa-scale-balanced text-emerald-400"></i> Anggaran Kos Guaman & MOT
-                            </span>
-                            <span class="text-[10px] text-slate-400">Entry Cost</span>
-                        </div>
-                        <div class="space-y-1.5 text-xs text-slate-300">
-                            <div class="flex justify-between">
-                                <span>Duti Setem MOT:</span>
-                                <span id="dashMot" class="font-bold text-white">RM 0</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span>Yuran Guaman SPA:</span>
-                                <span id="dashSpaLegal" class="font-bold text-white">RM 0</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span>Yuran Guaman Loan:</span>
-                                <span id="dashLoanLegal" class="font-bold text-white">RM 0</span>
-                            </div>
-                            <div class="flex justify-between pt-2 border-t border-slate-700/60 text-sm font-black text-emerald-400">
-                                <span>Anggaran Jumlah Kos:</span>
-                                <span id="dashTotalEntryCost">RM 0</span>
-                            </div>
-                        </div>
-                    </div>
-
                     <!-- Chart Container -->
                     <div class="bg-white p-4 rounded-2xl relative z-10 shadow-lg">
                         <div class="h-36 w-full flex items-center justify-center">
@@ -657,35 +631,11 @@
     <script>
         let isJointLoan = false;
         let chartInstance = null;
-        let isMaxLoanOpen = true;
+        let isMaxLoanOpen = true; // Variable baru untuk status butang minimize
 
         const formatRM = (val) => new Intl.NumberFormat('ms-MY', { style: 'currency', currency: 'MYR', maximumFractionDigits: 0 }).format(val).replace('MYR', 'RM');
 
-        // Duti Setem MOT
-        function calculateMOT(price) {
-          let duty = 0;
-          if (price > 1000000) {
-            duty += (price - 1000000) * 0.04 + 24000;
-          } else if (price > 500000) {
-            duty += (price - 500000) * 0.03 + 9000;
-          } else if (price > 100000) {
-            duty += (price - 100000) * 0.02 + 1000;
-          } else {
-            duty += price * 0.01;
-          }
-          return duty;
-        }
-
-        // Legal Fee (SPA / Loan)
-        function calculateLegalFee(amount) {
-          if (amount <= 500000) {
-            return Math.max(500, amount * 0.0125);
-          } else if (amount <= 7500000) {
-            return 6250 + (amount - 500000) * 0.01;
-          }
-          return 76250 + (amount - 7500000) * 0.01;
-        }
-
+        // Fungsi baru untuk minimize/maximize bahagian "Maksimum Kelayakan Loan"
         function toggleMaxLoan() {
             const content = document.getElementById('maxLoanContent');
             const icon = document.getElementById('maxLoanIcon');
@@ -693,10 +643,12 @@
             isMaxLoanOpen = !isMaxLoanOpen;
             
             if (isMaxLoanOpen) {
+                // Expand (Buka)
                 content.style.maxHeight = '5rem';
                 content.style.opacity = '1';
                 icon.style.transform = 'rotate(0deg)';
             } else {
+                // Collapse (Tutup)
                 content.style.maxHeight = '0px';
                 content.style.opacity = '0';
                 icon.style.transform = 'rotate(180deg)';
@@ -794,14 +746,14 @@
         }
 
         function calculateAll() {
-            // App 1 Commitments
+            // App 1 Commitments (Fixed + Custom)
             let com1CC = getVal('app1_com_cc') * 0.05;
             let com1Fixed = getVal('app1_com_car') + getVal('app1_com_personal') + com1CC + getVal('app1_com_ptptn') + getVal('app1_com_house') + getVal('app1_com_others');
             let com1Custom = getCustomCommitmentsTotal(1);
             let com1 = com1Fixed + com1Custom;
             document.getElementById('app1_total_com').textContent = formatRM(com1);
 
-            // App 2 Commitments
+            // App 2 Commitments (Fixed + Custom)
             let com2 = 0;
             if (isJointLoan) {
                 let com2CC = getVal('app2_com_cc') * 0.05;
@@ -856,7 +808,7 @@
             let combinedNetIncome = Math.max(0, netIncome1 + netIncome2);
             let combinedExistCom = com1 + com2;
 
-            // Tenure calculation
+            // Tenure calculation (Max 35 years or up to age 70)
             let age1 = getVal('app1_age');
             let age2 = isJointLoan ? getVal('app2_age') : age1;
             let minAge = isJointLoan ? Math.min(age1, age2) : age1;
@@ -871,7 +823,7 @@
             let dsr = combinedNetIncome > 0 ? (totalCombinedCom / combinedNetIncome) * 100 : 0;
             let cashflow = combinedNetIncome - totalCombinedCom;
 
-            // Calculate Max Loan Eligibility
+            // Calculate Max Loan Eligibility based on max DSR allowable
             let maxAllowedTotalCom = combinedNetIncome * (dsrLimit / 100);
             let maxNewInstallment = maxAllowedTotalCom - combinedExistCom;
             let maxLoanAmount = 0;
@@ -885,18 +837,6 @@
                     maxLoanAmount = maxNewInstallment * (Math.pow(1 + mRate, n) - 1) / (mRate * Math.pow(1 + mRate, n));
                 }
             }
-
-            // Calculations for MOT & Legal Fee
-            let motDuty = calculateMOT(price);
-            let spaLegalFee = calculateLegalFee(price);
-            let loanLegalFee = calculateLegalFee(loanAmount);
-            let totalEntryCost = motDuty + spaLegalFee + loanLegalFee;
-
-            // Update DOM MOT & Legal Fee
-            document.getElementById('dashMot').textContent = formatRM(motDuty);
-            document.getElementById('dashSpaLegal').textContent = formatRM(spaLegalFee);
-            document.getElementById('dashLoanLegal').textContent = formatRM(loanLegalFee);
-            document.getElementById('dashTotalEntryCost').textContent = formatRM(totalEntryCost);
 
             // Update Dashboard DOM
             document.getElementById('dashTotalIncome').textContent = formatRM(combinedNetIncome);
