@@ -588,6 +588,29 @@
                         </div>
                     </div>
 
+                    <!-- Ringkasan Hartanah (Baru ditambah) -->
+                    <div class="bg-slate-800/80 rounded-2xl p-4.5 border border-slate-700/80 mb-5 relative z-10 shadow-lg">
+                        <h4 class="text-xs font-bold text-slate-400 mb-3 border-b border-slate-700/60 pb-2">Ringkasan Hartanah</h4>
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <span class="block text-[10px] text-slate-500 font-medium mb-0.5">Harga Hartanah</span>
+                                <span id="dashPropPrice" class="text-sm sm:text-base font-extrabold text-white">RM 0</span>
+                            </div>
+                            <div>
+                                <span class="block text-[10px] text-slate-500 font-medium mb-0.5">Margin Pembiayaan</span>
+                                <span id="dashPropMargin" class="text-sm sm:text-base font-extrabold text-white">0%</span>
+                            </div>
+                            <div>
+                                <span class="block text-[10px] text-slate-500 font-medium mb-0.5">Kadar Faedah</span>
+                                <span id="dashPropInterest" class="text-sm sm:text-base font-extrabold text-white">0%</span>
+                            </div>
+                            <div>
+                                <span class="block text-[10px] text-slate-500 font-medium mb-0.5">Had DSR Bank</span>
+                                <span id="dashPropDsrLimit" class="text-sm sm:text-base font-extrabold text-yellow-400">0%</span>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- DSR Progress Bar -->
                     <div class="mb-6 relative z-10 bg-slate-800/40 p-4 rounded-2xl border border-slate-700/60">
                         <div class="flex justify-between items-end mb-2">
@@ -845,6 +868,12 @@
             document.getElementById('dashMaxDsrLabel').textContent = dsrLimit;
             document.getElementById('dashCashflow').textContent = formatRM(cashflow);
             document.getElementById('dashDsrText').textContent = dsr.toFixed(1) + '%';
+            
+            // KEMAS KINI DATA RINGKASAN HARTANAH
+            document.getElementById('dashPropPrice').textContent = formatRM(price);
+            document.getElementById('dashPropMargin').textContent = (margin * 100) + '%';
+            document.getElementById('dashPropInterest').textContent = interest + '%';
+            document.getElementById('dashPropDsrLimit').textContent = dsrLimit + '%';
             
             let dsrBar = document.getElementById('dsrProgressBar');
             let dsrMarker = document.getElementById('dsrLimitMarker');
